@@ -22,9 +22,7 @@
 > 2. LTS-SpringBoot3 分支：维护基于 Spring Boot 3.x 系列（LTS长期支持版）的最新代码
 > 3. LTS-SpringBoot2 分支：维护基于 Spring Boot 2.x 系列（LTS长期支持版）的最新代码
 >
-> 对应的 **前端项目（Vue2版本）** 仓库移步至：[bbs-vue-ui](https://github.com/maliangnansheng/bbs-vue-ui)
->
-> 对应的 **前端项目（Vue3版本）** 仓库移步至：[bbs-vue3-ui](https://github.com/maliangnansheng/bbs-vue3-ui)
+> 对应的 **前端项目（Vue2 + Antd版本）** 仓库移步至：[bbs-vue-ui](https://github.com/maliangnansheng/bbs-vue-ui)
 
 ## 部署效果
 
