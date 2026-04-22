@@ -8,72 +8,70 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 对应数据表为：fs_article
+ * 瀵瑰簲鏁版嵁琛ㄤ负锛歠s_article
  * 
- * @author maliangnansheng
- * @date 2022/08/30 14:44
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticlePo implements Serializable {
     /**
-     * 文章编号
+     * 鏂囩珷缂栧彿
      */
     private Integer id;
 
     /**
-     * 题图
+     * 棰樺浘
      */
     private String titleMap;
 
     /**
-     * 文章标题
+     * 鏂囩珷鏍囬
      */
     private String title;
 
     /**
-     * 文章内容
+     * 鏂囩珷鍐呭
      */
     private String content;
 
     /**
-     * 状态(-1待审核,0禁用,1启用)
+     * 鐘舵€?-1寰呭鏍?0绂佺敤,1鍚敤)
      */
     private Integer state;
 
     /**
-     * 文章浏览量
+     * 鏂囩珷娴忚閲?
      */
     private Integer pv;
 
     /**
-     * 置顶（数字越大越置顶）
+     * 缃《锛堟暟瀛楄秺澶ц秺缃《锛?
      */
     private Integer top;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 创建用户id
+     * 鍒涘缓鐢ㄦ埛id
      */
     private Long createUser;
 
     /**
-     * 更新用户id
+     * 鏇存柊鐢ㄦ埛id
      */
     private Long updateUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

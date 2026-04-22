@@ -5,12 +5,10 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2021-04-20 22:25
  */
 public interface CommonMS<P, D> {
     /**
-     * po转dto
+     * po杞琩to
      *
      * @param p po
      * @return dto
@@ -18,7 +16,7 @@ public interface CommonMS<P, D> {
     D toDTO(P p);
 
     /**
-     * dto转po
+     * dto杞琾o
      *
      * @param d dto
      * @return po
@@ -26,7 +24,7 @@ public interface CommonMS<P, D> {
     P toPo(D d);
 
     /**
-     * po转dto
+     * po杞琩to
      *
      * @param pList po
      * @return dto
@@ -34,7 +32,7 @@ public interface CommonMS<P, D> {
     List<D> toDTO(List<P> pList);
 
     /**
-     * dto转po
+     * dto杞琾o
      *
      * @param pList dto
      * @return po
@@ -42,7 +40,7 @@ public interface CommonMS<P, D> {
     List<P> toPo(List<D> pList);
 
     /**
-     * po转dto
+     * po杞琩to
      *
      * @param pageInfo po
      * @return dto

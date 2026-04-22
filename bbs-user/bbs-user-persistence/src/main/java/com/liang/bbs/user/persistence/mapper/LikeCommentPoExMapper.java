@@ -7,12 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
  */
 public interface LikeCommentPoExMapper {
 
     /**
-     * 获取所有通过审核文章的评论的点赞信息
+     * 鑾峰彇鎵€鏈夐€氳繃瀹℃牳鏂囩珷鐨勮瘎璁虹殑鐐硅禐淇℃伅
      *
      * @param startTime
      * @param endTime

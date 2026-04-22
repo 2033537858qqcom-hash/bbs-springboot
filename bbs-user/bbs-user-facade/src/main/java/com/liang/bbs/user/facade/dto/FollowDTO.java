@@ -6,73 +6,71 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class FollowDTO implements Serializable {
     /**
-     * 关注编号
+     * 鍏虫敞缂栧彿
      */
     private Integer id;
 
     /**
-     * 发起关注的人
+     * 鍙戣捣鍏虫敞鐨勪汉
      */
     private Long fromUser;
 
     /**
-     * 状态(0取消,1关注)
+     * 鐘舵€?0鍙栨秷,1鍏虫敞)
      */
     private Boolean state;
 
     /**
-     * 被关注的人
+     * 琚叧娉ㄧ殑浜?
      */
     private Long toUser;
 
     /**
-     * 用户名
+     * 鐢ㄦ埛鍚?
      */
     private String name;
 
     /**
-     * 头像
+     * 澶村儚
      */
     private String picture;
 
     /**
-     * 等级（Lv6）
+     * 绛夌骇锛圠v6锛?
      */
     private String level;
 
     /**
-     * 是否关注
+     * 鏄惁鍏虫敞
      */
     private Boolean isFollow;
 
     /**
-     * 简介
+     * 绠€浠?
      */
     private String intro;
 
     /**
-     * 获得的点赞数
+     * 鑾峰緱鐨勭偣璧炴暟
      */
     private Long likeCount;
 
     /**
-     * 获得的阅读量
+     * 鑾峰緱鐨勯槄璇婚噺
      */
     private Long readCount;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

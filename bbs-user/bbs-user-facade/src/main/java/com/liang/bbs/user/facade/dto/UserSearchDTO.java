@@ -5,19 +5,17 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 15:06
  */
 @Data
 public class UserSearchDTO implements Serializable {
 
     /**
-     * 当前页
+     * 褰撳墠椤?
      */
     private Integer currentPage;
 
     /**
-     * 每页条数
+     * 姣忛〉鏉℃暟
      */
     private Integer pageSize;
 

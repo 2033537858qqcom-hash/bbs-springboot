@@ -6,14 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author maliangnansheng
- * @date 2021-04-20 22:40
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ApiVersion {
     /**
-     * 接口版本号(对应swagger中的group)
+     * 鎺ュ彛鐗堟湰鍙?瀵瑰簲swagger涓殑group)
      *
      * @return String[]
      */

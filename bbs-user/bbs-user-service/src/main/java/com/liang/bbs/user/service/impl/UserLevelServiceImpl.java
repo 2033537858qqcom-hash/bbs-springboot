@@ -3,7 +3,6 @@ package com.liang.bbs.user.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liang.bbs.article.facade.dto.ArticleReadDTO;
-import com.liang.bbs.article.facade.server.ArticleService;
 import com.liang.bbs.common.enums.UserLevelEnum;
 import com.liang.bbs.user.facade.dto.FollowDTO;
 import com.liang.bbs.user.facade.dto.UserForumDTO;
@@ -15,21 +14,19 @@ import com.liang.bbs.user.facade.server.UserLevelService;
 import com.liang.bbs.user.persistence.entity.UserLevelPo;
 import com.liang.bbs.user.persistence.entity.UserLevelPoExample;
 import com.liang.bbs.user.persistence.mapper.UserLevelPoMapper;
+import com.liang.bbs.user.service.client.ArticleArticleClient;
+import com.liang.bbs.user.service.client.UserServiceClient;
 import com.liang.bbs.user.service.mapstruct.UserLevelMS;
 import com.liang.manage.auth.facade.dto.user.UserDTO;
 import com.liang.manage.auth.facade.dto.user.UserListDTO;
-import com.liang.manage.auth.facade.server.UserService;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,11 +36,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class UserLevelServiceImpl implements UserLevelService {
     @Autowired
@@ -55,14 +49,14 @@ public class UserLevelServiceImpl implements UserLevelService {
     @Autowired
     private FollowService followService;
 
-    @DubboReference
-    private ArticleService articleService;
+    @Autowired
+    private ArticleArticleClient articleArticleClient;
 
-    @DubboReference
-    private UserService userService;
+    @Autowired
+    private UserServiceClient userService;
 
     /**
-     * 创建用户等级信息
+     * 閸掓稑缂撻悽銊﹀煕缁涘楠囨穱鈩冧紖
      *
      * @param userId
      * @return
@@ -77,7 +71,7 @@ public class UserLevelServiceImpl implements UserLevelService {
             userLevelPo.setCreateTime(now);
             userLevelPo.setUpdateTime(now);
             if (userLevelPoMapper.insertSelective(userLevelPo) <= 0) {
-                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "创建用户等级信息失败");
+                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "初始化用户等级信息失败");
             }
         }
 
@@ -85,10 +79,10 @@ public class UserLevelServiceImpl implements UserLevelService {
     }
 
     /**
-     * 更新用户等级信息
+     * 閺囧瓨鏌婇悽銊﹀煕缁涘楠囨穱鈩冧紖
      *
-     * @param userId 用户id
-     * @param points 积分
+     * @param userId 閻劍鍩沬d
+     * @param points 缁夘垰鍨?
      * @return
      */
     @Override
@@ -110,19 +104,22 @@ public class UserLevelServiceImpl implements UserLevelService {
     }
 
     /**
-     * 更新所有用户等级信息
+     * 閺囧瓨鏌婇幍鈧張澶屾暏閹撮鐡戠痪褌淇婇幁?
      *
      * @return
      */
     @Override
     public Boolean updatePointsAll() {
-        // 所有的用户id
-        List<Long> userIds = userService.getAllList().stream().map(UserListDTO::getId).collect(Collectors.toList());
-        // 用户的文章阅读数量
-        Map<Long, Long> userIdToArticleReadCount = articleService.getUserReadCount(userIds).stream()
+        // 閹碘偓閺堝娈戦悽銊﹀煕id
+        List<Long> userIds = loadAllUserIds();
+        if (CollectionUtils.isEmpty(userIds)) {
+            return true;
+        }
+        // 閻劍鍩涢惃鍕瀮缁旂娀妲勭拠缁樻殶闁?
+        Map<Long, Long> userIdToArticleReadCount = articleArticleClient.getUserReadCount(userIds).stream()
                 .collect(Collectors.toMap(ArticleReadDTO::getUserId, ArticleReadDTO::getArticleReadCount, (v1, v2) -> v1));
         userIds.forEach(userId -> {
-            // 南生值 = 文章的阅读数 / 10 + 获得的点赞数
+            // 閸楁鏁撻崐?= 閺傚洨鐝烽惃鍕鐠囩粯鏆?/ 10 + 閼惧嘲绶遍惃鍕仯鐠х偞鏆?
             long points = (userIdToArticleReadCount.getOrDefault(userId, 0L)) / 10 + likeService.getUserLikeCount(userId);
             this.update(userId, (int) points);
         });
@@ -132,15 +129,18 @@ public class UserLevelServiceImpl implements UserLevelService {
 
     @Override
     public Boolean syncAll() {
-        // 所有的用户id
-        List<Long> userIds = userService.getAllList().stream().map(UserListDTO::getId).collect(Collectors.toList());
-        // 创建用户等级信息
+        // 閹碘偓閺堝娈戦悽銊﹀煕id
+        List<Long> userIds = loadAllUserIds();
+        if (CollectionUtils.isEmpty(userIds)) {
+            return true;
+        }
+        // 閸掓稑缂撻悽銊﹀煕缁涘楠囨穱鈩冧紖
         userIds.forEach(this::create);
         return true;
     }
 
     /**
-     * 获取热门作者列表
+     * 閼惧嘲褰囬悜顓㈡，娴ｆ粏鈧懎鍨悰?
      *
      * @param userSearchDTO
      * @param currentUser
@@ -149,26 +149,37 @@ public class UserLevelServiceImpl implements UserLevelService {
     @Override
     public PageInfo<UserForumDTO> getHotAuthorsList(UserSearchDTO userSearchDTO, UserSsoDTO currentUser) {
         PageHelper.startPage(userSearchDTO.getCurrentPage(), userSearchDTO.getPageSize()).setOrderBy("points desc, user_id desc");
-        // 通过用户id获取用户等级信息
+        // 闁俺绻冮悽銊﹀煕id閼惧嘲褰囬悽銊﹀煕缁涘楠囨穱鈩冧紖
         List<UserLevelDTO> userLevelDTOS = getByUserId(null);
         if (CollectionUtils.isEmpty(userLevelDTOS)) {
             return new PageInfo<>(new ArrayList<>());
         }
-        // 通过用户id集合去获取用户信息（这样可以大大减少数据库的操作次数）
+        // 闁俺绻冮悽銊﹀煕id闂嗗棗鎮庨崢鏄忓箯閸欐牜鏁ら幋铚備繆閹垽绱欐潻娆愮壉閸欘垯浜掓径褍銇囬崙蹇撶毌閺佺増宓佹惔鎾舵畱閹垮秳缍斿▎鈩冩殶閿?
         List<Long> userIds = userLevelDTOS.stream().map(UserLevelDTO::getUserId).collect(Collectors.toList());
-        // 用户基础信息
-        Map<Long, List<UserDTO>> userIdToUsersMap = userService.getByIds(userIds).stream().collect(Collectors.groupingBy(UserDTO::getId));
-        // 用户的文章阅读数量
-        Map<Long, Long> userIdToArticleReadCount = articleService.getUserReadCount(userIds).stream()
+        if (CollectionUtils.isEmpty(userIds)) {
+            return new PageInfo<>(new ArrayList<>());
+        }
+        // 閻劍鍩涢崺铏诡攨娣団剝浼?
+        List<UserDTO> users = loadUsersByIds(userIds);
+        if (CollectionUtils.isEmpty(users)) {
+            return new PageInfo<>(new ArrayList<>());
+        }
+        Map<Long, List<UserDTO>> userIdToUsersMap = users.stream().collect(Collectors.groupingBy(UserDTO::getId));
+        // 閻劍鍩涢惃鍕瀮缁旂娀妲勭拠缁樻殶闁?
+        Map<Long, Long> userIdToArticleReadCount = articleArticleClient.getUserReadCount(userIds).stream()
                 .collect(Collectors.toMap(ArticleReadDTO::getUserId, ArticleReadDTO::getArticleReadCount, (v1, v2) -> v1));
         List<UserForumDTO> userForumDTOS = new ArrayList<>();
         userLevelDTOS.forEach(userLevelDTO -> {
+            List<UserDTO> matchedUsers = userIdToUsersMap.get(userLevelDTO.getUserId());
+            if (CollectionUtils.isEmpty(matchedUsers)) {
+                return;
+            }
             UserForumDTO userForumDTO = new UserForumDTO();
-            BeanUtils.copyProperties(userIdToUsersMap.get(userLevelDTO.getUserId()).get(0), userForumDTO);
+            BeanUtils.copyProperties(matchedUsers.get(0), userForumDTO);
             userForumDTO.setLikeCount(likeService.getUserLikeCount(userForumDTO.getId()));
             userForumDTO.setReadCount(userIdToArticleReadCount.getOrDefault(userForumDTO.getId(), 0L));
             userForumDTO.setLevel(userLevelDTO.getLevel());
-            // 通过fromUser和toUser获取关注信息
+            // 闁俺绻僨romUser閸滃oUser閼惧嘲褰囬崗铏暈娣団剝浼?
             if (currentUser != null) {
                 FollowDTO followDTO = followService.getByFromToUser(currentUser.getUserId(), userForumDTO.getId(), false);
                 if (followDTO != null) {
@@ -183,7 +194,7 @@ public class UserLevelServiceImpl implements UserLevelService {
     }
 
     /**
-     * 通过用户id获取用户等级信息
+     * 闁俺绻冮悽銊﹀煕id閼惧嘲褰囬悽銊﹀煕缁涘楠囨穱鈩冧紖
      *
      * @param userId
      * @return
@@ -199,7 +210,7 @@ public class UserLevelServiceImpl implements UserLevelService {
     }
 
     /**
-     * 通过用户id集合获取用户等级信息
+     * 闁俺绻冮悽銊﹀煕id闂嗗棗鎮庨懢宄板絿閻劍鍩涚粵澶岄獓娣団剝浼?
      *
      * @param userIds
      * @return
@@ -212,7 +223,7 @@ public class UserLevelServiceImpl implements UserLevelService {
     }
 
     /**
-     * 获取用户信息
+     * 閼惧嘲褰囬悽銊﹀煕娣団剝浼?
      *
      * @param userId
      * @param currentUser
@@ -221,20 +232,24 @@ public class UserLevelServiceImpl implements UserLevelService {
     @Override
     public UserForumDTO getUserInfo(Long userId, UserSsoDTO currentUser) {
         UserForumDTO userForumDTO = new UserForumDTO();
-        // 通过用户id获取用户等级信息
+        // 闁俺绻冮悽銊﹀煕id閼惧嘲褰囬悽銊﹀煕缁涘楠囨穱鈩冧紖
         List<UserLevelDTO> userLevelDTOS = getByUserId(userId);
         if (CollectionUtils.isEmpty(userLevelDTOS)) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "用户不存在");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "用户等级信息不存在");
         }
 
-        UserDTO userDTO = userService.getByIds(Collections.singletonList(userId)).get(0);
+        List<UserDTO> users = loadUsersByIds(Collections.singletonList(userId));
+        if (CollectionUtils.isEmpty(users)) {
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "用户信息不存在或认证服务未启动");
+        }
+        UserDTO userDTO = users.get(0);
         BeanUtils.copyProperties(userDTO, userForumDTO);
         userForumDTO.setLikeCount(likeService.getUserLikeCount(userDTO.getId()));
-        List<ArticleReadDTO> articleReadDTOS = articleService.getUserReadCount(Collections.singletonList(userDTO.getId()));
+        List<ArticleReadDTO> articleReadDTOS = articleArticleClient.getUserReadCount(Collections.singletonList(userDTO.getId()));
         userForumDTO.setReadCount(CollectionUtils.isEmpty(articleReadDTOS) ? 0L : articleReadDTOS.get(0).getArticleReadCount());
         userForumDTO.setLevel(userLevelDTOS.get(0).getLevel());
         userForumDTO.setPoints(userLevelDTOS.get(0).getPoints());
-        // 通过fromUser和toUser获取关注信息
+        // 闁俺绻僨romUser閸滃oUser閼惧嘲褰囬崗铏暈娣団剝浼?
         if (currentUser != null) {
             FollowDTO followDTO = followService.getByFromToUser(currentUser.getUserId(), userDTO.getId(), false);
             if (followDTO != null) {
@@ -245,4 +260,27 @@ public class UserLevelServiceImpl implements UserLevelService {
         return userForumDTO;
     }
 
+    private List<Long> loadAllUserIds() {
+        try {
+            return userService.getAllList().stream().map(UserListDTO::getId).collect(Collectors.toList());
+        } catch (Exception e) {
+            log.warn("manage-auth unavailable, skip loading user ids", e);
+            return Collections.emptyList();
+        }
+    }
+
+    private List<UserDTO> loadUsersByIds(List<Long> userIds) {
+        if (CollectionUtils.isEmpty(userIds)) {
+            return Collections.emptyList();
+        }
+        try {
+            return userService.getByIds(userIds);
+        } catch (Exception e) {
+            log.warn("manage-auth unavailable, skip loading user details. userCount={}", userIds.size(), e);
+            return Collections.emptyList();
+        }
+    }
+
 }
+
+

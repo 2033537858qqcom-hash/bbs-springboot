@@ -1,15 +1,17 @@
 package com.liang.bbs.user.service;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * @author maliangnansheng
  */
 @SpringBootApplication
-@EnableDubbo
+@EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.liang.bbs.user.service.client")
 @EnableScheduling
 public class UserApplication {
 
@@ -18,3 +20,4 @@ public class UserApplication {
     }
 
 }
+

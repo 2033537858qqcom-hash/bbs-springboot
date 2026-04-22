@@ -6,53 +6,51 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class LabelDTO implements Serializable {
     /**
-     * 标签编号
+     * 鏍囩缂栧彿
      */
     private Integer id;
 
     /**
-     * 标签名字
+     * 鏍囩鍚嶅瓧
      */
     private String labelName;
 
     /**
-     * logo(图片)
+     * logo(鍥剧墖)
      */
     private String logo;
 
     /**
-     * 文章使用数量
+     * 鏂囩珷浣跨敤鏁伴噺
      */
     private Long articleUseCount;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 创建用户id
+     * 鍒涘缓鐢ㄦ埛id
      */
     private Long createUser;
 
     /**
-     * 更新用户id
+     * 鏇存柊鐢ㄦ埛id
      */
     private Long updateUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

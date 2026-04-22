@@ -5,10 +5,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Mybatis配置
+ * Mybatis閰嶇疆
  *
- * @author maliangnansheng
- * @date 2021-04-21 20:32
  */
 @Configuration
 @ComponentScan(basePackages = {

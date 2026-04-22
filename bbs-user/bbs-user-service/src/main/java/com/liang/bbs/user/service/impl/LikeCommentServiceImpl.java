@@ -12,7 +12,7 @@ import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +20,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class LikeCommentServiceImpl implements LikeCommentService {
     @Autowired
@@ -39,7 +36,7 @@ public class LikeCommentServiceImpl implements LikeCommentService {
     }
 
     /**
-     * 获取评论的点赞数量
+     * 閼惧嘲褰囩拠鍕啈閻ㄥ嫮鍋ｇ挧鐐存殶闁?
      *
      * @param commentId
      * @return
@@ -53,7 +50,7 @@ public class LikeCommentServiceImpl implements LikeCommentService {
     }
 
     /**
-     * 是否点赞
+     * 閺勵垰鎯侀悙纭呯
      *
      * @param commentId
      * @param userId
@@ -69,7 +66,7 @@ public class LikeCommentServiceImpl implements LikeCommentService {
     }
 
     /**
-     * 更新点赞状态
+     * 閺囧瓨鏌婇悙纭呯閻樿埖鈧?
      *
      * @param commentId
      * @param currentUser
@@ -79,7 +76,7 @@ public class LikeCommentServiceImpl implements LikeCommentService {
     public Boolean updateLikeCommentState(Integer commentId, UserSsoDTO currentUser) {
         LikeCommentDTO commentDTO = getByCommentIdUserId(commentId, currentUser.getUserId());
         LocalDateTime now = LocalDateTime.now();
-        // 没有，新增
+        // 濞屸剝婀侀敍灞炬煀婢?
         if (commentDTO == null) {
             LikeCommentPo likeCommentPo = new LikeCommentPo();
             likeCommentPo.setCommentId(commentId);
@@ -88,10 +85,10 @@ public class LikeCommentServiceImpl implements LikeCommentService {
             likeCommentPo.setCreateTime(now);
             likeCommentPo.setUpdateTime(now);
             if (likeCommentPoMapper.insertSelective(likeCommentPo) <= 0) {
-                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "添加评论点赞失败");
+                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "濞ｈ濮炵拠鍕啈閻愮绂愭径杈Е");
             }
         } else {
-            // 状态取反
+            // 閻樿埖鈧礁褰囬崣?
             commentDTO.setState(!commentDTO.getState());
             commentDTO.setUpdateTime(now);
             if (likeCommentPoMapper.updateByPrimaryKeySelective(LikeCommentMS.INSTANCE.toPo(commentDTO)) <= 0) {
@@ -103,7 +100,7 @@ public class LikeCommentServiceImpl implements LikeCommentService {
     }
 
     /**
-     * 通过评论id和用户id获取点赞信息
+     * 闁俺绻冪拠鍕啈id閸滃瞼鏁ら幋绌抎閼惧嘲褰囬悙纭呯娣団剝浼?
      *
      * @param commentId
      * @param userId
@@ -121,3 +118,5 @@ public class LikeCommentServiceImpl implements LikeCommentService {
     }
 
 }
+
+

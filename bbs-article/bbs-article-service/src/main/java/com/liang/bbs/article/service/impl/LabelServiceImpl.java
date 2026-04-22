@@ -9,29 +9,23 @@ import com.liang.bbs.article.facade.server.LabelService;
 import com.liang.bbs.article.persistence.entity.LabelPo;
 import com.liang.bbs.article.persistence.entity.LabelPoExample;
 import com.liang.bbs.article.persistence.mapper.LabelPoMapper;
+import com.liang.bbs.article.service.client.FileServiceClient;
 import com.liang.bbs.article.service.mapstruct.LabelMS;
-import com.liang.manage.auth.facade.server.FileService;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.enums.ImageTypeEnum;
 import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class LabelServiceImpl implements LabelService {
     @Autowired
@@ -40,11 +34,11 @@ public class LabelServiceImpl implements LabelService {
     @Autowired
     private ArticleLabelService articleLabelService;
 
-    @DubboReference
-    private FileService fileService;
+    @Autowired
+    private FileServiceClient fileService;
 
     /**
-     * 获取标签
+     * 閼惧嘲褰囬弽鍥╊劮
      *
      * @param labelSearchDTO
      * @return
@@ -71,7 +65,7 @@ public class LabelServiceImpl implements LabelService {
     }
 
     /**
-     * 通过标签id集合获取标签信息
+     * 闁俺绻冮弽鍥╊劮id闂嗗棗鎮庨懢宄板絿閺嶅洨顒锋穱鈩冧紖
      *
      * @param ids
      * @return
@@ -84,7 +78,7 @@ public class LabelServiceImpl implements LabelService {
     }
 
     /**
-     * 新增标签
+     * 閺傛澘顤冮弽鍥╊劮
      *
      * @param labelDTO
      * @param currentUser
@@ -93,10 +87,10 @@ public class LabelServiceImpl implements LabelService {
     @Override
     public Boolean create(LabelDTO labelDTO, UserSsoDTO currentUser) {
         if (StringUtils.isBlank(labelDTO.getLabelName())) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "标签名称不能为空");
         }
         if (isNameExist(null, labelDTO.getLabelName())) {
-            throw BusinessException.build(ResponseCode.NAME_EXIST, "标签名重复");
+            throw BusinessException.build(ResponseCode.NAME_EXIST, "标签名称已存在");
         }
 
         labelDTO.setIsDeleted(false);
@@ -114,7 +108,7 @@ public class LabelServiceImpl implements LabelService {
     }
 
     /**
-     * 上传标签logo
+     * 娑撳﹣绱堕弽鍥╊劮logo
      *
      * @param bytes
      * @param sourceFileName
@@ -123,16 +117,16 @@ public class LabelServiceImpl implements LabelService {
     @Override
     public String uploadLabelLogo(byte[] bytes, String sourceFileName) {
         try {
-            // 文件上传（剪切）
+            // 閺傚洣娆㈡稉濠佺炊閿涘牆澹€閸掑浄绱?
             return fileService.fileCutUpload(bytes, sourceFileName, ImageTypeEnum.labelPicture.name());
         } catch (Exception e) {
-            log.error("标签Logo上传异常！", e);
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "标签Logo上传异常!");
+            log.error("上传标签图标失败", e);
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "上传标签图标失败");
         }
     }
 
     /**
-     * 更新标签
+     * 閺囧瓨鏌婇弽鍥╊劮
      *
      * @param labelDTO
      * @param currentUser
@@ -141,10 +135,10 @@ public class LabelServiceImpl implements LabelService {
     @Override
     public Boolean update(LabelDTO labelDTO, UserSsoDTO currentUser) {
         if (StringUtils.isBlank(labelDTO.getLabelName())) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "标签名称不能为空");
         }
         if (isNameExist(labelDTO.getId(), labelDTO.getLabelName())) {
-            throw BusinessException.build(ResponseCode.NAME_EXIST, "标签名重复");
+            throw BusinessException.build(ResponseCode.NAME_EXIST, "标签名称已存在");
         }
         labelDTO.setIsDeleted(null);
         labelDTO.setCreateUser(null);
@@ -160,7 +154,7 @@ public class LabelServiceImpl implements LabelService {
     }
 
     /**
-     * 删除标签
+     * 閸掔娀娅庨弽鍥╊劮
      *
      * @param id
      * @return
@@ -171,17 +165,17 @@ public class LabelServiceImpl implements LabelService {
         labelPo.setId(id);
         labelPo.setIsDeleted(true);
         if (labelPoMapper.updateByPrimaryKeySelective(labelPo) <= 0) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "删除失败");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "閸掔娀娅庢径杈Е");
         }
 
         return true;
     }
 
     /**
-     * 判断标签名称是否已经存在
+     * 閸掋倖鏌囬弽鍥╊劮閸氬秶袨閺勵垰鎯佸鑼病鐎涙ê婀?
      *
-     * @param labelId   标签id
-     * @param labelName 标签名称
+     * @param labelId   閺嶅洨顒穒d
+     * @param labelName 閺嶅洨顒烽崥宥囆?
      * @return
      */
     private boolean isNameExist(Integer labelId, String labelName) {
@@ -192,10 +186,12 @@ public class LabelServiceImpl implements LabelService {
         if (labelPos.size() > 1) {
             return true;
         } else if (labelPos.size() == 1) {
-            // 更新时labelId是有值的
+            // 閺囧瓨鏌婇弮绉巃belId閺勵垱婀侀崐鑲╂畱
             return !labelPos.get(0).getId().equals(labelId);
         }
         return false;
     }
 
 }
+
+

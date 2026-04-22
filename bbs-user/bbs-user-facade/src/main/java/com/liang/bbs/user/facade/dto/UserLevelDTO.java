@@ -6,38 +6,36 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author maliangnansheng
- * @date 2022/5/20 15:22
  */
 @Data
 public class UserLevelDTO implements Serializable {
     /**
-     * 用户等级编号
+     * 鐢ㄦ埛绛夌骇缂栧彿
      */
     private Integer id;
 
     /**
-     * 用户id
+     * 鐢ㄦ埛id
      */
     private Long userId;
 
     /**
-     * 等级（Lv6）
+     * 绛夌骇锛圠v6锛?
      */
     private String level;
 
     /**
-     * 积分
+     * 绉垎
      */
     private Integer points;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

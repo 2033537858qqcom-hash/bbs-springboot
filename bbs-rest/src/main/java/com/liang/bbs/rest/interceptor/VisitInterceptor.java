@@ -1,12 +1,12 @@
 package com.liang.bbs.rest.interceptor;
 
+import com.liang.bbs.rest.client.VisitServiceClient;
 import com.liang.bbs.rest.utils.IpUtil;
 import com.liang.manage.auth.facade.dto.visit.VisitDTO;
-import com.liang.manage.auth.facade.server.VisitService;
 import com.liang.nansheng.common.enums.ProjectEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,33 +14,33 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 用户头像拦截器
+ * 閻劍鍩涙径鏉戝剼閹凤附鍩呴崳?
  *
- * @author maliangnansheng
- * @date 2021-04-20 22:04
  */
 @Slf4j
 @Component
 public class VisitInterceptor implements HandlerInterceptor {
-    @DubboReference
-    VisitService visitService;
+    @Autowired
+    @Lazy
+    VisitServiceClient visitService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
             VisitDTO visitDTO = new VisitDTO();
-            // 访问来自哪个系统
+            // 鐠佸潡妫堕弶銉ㄥ殰閸濐亙閲滅化鑽ょ埠
             visitDTO.setProjectId(ProjectEnum.NS_BBS.getCode());
             // ip
             visitDTO.setIp(IpUtil.getIP(request));
-            // 操作系统
+            // 閹垮秳缍旂化鑽ょ埠
             visitDTO.setOs(IpUtil.getOS(request));
             visitService.create(visitDTO);
         } catch (Exception e) {
-            log.error("VisitInterceptor异常：", e);
+            log.error("VisitInterceptor exception", e);
         }
 
         return true;
     }
 
 }
+

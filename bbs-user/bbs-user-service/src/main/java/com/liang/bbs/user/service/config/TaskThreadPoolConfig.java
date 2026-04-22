@@ -9,8 +9,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * @author maliangnansheng
- * @date 2023/2/6 10:41
  */
 @EnableAsync
 @Configuration
@@ -18,20 +16,20 @@ public class TaskThreadPoolConfig {
     @Bean
     public Executor asyncTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        // 初始化线程数
+        // 鍒濆鍖栫嚎绋嬫暟
         executor.setCorePoolSize(20);
-        // 最大线程数
+        // 鏈€澶х嚎绋嬫暟
         executor.setMaxPoolSize(40);
-        // 缓冲队列
+        // 缂撳啿闃熷垪
         executor.setQueueCapacity(100);
-        // 允许空闲时间
+        // 鍏佽绌洪棽鏃堕棿
         executor.setKeepAliveSeconds(60);
-        // 线程池名前缀
+        // 绾跨▼姹犲悕鍓嶇紑
         executor.setThreadNamePrefix("scheduler-thread-pool-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setAwaitTerminationSeconds(60);
-        // 初始化
+        // 鍒濆鍖?
         executor.initialize();
         return executor;
     }

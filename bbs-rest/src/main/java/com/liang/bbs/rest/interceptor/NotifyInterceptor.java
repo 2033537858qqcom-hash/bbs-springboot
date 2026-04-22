@@ -1,6 +1,6 @@
 package com.liang.bbs.rest.interceptor;
 
-import com.liang.manage.auth.facade.server.NotifyService;
+import com.liang.bbs.rest.client.NotifyServiceClient;
 import com.liang.nansheng.common.auth.UserContextUtils;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.constant.HeaderConstants;
@@ -8,21 +8,21 @@ import com.liang.nansheng.common.enums.NotifyTypeEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
- * 用户头像拦截器
+ * 閻劍鍩涙径鏉戝剼閹凤附鍩呴崳?
  *
- * @author maliangnansheng
- * @date 2021-04-20 22:04
  */
 @Slf4j
 @Component
 public class NotifyInterceptor implements HandlerInterceptor {
-    @DubboReference
-    NotifyService notifyService;
+    @Autowired
+    @Lazy
+    NotifyServiceClient notifyService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -38,3 +38,4 @@ public class NotifyInterceptor implements HandlerInterceptor {
     }
 
 }
+

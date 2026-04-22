@@ -8,42 +8,40 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 对应数据表为：fs_like
+ * 瀵瑰簲鏁版嵁琛ㄤ负锛歠s_like
  *
- * @author maliangnansheng
- * @date 2022/04/18 21:29
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LikePo implements Serializable {
     /**
-     * 点赞编号
+     * 鐐硅禐缂栧彿
      */
     private Integer id;
 
     /**
-     * 文章id
+     * 鏂囩珷id
      */
     private Integer articleId;
 
     /**
-     * 状态(0取消,1点赞)
+     * 鐘舵€?0鍙栨秷,1鐐硅禐)
      */
     private Boolean state;
 
     /**
-     * 点赞用户id
+     * 鐐硅禐鐢ㄦ埛id
      */
     private Long likeUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

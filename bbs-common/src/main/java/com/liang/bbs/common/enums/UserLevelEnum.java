@@ -1,12 +1,10 @@
 package com.liang.bbs.common.enums;
 
 /**
- * @author maliangnansheng
- * @date 2022/6/13 18:04
  */
 public enum UserLevelEnum {
     /**
-     * 等级
+     * 绛夌骇
      */
     Lv1(0, "0 <= x < 100"),
     Lv2(100, "100 <= x < 300"),
@@ -16,11 +14,11 @@ public enum UserLevelEnum {
     Lv6(1500, "1500 <= x < 2100");
 
     /**
-     * 积分
+     * 绉垎
      */
     private final Integer code;
     /**
-     * 说明
+     * 璇存槑
      */
     private final String desc;
 

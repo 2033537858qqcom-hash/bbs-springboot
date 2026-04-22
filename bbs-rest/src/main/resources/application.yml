@@ -6,6 +6,10 @@ server:
 spring:
   application:
     name: ns-bbs-rest
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
   servlet:
     multipart:
       max-file-size: 100MB
@@ -16,9 +20,9 @@ spring:
       matching-strategy: ant_path_matcher
   data:
     redis:
-      host: 139.9.78.65
-      port: 6222
-      password: 5LiA5Liq5Y2B5YiG5aSN5p2C55qE5a+G56CB
+      host: 127.0.0.1
+      port: 6379
+      password:
       # 单位 毫秒
       timeout: 60000
       lettuce:
@@ -27,23 +31,14 @@ spring:
           max-idle: 10
           min-idle: 1
 
-dubbo:
-  application:
-    name: ns-bbs-rest
-  registry:
-    address: zookeeper://139.9.78.65:2181
-    timeout: 60000
-  protocol:
-    name: dubbo
-    port: 22001
-  consumer:
-    check: false
-    timeout: 60000
-  config-center:
-    timeout: 60000
-  provider:
-    # 配了这个就可以抛出自定义异常（否则一直是RuntimeException）
-    filter: -exception
+local:
+  services:
+    manage-auth:
+      name: ns-manage-auth
+    bbs-article:
+      name: ns-bbs-article
+    bbs-user:
+      name: ns-bbs-user
 
 # 自定义
 interceptor:

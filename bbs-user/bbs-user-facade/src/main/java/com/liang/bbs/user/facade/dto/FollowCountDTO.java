@@ -5,19 +5,17 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class FollowCountDTO implements Serializable {
 
     /**
-     * 关注数量
+     * 鍏虫敞鏁伴噺
      */
     private Long followCount;
 
     /**
-     * 粉丝数量
+     * 绮変笣鏁伴噺
      */
     private Long fanCount;
 

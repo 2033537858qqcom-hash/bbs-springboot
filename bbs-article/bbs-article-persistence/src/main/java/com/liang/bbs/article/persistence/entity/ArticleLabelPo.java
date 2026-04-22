@@ -8,52 +8,50 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 对应数据表为：fs_article_label
+ * 瀵瑰簲鏁版嵁琛ㄤ负锛歠s_article_label
  *
- * @author maliangnansheng
- * @date 2022/04/20 23:16
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleLabelPo implements Serializable {
     /**
-     * 文章标签编号
+     * 鏂囩珷鏍囩缂栧彿
      */
     private Integer id;
 
     /**
-     * 文章id
+     * 鏂囩珷id
      */
     private Integer articleId;
 
     /**
-     * 标签id
+     * 鏍囩id
      */
     private Integer labelId;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 创建用户id
+     * 鍒涘缓鐢ㄦ埛id
      */
     private Long createUser;
 
     /**
-     * 更新用户id
+     * 鏇存柊鐢ㄦ埛id
      */
     private Long updateUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

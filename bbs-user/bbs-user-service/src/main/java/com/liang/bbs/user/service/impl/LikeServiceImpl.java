@@ -3,7 +3,7 @@ package com.liang.bbs.user.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liang.bbs.article.facade.dto.ArticleDTO;
-import com.liang.bbs.article.facade.server.ArticleService;
+import com.liang.bbs.article.facade.dto.InternalBaseArticleIdsRequest;
 import com.liang.bbs.common.enums.ArticleStateEnum;
 import com.liang.bbs.user.facade.dto.LikeDTO;
 import com.liang.bbs.user.facade.dto.LikeSearchDTO;
@@ -12,15 +12,16 @@ import com.liang.bbs.user.persistence.entity.LikePo;
 import com.liang.bbs.user.persistence.entity.LikePoExample;
 import com.liang.bbs.user.persistence.mapper.LikePoExMapper;
 import com.liang.bbs.user.persistence.mapper.LikePoMapper;
+import com.liang.bbs.user.service.client.ArticleArticleClient;
 import com.liang.bbs.user.service.mapstruct.LikeMS;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +30,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class LikeServiceImpl implements LikeService {
     @Autowired
@@ -42,11 +40,11 @@ public class LikeServiceImpl implements LikeService {
     @Autowired
     private LikePoExMapper likePoExMapper;
 
-    @DubboReference
-    private ArticleService articleService;
+    @Autowired
+    private ArticleArticleClient articleArticleClient;
 
     /**
-     * 获取所有点赞的通过审核的文章信息
+     * 閼惧嘲褰囬幍鈧張澶屽仯鐠х偟娈戦柅姘崇箖鐎光剝鐗抽惃鍕瀮缁旂姳淇婇幁?
      *
      * @param startTime
      * @param endTime
@@ -58,7 +56,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 通过用户id获取点赞的文章信息
+     * 闁俺绻冮悽銊﹀煕id閼惧嘲褰囬悙纭呯閻ㄥ嫭鏋冪粩鐘变繆閹?
      *
      * @param likeSearchDTO
      * @return
@@ -66,7 +64,7 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public PageInfo<LikeDTO> getArticleByUserId(LikeSearchDTO likeSearchDTO) {
         if (likeSearchDTO.getLikeUser() == null) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "缺少点赞用户参数");
         }
 
         PageHelper.startPage(likeSearchDTO.getCurrentPage(), likeSearchDTO.getPageSize());
@@ -76,7 +74,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 通过文章id获取点赞的用户信息
+     * 闁俺绻冮弬鍥╃彿id閼惧嘲褰囬悙纭呯閻ㄥ嫮鏁ら幋铚備繆閹?
      *
      * @param likeSearchDTO
      * @return
@@ -84,7 +82,7 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public PageInfo<LikeDTO> getUserByArticleId(LikeSearchDTO likeSearchDTO) {
         if (likeSearchDTO.getArticleId() == null) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "缺少文章参数");
         }
         LikePoExample example = new LikePoExample();
         LikePoExample.Criteria criteria = example.createCriteria().andStateEqualTo(true);
@@ -98,7 +96,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 通过id获取点赞信息
+     * 闁俺绻僫d閼惧嘲褰囬悙纭呯娣団剝浼?
      *
      * @param id
      * @return
@@ -109,7 +107,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 通过文章id和用户id获取点赞信息
+     * 闁俺绻冮弬鍥╃彿id閸滃瞼鏁ら幋绌抎閼惧嘲褰囬悙纭呯娣団剝浼?
      *
      * @param articleId
      * @param userId
@@ -127,7 +125,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 获取文章的点赞数量
+     * 閼惧嘲褰囬弬鍥╃彿閻ㄥ嫮鍋ｇ挧鐐存殶闁?
      *
      * @param articleIds
      * @return
@@ -141,7 +139,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 是否点赞
+     * 閺勵垰鎯侀悙纭呯
      *
      * @param articleId
      * @param userId
@@ -157,7 +155,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 更新点赞状态
+     * 閺囧瓨鏌婇悙纭呯閻樿埖鈧?
      *
      * @param articleId
      * @param currentUser
@@ -167,7 +165,7 @@ public class LikeServiceImpl implements LikeService {
     public Boolean updateLikeState(Integer articleId, UserSsoDTO currentUser) {
         LikeDTO likeDTO = getByArticleIdUserId(articleId, currentUser.getUserId());
         LocalDateTime now = LocalDateTime.now();
-        // 没有，新增
+        // 濞屸剝婀侀敍灞炬煀婢?
         if (likeDTO == null) {
             LikePo likePo = new LikePo();
             likePo.setArticleId(articleId);
@@ -176,10 +174,10 @@ public class LikeServiceImpl implements LikeService {
             likePo.setCreateTime(now);
             likePo.setUpdateTime(now);
             if (likePoMapper.insertSelective(likePo) <= 0) {
-                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "添加点赞失败");
+                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "新增点赞失败");
             }
         } else {
-            // 状态取反
+            // 閻樿埖鈧礁褰囬崣?
             likeDTO.setState(!likeDTO.getState());
             likeDTO.setUpdateTime(now);
             if (likePoMapper.updateByPrimaryKeySelective(LikeMS.INSTANCE.toPo(likeDTO)) <= 0) {
@@ -191,14 +189,14 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 用户获取的点赞数量
+     * 閻劍鍩涢懢宄板絿閻ㄥ嫮鍋ｇ挧鐐存殶闁?
      *
      * @param userId
      * @return
      */
     @Override
     public Long getUserLikeCount(Long userId) {
-        List<ArticleDTO> articleDTOS = articleService.getByUserId(userId);
+        List<ArticleDTO> articleDTOS = articleArticleClient.getByUserId(userId);
         if (CollectionUtils.isNotEmpty(articleDTOS)) {
             List<Integer> articleIds = articleDTOS.stream().map(ArticleDTO::getId).collect(Collectors.toList());
             return this.getLikeCountArticle(articleIds);
@@ -216,10 +214,15 @@ public class LikeServiceImpl implements LikeService {
 
         if (CollectionUtils.isNotEmpty(likePos)) {
             List<Integer> articleIds = likePos.stream().map(LikePo::getArticleId).collect(Collectors.toList());
-            List<ArticleDTO> articleDTOS = articleService.getBaseByIds(articleIds, ArticleStateEnum.enable);
+            InternalBaseArticleIdsRequest request = new InternalBaseArticleIdsRequest();
+            request.setIds(articleIds);
+            request.setArticleStateEnum(ArticleStateEnum.enable);
+            List<ArticleDTO> articleDTOS = articleArticleClient.getBaseByIds(request);
             return CollectionUtils.isNotEmpty(articleDTOS) ? articleDTOS.size() : 0L;
         }
 
         return 0L;
     }
 }
+
+

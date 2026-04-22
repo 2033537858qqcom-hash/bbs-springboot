@@ -7,13 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface LikeCommentService {
 
     /**
-     * 获取所有通过审核文章的评论的点赞信息
+     * 鑾峰彇鎵€鏈夐€氳繃瀹℃牳鏂囩珷鐨勮瘎璁虹殑鐐硅禐淇℃伅
      *
      * @param startTime
      * @param endTime
@@ -22,7 +20,7 @@ public interface LikeCommentService {
     List<LikeCommentDTO> getPaasAll(LocalDateTime startTime, LocalDateTime endTime);
 
     /**
-     * 获取评论的点赞数量
+     * 鑾峰彇璇勮鐨勭偣璧炴暟閲?
      *
      * @param commentId
      * @return
@@ -30,7 +28,7 @@ public interface LikeCommentService {
     Long getLikeCountCommentId(Integer commentId);
 
     /**
-     * 是否点赞
+     * 鏄惁鐐硅禐
      *
      * @param commentId
      * @param userId
@@ -39,7 +37,7 @@ public interface LikeCommentService {
     Boolean isLike(Integer commentId, Long userId);
 
     /**
-     * 更新点赞状态
+     * 鏇存柊鐐硅禐鐘舵€?
      *
      * @param commentId
      * @param currentUser
@@ -48,7 +46,7 @@ public interface LikeCommentService {
     Boolean updateLikeCommentState(Integer commentId, UserSsoDTO currentUser);
 
     /**
-     * 通过评论id和用户id获取点赞信息
+     * 閫氳繃璇勮id鍜岀敤鎴穒d鑾峰彇鐐硅禐淇℃伅
      *
      * @param commentId
      * @param userId

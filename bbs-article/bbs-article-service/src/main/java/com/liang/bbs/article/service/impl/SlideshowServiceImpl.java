@@ -6,18 +6,14 @@ import com.liang.bbs.article.persistence.entity.SlideshowPoExample;
 import com.liang.bbs.article.persistence.mapper.SlideshowPoMapper;
 import com.liang.bbs.article.service.mapstruct.SlideshowMS;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class SlideshowServiceImpl implements SlideshowService {
 
@@ -34,3 +30,5 @@ public class SlideshowServiceImpl implements SlideshowService {
     }
 
 }
+
+

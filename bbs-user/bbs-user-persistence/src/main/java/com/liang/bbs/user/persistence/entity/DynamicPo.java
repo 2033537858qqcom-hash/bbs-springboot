@@ -8,47 +8,45 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 对应数据表为：fs_dynamic
+ * 瀵瑰簲鏁版嵁琛ㄤ负锛歠s_dynamic
  * 
- * @author maliangnansheng
- * @date 2022/12/07 11:26
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class DynamicPo implements Serializable {
     /**
-     * 用户动态编号
+     * 鐢ㄦ埛鍔ㄦ€佺紪鍙?
      */
     private Integer id;
 
     /**
-     * 类型（写文章、评论、点赞、关注等）
+     * 绫诲瀷锛堝啓鏂囩珷銆佽瘎璁恒€佺偣璧炪€佸叧娉ㄧ瓑锛?
      */
     private String type;
 
     /**
-     * 发起人
+     * 鍙戣捣浜?
      */
     private Long userId;
 
     /**
-     * 操作的对象ID（文章id、用户id等）
+     * 鎿嶄綔鐨勫璞D锛堟枃绔爄d銆佺敤鎴穒d绛夛級
      */
     private String objectId;
 
     /**
-     * 评论id
+     * 璇勮id
      */
     private Integer commentId;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

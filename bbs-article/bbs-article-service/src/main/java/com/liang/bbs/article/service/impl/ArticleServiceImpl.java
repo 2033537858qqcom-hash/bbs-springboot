@@ -11,19 +11,19 @@ import com.liang.bbs.article.persistence.entity.ArticlePo;
 import com.liang.bbs.article.persistence.entity.ArticlePoExample;
 import com.liang.bbs.article.persistence.mapper.ArticlePoExMapper;
 import com.liang.bbs.article.persistence.mapper.ArticlePoMapper;
+import com.liang.bbs.article.service.client.FileServiceClient;
+import com.liang.bbs.article.service.client.UserFollowClient;
+import com.liang.bbs.article.service.client.UserLikeClient;
+import com.liang.bbs.article.service.client.UserServiceClient;
+import com.liang.bbs.article.service.client.UserLevelClient;
+import com.liang.bbs.article.service.client.VisitServiceClient;
 import com.liang.bbs.article.service.mapstruct.ArticleMS;
 import com.liang.bbs.common.enums.ArticleStateEnum;
 import com.liang.bbs.user.facade.dto.FollowDTO;
 import com.liang.bbs.user.facade.dto.LikeDTO;
 import com.liang.bbs.user.facade.dto.LikeSearchDTO;
 import com.liang.bbs.user.facade.dto.UserLevelDTO;
-import com.liang.bbs.user.facade.server.FollowService;
-import com.liang.bbs.user.facade.server.LikeService;
-import com.liang.bbs.user.facade.server.UserLevelService;
 import com.liang.manage.auth.facade.dto.user.UserDTO;
-import com.liang.manage.auth.facade.server.FileService;
-import com.liang.manage.auth.facade.server.UserService;
-import com.liang.manage.auth.facade.server.VisitService;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.enums.ImageTypeEnum;
 import com.liang.nansheng.common.enums.ResponseCode;
@@ -32,27 +32,21 @@ import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class ArticleServiceImpl implements ArticleService {
     @Autowired
@@ -70,23 +64,23 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private CommentService commentService;
 
-    @DubboReference
-    private UserService userService;
+    @Autowired
+    private UserServiceClient userService;
 
-    @DubboReference
-    private LikeService likeService;
+    @Autowired
+    private UserLikeClient userLikeClient;
 
-    @DubboReference
-    private VisitService visitService;
+    @Autowired
+    private VisitServiceClient visitService;
 
-    @DubboReference
-    private FollowService followService;
+    @Autowired
+    private UserFollowClient userFollowClient;
 
-    @DubboReference
-    private UserLevelService userLevelService;
+    @Autowired
+    private UserLevelClient userLevelClient;
 
-    @DubboReference
-    private FileService fileService;
+    @Autowired
+    private FileServiceClient fileService;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -94,7 +88,7 @@ public class ArticleServiceImpl implements ArticleService {
     private static final Integer contentMax = 200;
 
     /**
-     * 获取所有审核通过的文章
+     * 閼惧嘲褰囬幍鈧張澶婎吀閺嶆悂鈧俺绻冮惃鍕瀮缁?
      *
      * @param startTime
      * @param endTime
@@ -110,7 +104,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 获取文章
+     * 閼惧嘲褰囬弬鍥╃彿
      *
      * @param articleSearchDTO
      * @param currentUser
@@ -121,12 +115,12 @@ public class ArticleServiceImpl implements ArticleService {
     public PageInfo<ArticleDTO> getList(ArticleSearchDTO articleSearchDTO, UserSsoDTO currentUser, ArticleStateEnum articleStateEnum) {
         List<Integer> articleIds = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(articleSearchDTO.getLabelIds())) {
-            // 根据标签id集合获取文章标签信息
+            // 閺嶈宓侀弽鍥╊劮id闂嗗棗鎮庨懢宄板絿閺傚洨鐝烽弽鍥╊劮娣団剝浼?
             List<ArticleLabelDTO> articleLabelDTOS = articleLabelService.getByLabelIds(articleSearchDTO.getLabelIds());
             if (CollectionUtils.isNotEmpty(articleLabelDTOS)) {
                 articleIds = articleLabelDTOS.stream().map(ArticleLabelDTO::getArticleId).collect(Collectors.toList());
             } else {
-                // 该标签下没有文章
+                // 鐠囥儲鐖ｇ粵鍙ョ瑓濞屸剝婀侀弬鍥╃彿
                 return new PageInfo<>(new ArrayList<>());
             }
         }
@@ -158,7 +152,7 @@ public class ArticleServiceImpl implements ArticleService {
             return pageInfo;
         }
 
-        // 构建文章信息
+        // 閺嬪嫬缂撻弬鍥╃彿娣団剝浼?
         buildArticleInfo(pageInfo.getList(), currentUser);
 
         return pageInfo;
@@ -178,7 +172,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 获取待审核的文章
+     * 閼惧嘲褰囧鍛吀閺嶅摜娈戦弬鍥╃彿
      *
      * @param articleSearchDTO
      * @param currentUser
@@ -190,7 +184,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 获取禁用的文章
+     * 閼惧嘲褰囩粋浣烘暏閻ㄥ嫭鏋冪粩?
      *
      * @param articleSearchDTO
      * @param currentUser
@@ -202,7 +196,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 修改文章审批状态
+     * 娣囶喗鏁奸弬鍥╃彿鐎光剝澹掗悩鑸碘偓?
      *
      * @param articleDTO
      * @param currentUser
@@ -224,14 +218,14 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         if (articlePoMapper.updateByPrimaryKeySelective(articlePo) <= 0) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "修改文章审批状态失败");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "更新文章状态失败");
         }
 
         return true;
     }
 
     /**
-     * 获取点赞过的文章
+     * 閼惧嘲褰囬悙纭呯鏉╁洨娈戦弬鍥╃彿
      *
      * @param likeSearchDTO
      * @param currentUser
@@ -240,13 +234,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageInfo<ArticleDTO> getLikesArticle(LikeSearchDTO likeSearchDTO, UserSsoDTO currentUser) {
         PageInfo<ArticleDTO> pageInfo = new PageInfo<>();
-        PageInfo<LikeDTO> likeDTOPageInfo = likeService.getArticleByUserId(likeSearchDTO);
+        PageInfo<LikeDTO> likeDTOPageInfo = userLikeClient.getArticleByUserId(likeSearchDTO);
         BeanUtils.copyProperties(likeDTOPageInfo, pageInfo);
         if (CollectionUtils.isNotEmpty(likeDTOPageInfo.getList())) {
             List<Integer> articleIds = likeDTOPageInfo.getList().stream().distinct().map(LikeDTO::getArticleId).collect(Collectors.toList());
             List<ArticleDTO> articleDTOS = getBaseByIds(articleIds, ArticleStateEnum.enable);
 
-            // 构建文章信息
+            // 閺嬪嫬缂撻弬鍥╃彿娣団剝浼?
             buildArticleInfo(articleDTOS, currentUser);
             pageInfo.setList(articleDTOS);
         }
@@ -255,10 +249,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 通过文章id集合获取文章信息
+     * 闁俺绻冮弬鍥╃彿id闂嗗棗鎮庨懢宄板絿閺傚洨鐝锋穱鈩冧紖
      *
      * @param ids
-     * @param isPv        是否增加文章浏览数量
+     * @param isPv        閺勵垰鎯佹晶鐐插閺傚洨鐝峰ù蹇氼潔閺佷即鍣?
      * @param currentUser
      * @return
      */
@@ -269,10 +263,10 @@ public class ArticleServiceImpl implements ArticleService {
             return articleDTOS;
         }
 
-        // 构建文章信息
+        // 閺嬪嫬缂撻弬鍥╃彿娣団剝浼?
         buildArticleInfo(articleDTOS, currentUser);
 
-        // 获取文章内容
+        // 閼惧嘲褰囬弬鍥╃彿閸愬懎顔?
         List<ArticleMarkdownInfo> articleMarkdownInfos = getMarkdownByArticleIds(ids);
         Map<Integer, List<ArticleMarkdownInfo>> articleId2List = articleMarkdownInfos.stream().collect(Collectors.groupingBy(ArticleMarkdownInfo::getArticleId));
         articleDTOS.forEach(articleDTO -> {
@@ -283,7 +277,7 @@ public class ArticleServiceImpl implements ArticleService {
             }
         });
 
-        // 增加文章浏览数量
+        // 婢х偛濮為弬鍥╃彿濞村繗顫嶉弫浼村櫤
         if (isPv != null && isPv) {
             this.updatePv(articleDTOS.get(0));
         }
@@ -292,7 +286,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 通过文章id集合获取文章信息(最基础的信息)
+     * 闁俺绻冮弬鍥╃彿id闂嗗棗鎮庨懢宄板絿閺傚洨鐝锋穱鈩冧紖(閺堚偓閸╄櫣顢呴惃鍕繆閹?
      *
      * @param ids
      * @return
@@ -305,7 +299,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleStateEnum != null) {
             criteria.andStateEqualTo(articleStateEnum.getCode());
         }
-        // 按in的参数顺序排序
+        // 閹稿”n閻ㄥ嫬寮弫浼淬€庢惔蹇斿笓鎼?
         String stringIds = ids.stream().map(String::valueOf).collect(Collectors.joining(","));
         example.setOrderByClause("field(id, " + stringIds + ")");
 
@@ -313,7 +307,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 撰写文章（无配图）
+     * 閹炬澘鍟撻弬鍥╃彿閿涘牊妫ら柊宥呮禈閿?
      *
      * @param articleDTO
      * @param currentUser
@@ -322,7 +316,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Boolean create(ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser) {
         if (StringUtils.isBlank(articleDTO.getTitle()) || StringUtils.isBlank(articleDTO.getHtml())) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "标题或内容不能为空");
         }
         articleDTO.setIsDeleted(false);
         String content = CommonUtils.html2Text(articleDTO.getHtml());
@@ -332,23 +326,23 @@ public class ArticleServiceImpl implements ArticleService {
         LocalDateTime now = LocalDateTime.now();
         articleDTO.setCreateTime(now);
         articleDTO.setUpdateTime(now);
-        // 通过审核的文章才会启用（即：默认待审核）
+        // 闁俺绻冪€光剝鐗抽惃鍕瀮缁旂姵澧犳导姘儙閻㈩煉绱欓崡绛圭窗姒涙顓诲鍛吀閺嶉潻绱?
         articleDTO.setState(ArticleStateEnum.pendingReview.getCode());
         ArticlePo articlePo = ArticleMS.INSTANCE.toPo(articleDTO);
         if (articlePoMapper.insertSelective(articlePo) <= 0) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "撰写文章失败");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "新增文章失败");
         }
-        // 新增文件标签关系信息
+        // 閺傛澘顤冮弬鍥︽閺嶅洨顒烽崗宕囬兇娣団剝浼?
         articleLabelService.create(labelIds, articlePo.getId(), currentUser);
 
-        // 插入文章内容（mongo）
+        // 閹绘帒鍙嗛弬鍥╃彿閸愬懎顔愰敍鍧ngo閿?
         insertArticleContent(articlePo.getId(), articleDTO.getMarkdown(), articleDTO.getHtml(), currentUser.getUserId(), now);
 
         return true;
     }
 
     /**
-     * 更新文章（无配图）
+     * 閺囧瓨鏌婇弬鍥╃彿閿涘牊妫ら柊宥呮禈閿?
      *
      * @param articleDTO
      * @param currentUser
@@ -357,12 +351,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Boolean update(ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser) {
         if (StringUtils.isBlank(articleDTO.getTitle()) || StringUtils.isBlank(articleDTO.getHtml())) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "标题或内容不能为空");
         }
         ArticlePo oldArticlePo = articlePoMapper.selectByPrimaryKey(articleDTO.getId());
-        // 只能更新自己的文章
+        // 閸欘亣鍏橀弴瀛樻煀閼奉亜绻侀惃鍕瀮缁?
         if (!currentUser.getUserId().equals(oldArticlePo.getCreateUser())) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "无法更新，只能更新自己撰写的文章！");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "只能修改自己发布的文章");
         }
 
         String content = CommonUtils.html2Text(articleDTO.getHtml());
@@ -375,17 +369,17 @@ public class ArticleServiceImpl implements ArticleService {
         if (articlePoMapper.updateByPrimaryKeySelective(articlePo) <= 0) {
             throw BusinessException.build(ResponseCode.OPERATE_FAIL, "更新文章失败");
         }
-        // 更新文件标签关系信息
+        // 閺囧瓨鏌婇弬鍥︽閺嶅洨顒烽崗宕囬兇娣団剝浼?
         articleLabelService.update(labelIds, articlePo.getId(), currentUser);
 
-        // 更新文章内容（mongo）
+        // 閺囧瓨鏌婇弬鍥╃彿閸愬懎顔愰敍鍧ngo閿?
         updateArticleContent(articlePo.getId(), articleDTO.getMarkdown(), articleDTO.getHtml(), currentUser.getUserId(), now);
 
         return true;
     }
 
     /**
-     * 撰写文章
+     * 閹炬澘鍟撻弬鍥╃彿
      *
      * @param bytes
      * @param sourceFileName
@@ -396,20 +390,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Boolean create(byte[] bytes, String sourceFileName, ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser) {
         try {
-            // 文件上传（按比例压缩）
+            // 閺傚洣娆㈡稉濠佺炊閿涘牊瀵滃В鏂剧伐閸樺缂夐敍?
             String picture = fileService.fileScaleUpload(bytes, sourceFileName, ImageTypeEnum.articleTitleMap.name());
             articleDTO.setTitleMap(picture);
             create(articleDTO, labelIds, currentUser);
         } catch (Exception e) {
-            log.error("撰写文章异常！", e);
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "撰写文章异常!");
+            log.error("上传文章标题图失败", e);
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "上传文章标题图失败");
         }
 
         return null;
     }
 
     /**
-     * 更新文章
+     * 閺囧瓨鏌婇弬鍥╃彿
      *
      * @param bytes
      * @param sourceFileName
@@ -420,20 +414,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Boolean update(byte[] bytes, String sourceFileName, ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser) {
         try {
-            // 文件上传（按比例压缩）
+            // 閺傚洣娆㈡稉濠佺炊閿涘牊瀵滃В鏂剧伐閸樺缂夐敍?
             String picture = fileService.fileScaleUpload(bytes, sourceFileName, ImageTypeEnum.articleTitleMap.name());
             articleDTO.setTitleMap(picture);
             update(articleDTO, labelIds, currentUser);
         } catch (Exception e) {
-            log.error("撰写文章异常！", e);
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "更新文章异常!");
+            log.error("上传文章标题图失败", e);
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "上传文章标题图失败");
         }
 
         return null;
     }
 
     /**
-     * 上传图片（一张）- mavonEditor
+     * 娑撳﹣绱堕崶鍓у閿涘牅绔村鐙呯礆- mavonEditor
      *
      * @param bytes
      * @param sourceFileName
@@ -441,12 +435,12 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public String uploadPicture(byte[] bytes, String sourceFileName) {
-        // 文件上传（按比例压缩）
+        // 閺傚洣娆㈡稉濠佺炊閿涘牊瀵滃В鏂剧伐閸樺缂夐敍?
         return fileService.fileScaleUpload(bytes, sourceFileName, ImageTypeEnum.articlePicture.name());
     }
 
     /**
-     * 获取文章评论访问总数
+     * 閼惧嘲褰囬弬鍥╃彿鐠囧嫯顔戠拋鍧楁６閹粯鏆?
      *
      * @return
      */
@@ -460,7 +454,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 获取文章数量
+     * 閼惧嘲褰囬弬鍥╃彿閺佷即鍣?
      *
      * @return
      */
@@ -473,7 +467,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 获取用户阅读数量
+     * 閼惧嘲褰囬悽銊﹀煕闂冨懓顕伴弫浼村櫤
      *
      * @param userIds
      * @return
@@ -484,7 +478,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 获取文章一些统计数据
+     * 閼惧嘲褰囬弬鍥╃彿娑撯偓娴滄稓绮虹拋鈩冩殶閹?
      *
      * @param id
      * @param currentUser
@@ -492,23 +486,23 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public ArticleCountDTO getCountById(Integer id, UserSsoDTO currentUser) {
-        // 获取文章信息
+        // 閼惧嘲褰囬弬鍥╃彿娣団剝浼?
         ArticlePo articlePo = articlePoMapper.selectByPrimaryKey(id);
         ArticleCountDTO articleCountDTO = new ArticleCountDTO();
-        // 获取文章点赞数量
-        articleCountDTO.setLikeCount(likeService.getLikeCountArticle(Collections.singletonList(id)));
-        // 是否已经点赞、通过fromUser和toUser获取关注信息
+        // 閼惧嘲褰囬弬鍥╃彿閻愮绂愰弫浼村櫤
+        articleCountDTO.setLikeCount(userLikeClient.getLikeCountArticle(Collections.singletonList(id)));
+        // 閺勵垰鎯佸鑼病閻愮绂愰妴渚€鈧俺绻僨romUser閸滃oUser閼惧嘲褰囬崗铏暈娣団剝浼?
         if (currentUser != null) {
-            articleCountDTO.setIsLike(likeService.isLike(id, currentUser.getUserId()));
-            FollowDTO followDTO = followService.getByFromToUser(currentUser.getUserId(), articlePo.getCreateUser(), false);
+            articleCountDTO.setIsLike(userLikeClient.isLike(id, currentUser.getUserId()));
+            FollowDTO followDTO = userFollowClient.getByFromToUser(currentUser.getUserId(), articlePo.getCreateUser(), false);
             if (followDTO != null) {
                 articleCountDTO.setIsFollow(true);
             }
         }
-        // 获取文章评论数量
+        // 閼惧嘲褰囬弬鍥╃彿鐠囧嫯顔戦弫浼村櫤
         articleCountDTO.setCommentCount(commentService.getCommentCountByArticle(id));
-        // 获取用户等级
-        List<UserLevelDTO> userLevelDTOS = userLevelService.getByUserId(articlePo.getCreateUser());
+        // 閼惧嘲褰囬悽銊﹀煕缁涘楠?
+        List<UserLevelDTO> userLevelDTOS = userLevelClient.getByUserId(articlePo.getCreateUser());
         if (CollectionUtils.isNotEmpty(userLevelDTOS)) {
             articleCountDTO.setLevel(userLevelDTOS.get(0).getLevel());
         }
@@ -517,7 +511,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 增加文章浏览数量
+     * 婢х偛濮為弬鍥╃彿濞村繗顫嶉弫浼村櫤
      *
      * @param articleDTO
      * @return
@@ -527,13 +521,13 @@ public class ArticleServiceImpl implements ArticleService {
         ArticlePo articlePo = ArticleMS.INSTANCE.toPo(articleDTO);
         articlePo.setPv(articlePo.getPv() + 1);
         if (articlePoMapper.updateByPrimaryKeySelective(articlePo) <= 0) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "增加文章浏览量失败");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "更新文章浏览量失败");
         }
         return true;
     }
 
     /**
-     * 通过用户获取文章信息
+     * 闁俺绻冮悽銊﹀煕閼惧嘲褰囬弬鍥╃彿娣団剝浼?
      *
      * @param userId
      * @return
@@ -553,18 +547,18 @@ public class ArticleServiceImpl implements ArticleService {
         ArticlePo articlePo = articlePoMapper.selectByPrimaryKey(id);
         articlePo.setUpdateTime(LocalDateTime.now());
         articlePo.setUpdateUser(currentUser.getUserId());
-        // 置顶
+        // 缂冾噣銆?
         if (top) {
             int maxTop = Objects.isNull(this.getMaxTop()) ? 0 : this.getMaxTop();
             articlePo.setTop(maxTop + 1);
             if (articlePoMapper.updateByPrimaryKey(articlePo) <= 0) {
-                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "文章置顶失败");
+                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "閺傚洨鐝风純顕€銆婃径杈Е");
             }
         } else {
-            // 取消置顶
+            // 閸欐牗绉风純顕€銆?
             articlePo.setTop(null);
             if (articlePoMapper.updateByPrimaryKey(articlePo) <= 0) {
-                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "文章取消置顶失败");
+                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "閺傚洨鐝烽崣鏍ㄧХ缂冾噣銆婃径杈Е");
             }
         }
 
@@ -586,15 +580,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Boolean delete(Integer id, UserSsoDTO currentUser) {
         ArticlePo articlePo = articlePoMapper.selectByPrimaryKey(id);
-        // 只能删除自己的文章
+        // 閸欘亣鍏橀崚鐘绘珟閼奉亜绻侀惃鍕瀮缁?
         if (!currentUser.getUserId().equals(articlePo.getCreateUser())) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "无法删除，只能删除自己撰写的文章！");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "只能删除自己发布的文章");
         }
         articlePo.setIsDeleted(true);
         articlePo.setUpdateTime(LocalDateTime.now());
         articlePo.setUpdateUser(currentUser.getUserId());
         if (articlePoMapper.updateByPrimaryKeySelective(articlePo) <= 0) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "文章删除失败");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "删除文章失败");
         }
 
         return true;
@@ -624,18 +618,18 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 获取文章id到标签信息的映射
+     * 閼惧嘲褰囬弬鍥╃彿id閸掔増鐖ｇ粵鍙ヤ繆閹垳娈戦弰鐘茬殸
      *
      * @param articleIds
      * @return
      */
     private Map<Integer, List<LabelDTO>> getArticleIdToLabels(List<Integer> articleIds) {
-        // 文章id到标签信息的映射（key:文章id, value:标签信息）
+        // 閺傚洨鐝穒d閸掔増鐖ｇ粵鍙ヤ繆閹垳娈戦弰鐘茬殸閿涘潣ey:閺傚洨鐝穒d, value:閺嶅洨顒锋穱鈩冧紖閿?
         Map<Integer, List<LabelDTO>> articleToLabelMap = new HashMap<>();
 
         List<ArticleLabelDTO> articleLabelDTOS = articleLabelService.getByArticleIds(articleIds);
         if (CollectionUtils.isNotEmpty(articleLabelDTOS)) {
-            // 获取所有的标签id集合
+            // 閼惧嘲褰囬幍鈧張澶屾畱閺嶅洨顒穒d闂嗗棗鎮?
             List<Integer> labelIds = articleLabelDTOS.stream().distinct().map(ArticleLabelDTO::getLabelId).collect(Collectors.toList());
             Map<Integer, List<ArticleLabelDTO>> articleIdKeyMap = articleLabelDTOS.stream().collect(Collectors.groupingBy(ArticleLabelDTO::getArticleId));
             List<LabelDTO> labelDTOS = labelService.getByIds(labelIds);
@@ -656,23 +650,23 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 构建文章信息
+     * 閺嬪嫬缂撻弬鍥╃彿娣団剝浼?
      *
      * @param articleDTOS
      * @param currentUser
      */
     private void buildArticleInfo(List<ArticleDTO> articleDTOS, UserSsoDTO currentUser) {
-        // 获取文章id到标签信息的映射
+        // 閼惧嘲褰囬弬鍥╃彿id閸掔増鐖ｇ粵鍙ヤ繆閹垳娈戦弰鐘茬殸
         List<Integer> articleIds = articleDTOS.stream().map(ArticleDTO::getId).collect(Collectors.toList());
         Map<Integer, List<LabelDTO>> articleToLabelMap = getArticleIdToLabels(articleIds);
 
-        // 通过用户id集合获取用户信息
+        // 闁俺绻冮悽銊﹀煕id闂嗗棗鎮庨懢宄板絿閻劍鍩涙穱鈩冧紖
         List<Long> userIds = articleDTOS.stream().map(ArticleDTO::getCreateUser).collect(Collectors.toList());
-        // 用户基础信息
+        // 閻劍鍩涢崺铏诡攨娣団剝浼?
         Map<Long, List<UserDTO>> idUsers = userService.getByIds(userIds).stream().collect(Collectors.groupingBy(UserDTO::getId));
-        // 用户等级信息
-        Map<Long, List<UserLevelDTO>> userIdToUserLevel = userLevelService.getByUserIds(userIds).stream().collect(Collectors.groupingBy(UserLevelDTO::getUserId));
-        // 通过id获取name
+        // 閻劍鍩涚粵澶岄獓娣団剝浼?
+        Map<Long, List<UserLevelDTO>> userIdToUserLevel = userLevelClient.getByUserIds(userIds).stream().collect(Collectors.groupingBy(UserLevelDTO::getUserId));
+        // 闁俺绻僫d閼惧嘲褰噉ame
         articleDTOS.forEach(articleDTO -> {
             if (idUsers.containsKey(articleDTO.getCreateUser())) {
                 articleDTO.setCreateUserName(idUsers.get(articleDTO.getCreateUser()).get(0).getName());
@@ -681,7 +675,7 @@ public class ArticleServiceImpl implements ArticleService {
             if (userIdToUserLevel.containsKey(articleDTO.getCreateUser())) {
                 articleDTO.setLevel(userIdToUserLevel.get(articleDTO.getCreateUser()).get(0).getLevel());
             }
-            // 数据库里面去拿
+            // 閺佺増宓佹惔鎾诲櫡闂堛垹骞撻幏?
             if (!articleToLabelMap.isEmpty()) {
                 articleDTO.setLabelDTOS(articleToLabelMap.get(articleDTO.getId()));
             }
@@ -690,7 +684,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 插入文章内容（mongo）
+     * 閹绘帒鍙嗛弬鍥╃彿閸愬懎顔愰敍鍧ngo閿?
      *
      * @param articleId
      * @param markdown
@@ -709,7 +703,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 更新文章内容（mongo）
+     * 閺囧瓨鏌婇弬鍥╃彿閸愬懎顔愰敍鍧ngo閿?
      *
      * @param articleId
      * @param markdown
@@ -728,7 +722,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 通过文章id集合获取文章内容
+     * 闁俺绻冮弬鍥╃彿id闂嗗棗鎮庨懢宄板絿閺傚洨鐝烽崘鍛啇
      *
      * @param articleIds
      * @return
@@ -739,3 +733,5 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 }
+
+

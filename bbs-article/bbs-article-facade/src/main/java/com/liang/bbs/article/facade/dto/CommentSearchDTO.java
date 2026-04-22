@@ -6,43 +6,41 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 15:06
  */
 @Data
 public class CommentSearchDTO implements Serializable {
     /**
-     * 评论编号
+     * 璇勮缂栧彿
      */
     private Integer id;
 
     /**
-     * 评论内容
+     * 璇勮鍐呭
      */
     private String content;
 
     /**
-     * 评论用户id
+     * 璇勮鐢ㄦ埛id
      */
     private Long commentUser;
 
     /**
-     * 文章id
+     * 鏂囩珷id
      */
     private Integer articleId;
 
     /**
-     * 排序规则
+     * 鎺掑簭瑙勫垯
      */
     private SortRuleEnum sortRule;
 
     /**
-     * 当前页
+     * 褰撳墠椤?
      */
     private Integer currentPage;
 
     /**
-     * 每页条数
+     * 姣忛〉鏉℃暟
      */
     private Integer pageSize;
 

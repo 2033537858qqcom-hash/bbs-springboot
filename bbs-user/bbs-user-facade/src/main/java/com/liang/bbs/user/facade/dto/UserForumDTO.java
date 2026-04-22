@@ -7,34 +7,32 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/5/5 18:43
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class UserForumDTO extends UserListDTO implements Serializable {
     /**
-     * 获得的点赞数
+     * 鑾峰緱鐨勭偣璧炴暟
      */
     private Long likeCount;
 
     /**
-     * 获得的阅读量
+     * 鑾峰緱鐨勯槄璇婚噺
      */
     private Long readCount;
 
     /**
-     * 积分
+     * 绉垎
      */
     private Integer points;
 
     /**
-     * 等级（Lv6）
+     * 绛夌骇锛圠v6锛?
      */
     private String level;
 
     /**
-     * 是否关注
+     * 鏄惁鍏虫敞
      */
     private Boolean isFollow;
 

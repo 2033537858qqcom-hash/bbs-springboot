@@ -3,7 +3,6 @@ package com.liang.bbs.user.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liang.bbs.article.facade.dto.ArticleReadDTO;
-import com.liang.bbs.article.facade.server.ArticleService;
 import com.liang.bbs.user.facade.dto.FollowCountDTO;
 import com.liang.bbs.user.facade.dto.FollowDTO;
 import com.liang.bbs.user.facade.dto.FollowSearchDTO;
@@ -13,17 +12,18 @@ import com.liang.bbs.user.facade.server.UserLevelService;
 import com.liang.bbs.user.persistence.entity.FollowPo;
 import com.liang.bbs.user.persistence.entity.FollowPoExample;
 import com.liang.bbs.user.persistence.mapper.FollowPoMapper;
+import com.liang.bbs.user.service.client.ArticleArticleClient;
+import com.liang.bbs.user.service.client.UserServiceClient;
 import com.liang.bbs.user.service.mapstruct.FollowMS;
 import com.liang.manage.auth.facade.dto.user.UserDTO;
-import com.liang.manage.auth.facade.server.UserService;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,21 +32,18 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class FollowServiceImpl implements FollowService {
     @Autowired
     private FollowPoMapper followPoMapper;
 
-    @DubboReference
-    private UserService userService;
+    @Autowired
+    private UserServiceClient userService;
 
-    @DubboReference
-    private ArticleService articleService;
+    @Autowired
+    private ArticleArticleClient articleArticleClient;
 
     @Autowired
     private UserLevelService userlevelService;
@@ -55,7 +52,7 @@ public class FollowServiceImpl implements FollowService {
     private LikeService likeService;
 
     /**
-     * 获取所有的关注
+     * 閼惧嘲褰囬幍鈧張澶屾畱閸忚櫕鏁?
      *
      * @param startTime
      * @param endTime
@@ -70,7 +67,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * 获取关注的用户信息
+     * 閼惧嘲褰囬崗铏暈閻ㄥ嫮鏁ら幋铚備繆閹?
      *
      * @param followSearchDTO
      * @param currentUser
@@ -78,24 +75,24 @@ public class FollowServiceImpl implements FollowService {
      */
     @Override
     public PageInfo<FollowDTO> getFollowUsers(FollowSearchDTO followSearchDTO, UserSsoDTO currentUser) {
-        // 获取大牛（粉丝的id）
+        // 閼惧嘲褰囨径褏澧伴敍鍫㈢焽娑撴繄娈慽d閿?
         Long getBigCow = followSearchDTO.getGetBigCow();
-        // 获取粉丝（大牛的id）
+        // 閼惧嘲褰囩划澶夌閿涘牆銇囬悧娑氭畱id閿?
         Long getFan = followSearchDTO.getGetFan();
         if (getBigCow == null && getFan == null) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "缺少查询用户参数");
         }
         if (getBigCow != null && getFan != null) {
-            throw BusinessException.build(ResponseCode.NOT_EXISTS, "参数不合规");
+            throw BusinessException.build(ResponseCode.NOT_EXISTS, "查询参数不能同时存在");
         }
         FollowPoExample example = new FollowPoExample();
         FollowPoExample.Criteria criteria = example.createCriteria().andStateEqualTo(true);
         if (getBigCow != null) {
-            // 获取大牛信息
+            // 閼惧嘲褰囨径褏澧版穱鈩冧紖
             criteria.andFromUserEqualTo(getBigCow);
         }
         if (getFan != null) {
-            // 获取粉丝信息
+            // 閼惧嘲褰囩划澶夌娣団剝浼?
             criteria.andToUserEqualTo(getFan);
         }
         example.setOrderByClause("`id` desc");
@@ -116,9 +113,9 @@ public class FollowServiceImpl implements FollowService {
             followDTO.setIntro(userDTO.getIntro());
             followDTO.setLevel(userlevelService.getByUserId(userDTO.getId()).get(0).getLevel());
             followDTO.setLikeCount(likeService.getUserLikeCount(userDTO.getId()));
-            List<ArticleReadDTO> articleReadDTOS = articleService.getUserReadCount(Collections.singletonList(userDTO.getId()));
+            List<ArticleReadDTO> articleReadDTOS = articleArticleClient.getUserReadCount(Collections.singletonList(userDTO.getId()));
             followDTO.setReadCount(CollectionUtils.isEmpty(articleReadDTOS) ? 0L : articleReadDTOS.get(0).getArticleReadCount());
-            // 通过fromUser和toUser获取关注信息
+            // 闁俺绻僨romUser閸滃oUser閼惧嘲褰囬崗铏暈娣団剝浼?
             if (currentUser != null) {
                 FollowDTO followed = getByFromToUser(currentUser.getUserId(), userDTO.getId(), false);
                 if (followed != null) {
@@ -131,7 +128,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * 通过id或者关注信息
+     * 闁俺绻僫d閹存牞鈧懎鍙у▔銊や繆閹?
      *
      * @param id
      * @return
@@ -142,11 +139,11 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * 通过fromUser和toUser获取关注信息
+     * 闁俺绻僨romUser閸滃oUser閼惧嘲褰囬崗铏暈娣団剝浼?
      *
      * @param fromUser
      * @param toUser
-     * @param isAll true:不区分关注与否，false:只查询关注了的
+     * @param isAll true:娑撳秴灏崚鍡楀彠濞夈劋绗岄崥锔肩礉false:閸欘亝鐓＄拠銏犲彠濞夈劋绨￠惃?
      * @return
      */
     @Override
@@ -167,7 +164,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * 更新关注状态
+     * 閺囧瓨鏌婇崗铏暈閻樿埖鈧?
      *
      * @param fromUser
      * @param toUser
@@ -176,11 +173,11 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public Boolean updateFollowState(Long fromUser, Long toUser) {
         if (fromUser.equals(toUser)) {
-            throw BusinessException.build(ResponseCode.DATA_ILLEGAL, "不可以关注自己");
+            throw BusinessException.build(ResponseCode.DATA_ILLEGAL, "不能关注自己");
         }
         FollowDTO followDTO = getByFromToUser(fromUser, toUser, true);
         LocalDateTime now = LocalDateTime.now();
-        // 没有，新增
+        // 濞屸剝婀侀敍灞炬煀婢?
         if (followDTO == null) {
             FollowPo followPo = new FollowPo();
             followPo.setFromUser(fromUser);
@@ -189,12 +186,12 @@ public class FollowServiceImpl implements FollowService {
             followPo.setCreateTime(now);
             followPo.setUpdateTime(now);
             if (followPoMapper.insertSelective(followPo) <= 0) {
-                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "添加关注失败");
+                throw BusinessException.build(ResponseCode.OPERATE_FAIL, "新增关注关系失败");
             }
         } else {
             FollowPo followPo = new FollowPo();
             followPo.setId(followDTO.getId());
-            // 状态取反
+            // 閻樿埖鈧礁褰囬崣?
             followPo.setState(!followDTO.getState());
             followPo.setUpdateTime(now);
             if (followPoMapper.updateByPrimaryKeySelective(followPo) <= 0) {
@@ -206,21 +203,21 @@ public class FollowServiceImpl implements FollowService {
     }
 
     /**
-     * 获取关注/粉丝数量
+     * 閼惧嘲褰囬崗铏暈/缁绗ｉ弫浼村櫤
      *
      * @param userId
      * @return
      */
     @Override
     public FollowCountDTO getFollowCount(Long userId) {
-        // 关注数量
+        // 閸忚櫕鏁為弫浼村櫤
         FollowCountDTO followCountDTO = new FollowCountDTO();
         FollowPoExample example = new FollowPoExample();
         example.createCriteria().andStateEqualTo(true)
                 .andFromUserEqualTo(userId);
         followCountDTO.setFollowCount(followPoMapper.countByExample(example));
 
-        // 粉丝数量
+        // 缁绗ｉ弫浼村櫤
         FollowPoExample example2 = new FollowPoExample();
         example2.createCriteria().andStateEqualTo(true)
                 .andToUserEqualTo(userId);
@@ -229,3 +226,5 @@ public class FollowServiceImpl implements FollowService {
         return followCountDTO;
     }
 }
+
+

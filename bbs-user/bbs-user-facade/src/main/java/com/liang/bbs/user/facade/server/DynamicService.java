@@ -6,13 +6,11 @@ import com.liang.bbs.user.facade.dto.DynamicDTO;
 import java.time.LocalDateTime;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface DynamicService {
 
     /**
-     * 获取用户的动态信息
+     * 鑾峰彇鐢ㄦ埛鐨勫姩鎬佷俊鎭?
      *
      * @param userId
      * @param currentPage
@@ -22,7 +20,7 @@ public interface DynamicService {
     PageInfo<DynamicDTO> getByUserId(Long userId, Integer currentPage, Integer pageSize);
 
     /**
-     * 创建用户动态信息
+     * 鍒涘缓鐢ㄦ埛鍔ㄦ€佷俊鎭?
      *
      * @param dynamicDTO
      * @return
@@ -30,7 +28,7 @@ public interface DynamicService {
     Boolean create(DynamicDTO dynamicDTO);
 
     /**
-     * 验证是否已经存在
+     * 楠岃瘉鏄惁宸茬粡瀛樺湪
      *
      * @param dynamicDTO
      * @return
@@ -38,7 +36,7 @@ public interface DynamicService {
     Boolean verifyExist(DynamicDTO dynamicDTO);
 
     /**
-     * 删除用户动态信息
+     * 鍒犻櫎鐢ㄦ埛鍔ㄦ€佷俊鎭?
      *
      * @param startTime
      * @param endTime
@@ -47,7 +45,7 @@ public interface DynamicService {
     Boolean delete(LocalDateTime startTime, LocalDateTime endTime);
 
     /**
-     * 更新所有用户的动态信息
+     * 鏇存柊鎵€鏈夌敤鎴风殑鍔ㄦ€佷俊鎭?
      *
      * @return
      */

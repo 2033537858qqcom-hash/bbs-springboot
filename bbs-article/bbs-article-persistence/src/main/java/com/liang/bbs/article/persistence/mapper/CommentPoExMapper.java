@@ -7,12 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
  */
 public interface CommentPoExMapper {
 
     /**
-     * 获取最新评论信息
+     * 鑾峰彇鏈€鏂拌瘎璁轰俊鎭?
      *
      * @param content
      * @param commentUser
@@ -21,7 +20,7 @@ public interface CommentPoExMapper {
     List<CommentPo> selectLatestComments(String content, Long commentUser);
 
     /**
-     * 获取所有通过审核文章的评论信息
+     * 鑾峰彇鎵€鏈夐€氳繃瀹℃牳鏂囩珷鐨勮瘎璁轰俊鎭?
      *
      * @param startTime
      * @param endTime
@@ -30,7 +29,7 @@ public interface CommentPoExMapper {
     List<CommentPo> getAllArticleComment(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 
     /**
-     * 获取所有通过审核文章的评论回复信息
+     * 鑾峰彇鎵€鏈夐€氳繃瀹℃牳鏂囩珷鐨勮瘎璁哄洖澶嶄俊鎭?
      *
      * @param startTime
      * @param endTime

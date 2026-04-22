@@ -9,24 +9,21 @@ import com.liang.bbs.article.persistence.entity.CommentPo;
 import com.liang.bbs.article.persistence.entity.CommentPoExample;
 import com.liang.bbs.article.persistence.mapper.CommentPoExMapper;
 import com.liang.bbs.article.persistence.mapper.CommentPoMapper;
+import com.liang.bbs.article.service.client.UserServiceClient;
+import com.liang.bbs.article.service.client.UserLevelClient;
+import com.liang.bbs.article.service.client.UserLikeCommentClient;
 import com.liang.bbs.article.service.mapstruct.CommentMS;
 import com.liang.bbs.article.service.utils.CommentTreeUtils;
 import com.liang.bbs.common.enums.SortRuleEnum;
 import com.liang.bbs.user.facade.dto.UserLevelDTO;
-import com.liang.bbs.user.facade.server.LikeCommentService;
-import com.liang.bbs.user.facade.server.UserLevelService;
 import com.liang.manage.auth.facade.dto.user.UserDTO;
-import com.liang.manage.auth.facade.server.UserService;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,11 +33,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
@@ -50,19 +44,16 @@ public class CommentServiceImpl implements CommentService {
     private CommentPoExMapper commentPoExMapper;
 
     @Autowired
-    private CommentService commentService;
+    private UserServiceClient userService;
 
-    @DubboReference
-    private UserService userService;
+    @Autowired
+    private UserLevelClient userLevelClient;
 
-    @DubboReference
-    private UserLevelService userLevelService;
-
-    @DubboReference
-    private LikeCommentService likeCommentService;
+    @Autowired
+    private UserLikeCommentClient userLikeCommentClient;
 
     /**
-     * 获取文章的评论信息
+     * 閼惧嘲褰囬弬鍥╃彿閻ㄥ嫯鐦庣拋杞颁繆閹?
      *
      * @param commentSearchDTO
      * @param currentUser
@@ -76,12 +67,12 @@ public class CommentServiceImpl implements CommentService {
                 .andArticleIdEqualTo(commentSearchDTO.getArticleId());
         List<CommentDTO> commentDTOS = CommentMS.INSTANCE.toDTO(commentPoMapper.selectByExample(example));
         if (CollectionUtils.isNotEmpty(commentDTOS)) {
-            // 构建评论信息
+            // 閺嬪嫬缂撶拠鍕啈娣団剝浼?
             buildCommentInfo(commentDTOS, currentUser);
         }
 
         commentDTOS = CommentTreeUtils.toTree(commentDTOS);
-        // 最热评论（先按点赞数降序，再按回复数降序）
+        // 閺堚偓閻戭叀鐦庣拋鐚寸礄閸忓牊瀵滈悙纭呯閺佷即妾锋惔蹇ョ礉閸愬秵瀵滈崶鐐差槻閺佷即妾锋惔蹇ョ礆
         if (SortRuleEnum.hottest.equals(commentSearchDTO.getSortRule())) {
             commentDTOS = commentDTOS.stream()
                     .sorted(Comparator.comparing(CommentDTO::getLikeCount, Comparator.nullsLast(Comparator.reverseOrder()))
@@ -97,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 获取所有通过审核文章的评论信息
+     * 閼惧嘲褰囬幍鈧張澶愨偓姘崇箖鐎光剝鐗抽弬鍥╃彿閻ㄥ嫯鐦庣拋杞颁繆閹?
      *
      * @param startTime
      * @param endTime
@@ -114,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 获取最新评论信息
+     * 閼惧嘲褰囬張鈧弬鎷岀槑鐠佽桨淇婇幁?
      *
      * @param commentSearchDTO
      * @return
@@ -125,7 +116,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentPo> commentPos = commentPoExMapper.selectLatestComments(commentSearchDTO.getContent(), commentSearchDTO.getCommentUser());
         PageInfo<CommentDTO> pageInfo = CommentMS.INSTANCE.toPage(new PageInfo<>(commentPos));
         if (CollectionUtils.isNotEmpty(pageInfo.getList())) {
-            // 构建评论信息
+            // 閺嬪嫬缂撶拠鍕啈娣団剝浼?
             buildCommentInfo(pageInfo.getList(), null);
         }
 
@@ -133,7 +124,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 获取文章的评论数量
+     * 閼惧嘲褰囬弬鍥╃彿閻ㄥ嫯鐦庣拋鐑樻殶闁?
      *
      * @param articleId
      * @return
@@ -149,7 +140,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 获取评论数量
+     * 閼惧嘲褰囩拠鍕啈閺佷即鍣?
      *
      * @return
      */
@@ -162,7 +153,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 创建评论
+     * 閸掓稑缂撶拠鍕啈
      *
      * @param commentDTO
      * @param currentUser
@@ -177,14 +168,14 @@ public class CommentServiceImpl implements CommentService {
         commentDTO.setCreateTime(now);
         commentDTO.setUpdateTime(now);
         if (commentPoMapper.insertSelective(CommentMS.INSTANCE.toPo(commentDTO)) <= 0) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "添加评论失败");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "新增评论失败");
         }
 
         return true;
     }
 
     /**
-     * 删除评论
+     * 閸掔娀娅庣拠鍕啈
      *
      * @param commentId
      * @return
@@ -193,7 +184,7 @@ public class CommentServiceImpl implements CommentService {
     public Boolean delete(Integer commentId) {
         List<Integer> commentIds = new ArrayList<>();
         List<CommentDTO> children = new ArrayList<>();
-        // 通过父级ID获取子级评论信息
+        // 闁俺绻冮悥鍓侀獓ID閼惧嘲褰囩€涙劗楠囩拠鍕啈娣団剝浼?
         this.getAllChildrenByPreId(children, commentId);
         if (CollectionUtils.isNotEmpty(children)) {
             commentIds.addAll(children.stream().map(CommentDTO::getId).collect(Collectors.toList()));
@@ -212,9 +203,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 通过父级ID获取子级评论信息
+     * 闁俺绻冮悥鍓侀獓ID閼惧嘲褰囩€涙劗楠囩拠鍕啈娣団剝浼?
      *
-     * @param result 存放结果
+     * @param result 鐎涙ɑ鏂佺紒鎾寸亯
      * @param preId
      * @return
      */
@@ -245,34 +236,34 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 构建评论信息
+     * 閺嬪嫬缂撶拠鍕啈娣団剝浼?
      *
      * @param commentDTOS
      * @param currentUser
      */
     private void buildCommentInfo(List<CommentDTO> commentDTOS, UserSsoDTO currentUser) {
-        // 通过用户id集合获取用户信息
+        // 闁俺绻冮悽銊﹀煕id闂嗗棗鎮庨懢宄板絿閻劍鍩涙穱鈩冧紖
         List<Long> userIds = commentDTOS.stream().map(CommentDTO::getCommentUser).collect(Collectors.toList());
         Map<Long, List<UserDTO>> idUsers = userService.getByIds(userIds).stream().collect(Collectors.groupingBy(UserDTO::getId));
-        // 用于回复数量提取
+        // 閻劋绨崶鐐差槻閺佷即鍣洪幓鎰絿
         Map<Integer, List<CommentDTO>> preIdMap = commentDTOS.stream().collect(Collectors.groupingBy(CommentDTO::getPreId));
         commentDTOS.forEach(commentDTO -> {
             if (idUsers.containsKey(commentDTO.getCommentUser())) {
                 commentDTO.setCommentUserName(idUsers.get(commentDTO.getCommentUser()).get(0).getName());
                 commentDTO.setPicture(idUsers.get(commentDTO.getCommentUser()).get(0).getPicture());
             }
-            // 获取用户等级
-            List<UserLevelDTO> userLevelDTOS = userLevelService.getByUserId(commentDTO.getCommentUser());
+            // 閼惧嘲褰囬悽銊﹀煕缁涘楠?
+            List<UserLevelDTO> userLevelDTOS = userLevelClient.getByUserId(commentDTO.getCommentUser());
             if (CollectionUtils.isNotEmpty(userLevelDTOS)) {
                 commentDTO.setLevel(userLevelDTOS.get(0).getLevel());
             }
-            // 获取文章点赞数量
-            commentDTO.setLikeCount(likeCommentService.getLikeCountCommentId(commentDTO.getId()));
-            // 是否已经点赞
+            // 閼惧嘲褰囬弬鍥╃彿閻愮绂愰弫浼村櫤
+            commentDTO.setLikeCount(userLikeCommentClient.getLikeCountCommentId(commentDTO.getId()));
+            // 閺勵垰鎯佸鑼病閻愮绂?
             if (currentUser != null) {
-                commentDTO.setIsLike(likeCommentService.isLike(commentDTO.getId(), currentUser.getUserId()));
+                commentDTO.setIsLike(userLikeCommentClient.isLike(commentDTO.getId(), currentUser.getUserId()));
             }
-            // 回复数量
+            // 閸ョ偛顦查弫浼村櫤
             if (preIdMap.containsKey(commentDTO.getId())) {
                 commentDTO.setRepliesCount(preIdMap.get(commentDTO.getId()).size());
             }
@@ -280,3 +271,5 @@ public class CommentServiceImpl implements CommentService {
     }
 
 }
+
+

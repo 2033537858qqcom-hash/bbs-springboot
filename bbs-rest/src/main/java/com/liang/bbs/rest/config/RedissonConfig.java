@@ -7,12 +7,11 @@ import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 /**
- * Springboot 整合Redisson 实现分布式锁
+ * Springboot 鏁村悎Redisson 瀹炵幇鍒嗗竷寮忛攣
  *
- * @author maliangnansheng
- * @date 2022/4/20 10:09
  */
 @Configuration
 public class RedissonConfig {
@@ -29,7 +28,7 @@ public class RedissonConfig {
     private Integer redisTimeout;
 
     /**
-     * Redisson客户端注册（单机模式）
+     * Redisson瀹㈡埛绔敞鍐岋紙鍗曟満妯″紡锛?
      *
      * @return RedissonClient
      */
@@ -38,7 +37,9 @@ public class RedissonConfig {
         Config config = new Config();
         SingleServerConfig singleServerConfig = config.useSingleServer();
         singleServerConfig.setAddress("redis://" + redisHost + ":" + redisPort);
-        singleServerConfig.setPassword(redisPassword);
+        if (StringUtils.hasText(redisPassword)) {
+            singleServerConfig.setPassword(redisPassword);
+        }
         singleServerConfig.setTimeout(redisTimeout);
 
         return Redisson.create(config);

@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * @author maliangnansheng
- * @date 2022/5/24 10:57
  */
 @Component
 @Slf4j
@@ -36,13 +34,13 @@ public class UserDynamicWorker {
         try {
             boolean b = lock.tryLock();
             if (b) {
-                // 更新所有用户的动态信息
+                // 鏇存柊鎵€鏈夌敤鎴风殑鍔ㄦ€佷俊鎭?
                 dynamicService.updateAll();
             }
         } catch (Exception e) {
             log.error("UserLevelWorker failed!", e);
         } finally {
-            // 由当前线程持有 and 锁住状态
+            // 鐢卞綋鍓嶇嚎绋嬫寔鏈?and 閿佷綇鐘舵€?
             if (lock.isHeldByCurrentThread() && lock.isLocked()) {
                 lock.unlock();
             }

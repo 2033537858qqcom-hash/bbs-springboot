@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author maliangnansheng
- * @date 2021-04-20 22:39
  */
 @Configuration
 public class SwaggerConfig {
 
     /**
-     * 文档首页概述
+     * 鏂囨。棣栭〉姒傝堪
      *
      * @return
      */
@@ -22,9 +20,9 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("南生论坛（开源版/个人版） Restful API 文档")
+                        .title("南生论坛（开源版/个人版）Restful API 文档")
                         .version(ApiVersionConstant.V_LATEST)
-                        .description("南生论坛，是南生系列元老级系统，也是梦开始的地方！")
+                        .description("南生论坛是南生系列开源系统的一部分，用于提供论坛相关接口文档。")
                         .contact(new Contact().name("马亮南生")
                                 .url("https://github.com/maliangnansheng")
                                 .email("924818949@qq.com")));

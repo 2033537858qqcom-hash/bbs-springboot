@@ -7,12 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
  */
 public interface LikePoExMapper {
 
     /**
-     * 通过用户id获取点赞的文章信息
+     * 閫氳繃鐢ㄦ埛id鑾峰彇鐐硅禐鐨勬枃绔犱俊鎭?
      *
      * @param likeUser
      * @return
@@ -20,7 +19,7 @@ public interface LikePoExMapper {
     List<LikePo> selectArticleByUserId(Long likeUser);
 
     /**
-     * 获取点赞的所有文章信息
+     * 鑾峰彇鐐硅禐鐨勬墍鏈夋枃绔犱俊鎭?
      *
      * @param startTime
      * @param endTime

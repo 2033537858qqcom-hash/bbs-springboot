@@ -1,21 +1,21 @@
 package com.liang.bbs.rest.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.liang.bbs.article.facade.server.ArticleService;
 import com.liang.bbs.common.enums.ArticleStateEnum;
+import com.liang.bbs.rest.client.ArticleArticleClient;
+import com.liang.bbs.rest.client.UserServiceClient;
+import com.liang.bbs.rest.client.UserLevelClient;
 import com.liang.bbs.rest.config.login.NoNeedLogin;
 import com.liang.bbs.rest.config.swagger.ApiVersion;
 import com.liang.bbs.rest.config.swagger.ApiVersionConstant;
+import com.liang.bbs.rest.client.UserFollowClient;
+import com.liang.bbs.rest.client.UserLikeClient;
+import com.liang.bbs.rest.client.UserLikeCommentClient;
 import com.liang.bbs.rest.utils.FileLengthUtils;
 import com.liang.bbs.user.facade.dto.*;
-import com.liang.bbs.user.facade.server.FollowService;
-import com.liang.bbs.user.facade.server.LikeCommentService;
-import com.liang.bbs.user.facade.server.LikeService;
-import com.liang.bbs.user.facade.server.UserLevelService;
 import com.liang.manage.auth.facade.dto.user.UserDTO;
 import com.liang.manage.auth.facade.dto.user.UserEmailDTO;
 import com.liang.manage.auth.facade.dto.user.UserPasswordDTO;
-import com.liang.manage.auth.facade.server.UserService;
 import com.liang.nansheng.common.auth.UserContextUtils;
 import com.liang.nansheng.common.auth.UserRightsDTO;
 import com.liang.nansheng.common.auth.UserSsoDTO;
@@ -26,7 +26,6 @@ import com.liang.nansheng.common.web.exception.BusinessException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,37 +33,36 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:28
  */
 @Slf4j
 @RestController
 @RequestMapping("/bbs/user/")
-@Tag(name = "用户接口")
+@Tag(name = "API")
 public class UserController {
-    @DubboReference
-    private UserLevelService userLevelService;
+    @Autowired
+    private UserLevelClient userLevelClient;
 
-    @DubboReference
-    private FollowService followService;
+    @Autowired
+    private UserFollowClient userFollowClient;
 
-    @DubboReference
-    private LikeService likeService;
+    @Autowired
+    private UserLikeClient userLikeClient;
 
-    @DubboReference
-    private LikeCommentService likeCommentService;
+    @Autowired
+    private UserLikeCommentClient userLikeCommentClient;
 
-    @DubboReference
-    private UserService userService;
+    @Autowired
+    private UserServiceClient userService;
 
-    @DubboReference
-    private ArticleService articleService;
+    @Autowired
+    private ArticleArticleClient articleArticleClient;
 
     @Autowired
     private FileLengthUtils fileLengthUtils;
 
+    @NoNeedLogin
     @GetMapping("getCurrentUserRights")
-    @Operation(summary = "获取当前用户权限")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<UserRightsDTO> getCurrentUserRights() {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -73,78 +71,96 @@ public class UserController {
 
     @NoNeedLogin
     @GetMapping("getFollowUsers")
-    @Operation(summary = "获取关注的用户信息")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<PageInfo<FollowDTO>> getFollowUsers(FollowSearchDTO followSearchDTO) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
-        return ResponseResult.success(followService.getFollowUsers(followSearchDTO, currentUser));
+        InternalFollowQueryRequest request = new InternalFollowQueryRequest();
+        request.setFollowSearchDTO(followSearchDTO);
+        request.setCurrentUser(currentUser);
+        return ResponseResult.success(userFollowClient.getFollowUsers(request));
     }
 
     @GetMapping("updateFollowState")
-    @Operation(summary = "更新关注状态")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> updateFollowState(@RequestParam Long toUser) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
-        return ResponseResult.success(followService.updateFollowState(currentUser.getUserId(), toUser));
+        InternalFollowStateRequest request = new InternalFollowStateRequest();
+        request.setFromUser(currentUser.getUserId());
+        request.setToUser(toUser);
+        return ResponseResult.success(userFollowClient.updateFollowState(request));
     }
 
     @GetMapping("updateLikeState")
-    @Operation(summary = "更新点赞状态")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> updateLikeState(@RequestParam Integer articleId) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
-        return ResponseResult.success(likeService.updateLikeState(articleId, currentUser));
+        InternalLikeOperateRequest request = new InternalLikeOperateRequest();
+        request.setArticleId(articleId);
+        request.setCurrentUser(currentUser);
+        return ResponseResult.success(userLikeClient.updateLikeState(request));
     }
 
     @GetMapping("updateLikeCommentState")
-    @Operation(summary = "更新评论点赞状态")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> updateLikeCommentState(@RequestParam Integer commentId) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
-        return ResponseResult.success(likeCommentService.updateLikeCommentState(commentId, currentUser));
+        InternalLikeCommentOperateRequest request = new InternalLikeCommentOperateRequest();
+        request.setCommentId(commentId);
+        request.setCurrentUser(currentUser);
+        return ResponseResult.success(userLikeCommentClient.updateLikeCommentState(request));
     }
 
     @NoNeedLogin
     @GetMapping("getHotAuthorsList")
-    @Operation(summary = "获取热门作者列表")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<PageInfo<UserForumDTO>> getHotAuthorsList(UserSearchDTO userSearchDTO) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
-        return ResponseResult.success(userLevelService.getHotAuthorsList(userSearchDTO, currentUser));
+        InternalUserLevelHotAuthorsRequest request = new InternalUserLevelHotAuthorsRequest();
+        request.setUserSearchDTO(userSearchDTO);
+        request.setCurrentUser(currentUser);
+        return ResponseResult.success(userLevelClient.getHotAuthorsList(request));
     }
 
     @NoNeedLogin
     @GetMapping("getUserInfo")
-    @Operation(summary = "获取用户信息")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<UserForumDTO> getUserInfo(@RequestParam Long userId) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
-        return ResponseResult.success(userLevelService.getUserInfo(userId, currentUser));
+        InternalUserLevelUserInfoRequest request = new InternalUserLevelUserInfoRequest();
+        request.setUserId(userId);
+        request.setCurrentUser(currentUser);
+        return ResponseResult.success(userLevelClient.getUserInfo(request));
     }
 
     @NoNeedLogin
     @GetMapping("getFollowCount")
-    @Operation(summary = "获取关注/粉丝数量")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<FollowCountDTO> getFollowCount(@RequestParam Long userId) {
-        return ResponseResult.success(followService.getFollowCount(userId));
+        return ResponseResult.success(userFollowClient.getFollowCount(userId));
     }
 
     @PostMapping("uploadUserPicture")
-    @Operation(summary = "上传用户头像（更新）")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> uploadUserPicture(@RequestParam("picture") MultipartFile picture) throws IOException {
         if (fileLengthUtils.isFileNotTooBig(picture.getBytes())) {
             UserSsoDTO currentUser = UserContextUtils.currentUser();
             return ResponseResult.success(userService.uploadUserPicture(picture.getBytes(), picture.getOriginalFilename(), currentUser));
         } else {
-            throw BusinessException.build(ResponseCode.EXCEED_THE_MAX, "请上传不超过 " +
-                    CommonUtils.byteConversion(fileLengthUtils.getFileMaxLength()) + " 的图片!");
+            throw BusinessException.build(ResponseCode.EXCEED_THE_MAX, "鐠囪渹绗傛导鐘辩瑝鐡掑懓绻?" +
+                    CommonUtils.byteConversion(fileLengthUtils.getFileMaxLength()) + " 閻ㄥ嫬娴橀悧?");
         }
     }
 
     @PostMapping("updateUserBasicInfo")
-    @Operation(summary = "更新用户基本信息")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> updateUserBasicInfo(@RequestBody UserDTO userDTO) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -153,12 +169,12 @@ public class UserController {
 
     @NoNeedLogin
     @GetMapping("sendEmailVerifyCode")
-    @Operation(summary = "发送邮件验证码")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> sendEmailVerifyCode(@RequestParam String email) {
         UserSsoDTO currentUser = new UserSsoDTO();
         if (UserContextUtils.currentUser() == null) {
-            // 兼容手机重置密码
+            // 閸忕厧顔愰幍瀣簚闁插秶鐤嗙€靛棛鐖?
             currentUser.setUserId(userService.getByEmail(email).getId());
         } else {
             currentUser = UserContextUtils.currentUser();
@@ -168,12 +184,12 @@ public class UserController {
 
     @NoNeedLogin
     @GetMapping("sendSmsVerifyCode")
-    @Operation(summary = "发送短信验证码")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> sendSmsVerifyCode(@RequestParam String phone) {
         UserSsoDTO currentUser = new UserSsoDTO();
         if (UserContextUtils.currentUser() == null) {
-            // 兼容邮箱重置密码
+            // 閸忕厧顔愰柇顔绢唸闁插秶鐤嗙€靛棛鐖?
             currentUser.setUserId(userService.getByPhone(phone).getId());
         } else {
             currentUser = UserContextUtils.currentUser();
@@ -182,7 +198,7 @@ public class UserController {
     }
 
     @PostMapping("bindEmail")
-    @Operation(summary = "绑定邮箱")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> bindEmail(@RequestBody UserEmailDTO userEmailDTO) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -190,7 +206,7 @@ public class UserController {
     }
 
     @PostMapping("bindPhone")
-    @Operation(summary = "绑定手机")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> bindPhone(@RequestBody UserEmailDTO userEmailDTO) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -198,7 +214,7 @@ public class UserController {
     }
 
     @PostMapping("untieEmail")
-    @Operation(summary = "解绑邮箱")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> untieEmail() {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -206,7 +222,7 @@ public class UserController {
     }
 
     @PostMapping("untiePhone")
-    @Operation(summary = "解绑手机")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> untiePhone() {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -214,7 +230,7 @@ public class UserController {
     }
 
     @PostMapping("updatePassword")
-    @Operation(summary = "更新密码")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> updatePassword(@RequestBody UserPasswordDTO passwordDTO) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -222,14 +238,14 @@ public class UserController {
     }
 
     @GetMapping("isValidEmail")
-    @Operation(summary = "邮箱判重")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> isValidEmail(@RequestParam String email) {
         return ResponseResult.success(userService.isValidEmail(email));
     }
 
     @GetMapping("isValidPhone")
-    @Operation(summary = "手机判重")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> isValidPhone(@RequestParam String phone) {
         return ResponseResult.success(userService.isValidPhone(phone));
@@ -237,7 +253,7 @@ public class UserController {
 
     @NoNeedLogin
     @GetMapping("isValidUser")
-    @Operation(summary = "用户判重")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> isValidUser(@RequestParam String username) {
         UserSsoDTO currentUser = UserContextUtils.currentUser();
@@ -246,7 +262,7 @@ public class UserController {
 
     @NoNeedLogin
     @PostMapping("isPhoneExist/{phone}")
-    @Operation(summary = "判断手机是否已经绑定")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> isPhoneExist(@PathVariable String phone) {
         return ResponseResult.success(userService.isPhoneExist(phone));
@@ -254,7 +270,7 @@ public class UserController {
 
     @NoNeedLogin
     @PostMapping("isEmailExist/{email}")
-    @Operation(summary = "判断email是否已经绑定")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> isEmailExist(@PathVariable String email) {
         return ResponseResult.success(userService.isEmailExist(email));
@@ -262,7 +278,7 @@ public class UserController {
 
     @NoNeedLogin
     @PostMapping("phoneResetPassword")
-    @Operation(summary = "手机重置密码")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> phoneResetPassword(@RequestBody UserEmailDTO userEmailDTO) {
         return ResponseResult.success(userService.phoneResetPassword(userEmailDTO));
@@ -270,7 +286,7 @@ public class UserController {
 
     @NoNeedLogin
     @PostMapping("emailResetPassword")
-    @Operation(summary = "邮箱重置密码")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> emailResetPassword(@RequestBody UserEmailDTO userEmailDTO) {
         return ResponseResult.success(userService.emailResetPassword(userEmailDTO));
@@ -278,34 +294,40 @@ public class UserController {
 
     @NoNeedLogin
     @GetMapping("getUserOperateCount")
-    @Operation(summary = "获取用户操作数量（文章、关注、点赞等）")
+@Operation(summary = "API")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<UserOperateCountDTO> getUserOperateCount(@RequestParam Long userId,
                                                                    @RequestParam(required = false) ArticleStateEnum articleStateEnum) {
         UserOperateCountDTO userOperateCountDTO = new UserOperateCountDTO();
 
-        // 获取用户文章数量
-        userOperateCountDTO.setArticleCount(articleService.getUserArticleCount(userId, articleStateEnum));
+        // 閼惧嘲褰囬悽銊﹀煕閺傚洨鐝烽弫浼村櫤
+        userOperateCountDTO.setArticleCount(articleArticleClient.getUserArticleCount(
+                userId,
+                articleStateEnum == null ? "null" : articleStateEnum.name()
+        ));
 
-        // 获取关注/粉丝数量
-        FollowCountDTO followCount = followService.getFollowCount(userId);
+        // 閼惧嘲褰囬崗铏暈/缁绗ｉ弫浼村櫤
+        FollowCountDTO followCount = userFollowClient.getFollowCount(userId);
         userOperateCountDTO.setFanCount(followCount.getFanCount());
         userOperateCountDTO.setFollowCount(followCount.getFollowCount());
 
-        // 通过用户id获取点赞的文章数量
-        userOperateCountDTO.setLikeCount(likeService.getUserTheLikeCount(userId));
+        // 闁俺绻冮悽銊﹀煕id閼惧嘲褰囬悙纭呯閻ㄥ嫭鏋冪粩鐘虫殶闁?
+        userOperateCountDTO.setLikeCount(userLikeClient.getUserTheLikeCount(userId));
 
         return ResponseResult.success(userOperateCountDTO);
     }
 
     /**
-     * userSsoDTO转UserRightsDTO
+     * userSsoDTO鏉炵悢serRightsDTO
      *
      * @param currentUser
      * @return
      */
     private UserRightsDTO userSsoDTOtoUserRightsDTO(UserSsoDTO currentUser) {
         UserRightsDTO userRightsDTO = new UserRightsDTO();
+        if (currentUser == null) {
+            return userRightsDTO;
+        }
         userRightsDTO.setUserId(currentUser.getUserId());
         userRightsDTO.setUserName(currentUser.getUserName());
         userRightsDTO.setRoles(currentUser.getRoles());
@@ -314,3 +336,5 @@ public class UserController {
     }
 
 }
+
+

@@ -9,12 +9,10 @@ import com.liang.nansheng.common.auth.UserSsoDTO;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface UserLevelService {
     /**
-     * 创建用户等级信息
+     * 鍒涘缓鐢ㄦ埛绛夌骇淇℃伅
      *
      * @param userId
      * @return
@@ -22,30 +20,30 @@ public interface UserLevelService {
     Boolean create(Long userId);
 
     /**
-     * 更新用户等级信息
+     * 鏇存柊鐢ㄦ埛绛夌骇淇℃伅
      *
-     * @param userId 用户id
-     * @param points 积分
+     * @param userId 鐢ㄦ埛id
+     * @param points 绉垎
      * @return
      */
     Boolean update(Long userId,  Integer points);
 
     /**
-     * 更新所有用户等级信息
+     * 鏇存柊鎵€鏈夌敤鎴风瓑绾т俊鎭?
      *
      * @return
      */
     Boolean updatePointsAll();
 
     /**
-     * 同步所有用户等级信息
+     * 鍚屾鎵€鏈夌敤鎴风瓑绾т俊鎭?
      *
      * @return
      */
     Boolean syncAll();
 
     /**
-     * 获取热门作者列表
+     * 鑾峰彇鐑棬浣滆€呭垪琛?
      *
      * @param userSearchDTO
      * @param currentUser
@@ -54,7 +52,7 @@ public interface UserLevelService {
     PageInfo<UserForumDTO> getHotAuthorsList(UserSearchDTO userSearchDTO, UserSsoDTO currentUser);
 
     /**
-     * 通过用户id获取用户等级信息
+     * 閫氳繃鐢ㄦ埛id鑾峰彇鐢ㄦ埛绛夌骇淇℃伅
      *
      * @param userId
      * @return
@@ -62,7 +60,7 @@ public interface UserLevelService {
     List<UserLevelDTO> getByUserId(Long userId);
 
     /**
-     * 通过用户id集合获取用户等级信息
+     * 閫氳繃鐢ㄦ埛id闆嗗悎鑾峰彇鐢ㄦ埛绛夌骇淇℃伅
      *
      * @param userIds
      * @return
@@ -70,7 +68,7 @@ public interface UserLevelService {
     List<UserLevelDTO> getByUserIds(List<Long> userIds);
 
     /**
-     * 获取用户信息
+     * 鑾峰彇鐢ㄦ埛淇℃伅
      *
      * @param userId
      * @param currentUser

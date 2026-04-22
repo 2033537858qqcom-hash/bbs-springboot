@@ -15,25 +15,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author maliangnansheng
- * @date 2021/4/21 14:29
  */
 @Configuration
 @Order(0)
 public class ObjectMapperConfig {
     /**
-     * 更改jackson默认配置
+     * 鏇存敼jackson榛樿閰嶇疆
      */
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        // 对于空的对象转json的时候不抛出错误
+        // 瀵逛簬绌虹殑瀵硅薄杞琷son鐨勬椂鍊欎笉鎶涘嚭閿欒
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        // 禁用遇到未知属性抛出异常
+        // 绂佺敤閬囧埌鏈煡灞炴€ф姏鍑哄紓甯?
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        // 序列化BigDecimal时不使用科学计数法输出
+        // 搴忓垪鍖朆igDecimal鏃朵笉浣跨敤绉戝璁℃暟娉曡緭鍑?
         mapper.configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
-        // 日期和时间格式化
+        // 鏃ユ湡鍜屾椂闂存牸寮忓寲
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

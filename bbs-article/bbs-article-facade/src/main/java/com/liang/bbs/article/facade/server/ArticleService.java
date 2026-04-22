@@ -10,13 +10,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface ArticleService {
 
     /**
-     * 获取所有审核通过的文章
+     * 鑾峰彇鎵€鏈夊鏍搁€氳繃鐨勬枃绔?
      *
      * @param startTime
      * @param endTime
@@ -25,7 +23,7 @@ public interface ArticleService {
     List<ArticleDTO> getPassAll(LocalDateTime startTime, LocalDateTime endTime);
 
     /**
-     * 获取文章
+     * 鑾峰彇鏂囩珷
      *
      * @param articleSearchDTO
      * @param currentUser
@@ -35,7 +33,7 @@ public interface ArticleService {
     PageInfo<ArticleDTO> getList(ArticleSearchDTO articleSearchDTO, UserSsoDTO currentUser, ArticleStateEnum articleStateEnum);
 
     /**
-     * 获取用户文章数量
+     * 鑾峰彇鐢ㄦ埛鏂囩珷鏁伴噺
      *
      * @param createUser
      * @param articleStateEnum
@@ -44,7 +42,7 @@ public interface ArticleService {
     Long getUserArticleCount(Long createUser, ArticleStateEnum articleStateEnum);
 
     /**
-     * 获取待审核的文章
+     * 鑾峰彇寰呭鏍哥殑鏂囩珷
      *
      * @param articleSearchDTO
      * @param currentUser
@@ -53,7 +51,7 @@ public interface ArticleService {
     PageInfo<ArticleDTO> getPendingReviewArticles(ArticleSearchDTO articleSearchDTO, UserSsoDTO currentUser);
 
     /**
-     * 获取禁用的文章
+     * 鑾峰彇绂佺敤鐨勬枃绔?
      *
      * @param articleSearchDTO
      * @param currentUser
@@ -62,7 +60,7 @@ public interface ArticleService {
     PageInfo<ArticleDTO> getDisabledArticles(ArticleSearchDTO articleSearchDTO, UserSsoDTO currentUser);
 
     /**
-     * 修改文章审批状态
+     * 淇敼鏂囩珷瀹℃壒鐘舵€?
      *
      * @param articleDTO
      * @param currentUser
@@ -71,7 +69,7 @@ public interface ArticleService {
     Boolean updateState(ArticleDTO articleDTO, UserSsoDTO currentUser);
 
     /**
-     * 获取点赞过的文章
+     * 鑾峰彇鐐硅禐杩囩殑鏂囩珷
      *
      * @param likeSearchDTO
      * @param currentUser
@@ -80,17 +78,17 @@ public interface ArticleService {
     PageInfo<ArticleDTO> getLikesArticle(LikeSearchDTO likeSearchDTO, UserSsoDTO currentUser);
 
     /**
-     * 通过文章id集合获取文章信息
+     * 閫氳繃鏂囩珷id闆嗗悎鑾峰彇鏂囩珷淇℃伅
      *
      * @param ids
-     * @param isPv 是否增加文章浏览数量
+     * @param isPv 鏄惁澧炲姞鏂囩珷娴忚鏁伴噺
      * @param currentUser
      * @return
      */
     List<ArticleDTO> getByIds(List<Integer> ids, Boolean isPv, UserSsoDTO currentUser);
 
     /**
-     * 通过文章id集合获取文章信息(最基础的信息)
+     * 閫氳繃鏂囩珷id闆嗗悎鑾峰彇鏂囩珷淇℃伅(鏈€鍩虹鐨勪俊鎭?
      *
      * @param ids
      * @return
@@ -98,7 +96,7 @@ public interface ArticleService {
     List<ArticleDTO> getBaseByIds(List<Integer> ids, ArticleStateEnum articleStateEnum);
 
     /**
-     * 撰写文章（无配图）
+     * 鎾板啓鏂囩珷锛堟棤閰嶅浘锛?
      *
      * @param articleDTO
      * @param currentUser
@@ -106,7 +104,7 @@ public interface ArticleService {
     Boolean create(ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser);
 
     /**
-     * 更新文章（无配图）
+     * 鏇存柊鏂囩珷锛堟棤閰嶅浘锛?
      *
      * @param articleDTO
      * @param currentUser
@@ -114,7 +112,7 @@ public interface ArticleService {
     Boolean update(ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser);
 
     /**
-     * 撰写文章
+     * 鎾板啓鏂囩珷
      *
      * @param bytes
      * @param sourceFileName
@@ -124,7 +122,7 @@ public interface ArticleService {
     Boolean create(byte[] bytes, String sourceFileName, ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser);
 
     /**
-     * 更新文章
+     * 鏇存柊鏂囩珷
      *
      * @param bytes
      * @param sourceFileName
@@ -134,7 +132,7 @@ public interface ArticleService {
     Boolean update(byte[] bytes, String sourceFileName, ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser);
 
     /**
-     * 上传图片（一张）- mavonEditor
+     * 涓婁紶鍥剧墖锛堜竴寮狅級- mavonEditor
      *
      * @param bytes
      * @param sourceFileName
@@ -143,21 +141,21 @@ public interface ArticleService {
     String uploadPicture(byte[] bytes, String sourceFileName);
 
     /**
-     * 获取文章评论访问总数
+     * 鑾峰彇鏂囩珷璇勮璁块棶鎬绘暟
      *
      * @return
      */
     TotalDTO getArticleCommentVisitTotal();
 
     /**
-     * 获取文章数量
+     * 鑾峰彇鏂囩珷鏁伴噺
      *
      * @return
      */
     Long getTotal();
 
     /**
-     * 获取用户阅读数量
+     * 鑾峰彇鐢ㄦ埛闃呰鏁伴噺
      *
      * @param userIds
      * @return
@@ -165,7 +163,7 @@ public interface ArticleService {
     List<ArticleReadDTO> getUserReadCount(List<Long> userIds);
 
     /**
-     * 获取文章一些统计数据
+     * 鑾峰彇鏂囩珷涓€浜涚粺璁℃暟鎹?
      *
      * @param id
      * @param currentUser
@@ -174,14 +172,14 @@ public interface ArticleService {
     ArticleCountDTO getCountById(Integer id, UserSsoDTO currentUser);
 
     /**
-     * 增加文章浏览数量
+     * 澧炲姞鏂囩珷娴忚鏁伴噺
      *
      * @param articleDTO
      */
     Boolean updatePv(ArticleDTO articleDTO);
 
     /**
-     * 通过用户获取文章信息
+     * 閫氳繃鐢ㄦ埛鑾峰彇鏂囩珷淇℃伅
      *
      * @param userId
      * @return
@@ -189,17 +187,17 @@ public interface ArticleService {
     List<ArticleDTO> getByUserId(Long userId);
 
     /**
-     * 文章置顶/取消置顶
+     * 鏂囩珷缃《/鍙栨秷缃《
      *
      * @param id
-     * @param top 是否置顶（true：置顶，false：取消置顶）
+     * @param top 鏄惁缃《锛坱rue锛氱疆椤讹紝false锛氬彇娑堢疆椤讹級
      * @param currentUser
      * @return
      */
     Boolean articleTop(Integer id, Boolean top, UserSsoDTO currentUser);
 
     /**
-     * 获取文章置顶的最大数值
+     * 鑾峰彇鏂囩珷缃《鐨勬渶澶ф暟鍊?
      *
      * @return
      */
@@ -215,7 +213,7 @@ public interface ArticleService {
     Boolean delete(Integer id, UserSsoDTO currentUser);
 
     /**
-     * 文章审核数据量
+     * 鏂囩珷瀹℃牳鏁版嵁閲?
      *
      * @param title
      * @return

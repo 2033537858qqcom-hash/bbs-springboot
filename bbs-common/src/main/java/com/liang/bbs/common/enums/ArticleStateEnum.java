@@ -3,25 +3,23 @@ package com.liang.bbs.common.enums;
 import lombok.Getter;
 
 /**
- * @author maliangnansheng
- * @date 2022/6/13 18:04
  */
 @Getter
 public enum ArticleStateEnum {
     /**
-     * 待审核
+     * 寰呭鏍?
      */
-    pendingReview(-1, "待审核"),
-    disabled(0, "禁用"),
-    enable(1, "启用");
+    pendingReview(-1, "寰呭鏍?),
+    disabled(0, "绂佺敤"),
+    enable(1, "鍚敤");
 
     /**
-     * 积分
+     * 绉垎
      */
     private Integer code;
 
     /**
-     * 说明
+     * 璇存槑
      */
     private String desc;
 

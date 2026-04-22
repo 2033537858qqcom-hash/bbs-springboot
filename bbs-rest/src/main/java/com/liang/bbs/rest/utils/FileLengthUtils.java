@@ -6,27 +6,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * @author maliangnansheng
- * @date 2022-09-08 14:34
  */
 @Component
 @Data
 @Slf4j
 public class FileLengthUtils {
     /**
-     * 上传源文件允许的最大值不得大于fileLength
+     * 涓婁紶婧愭枃浠跺厑璁哥殑鏈€澶у€间笉寰楀ぇ浜巉ileLength
      */
     @Value("${file.source.length}")
     private long fileMaxLength;
 
     /**
-     * 文件是否过大
+     * 鏂囦欢鏄惁杩囧ぇ
      *
      * @param bytes
      * @return
      */
     public Boolean isFileNotTooBig(byte[] bytes) {
-        // 当前文件大小
+        // 褰撳墠鏂囦欢澶у皬
         long currentFileSize = bytes.length;
         if (currentFileSize <= fileMaxLength) {
             return true;

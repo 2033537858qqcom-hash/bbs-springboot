@@ -24,10 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 路径级别权限信息数据初始化
+ * 璺緞绾у埆鏉冮檺淇℃伅鏁版嵁鍒濆鍖?
  *
- * @author maliangnansheng
- * @date 2021/3/8 15:13
  */
 @Slf4j
 @Component
@@ -38,7 +36,7 @@ public class ApiDataInit implements ApplicationContextAware {
     @Value("${server.servlet.context-path}")
     public String contextPath;
     /**
-     * k:权限代码，v:权限说明
+     * k:鏉冮檺浠ｇ爜锛寁:鏉冮檺璇存槑
      */
     public static Map<String, String> apiDescMap = new HashMap<>();
 
@@ -51,7 +49,7 @@ public class ApiDataInit implements ApplicationContextAware {
     }
 
     /**
-     * 初始化所有的接口和请求参数
+     * 鍒濆鍖栨墍鏈夌殑鎺ュ彛鍜岃姹傚弬鏁?
      *
      * @param beanMap
      */
@@ -61,12 +59,12 @@ public class ApiDataInit implements ApplicationContextAware {
                 Class<?> clz = bean.getClass();
                 Method[] methods = clz.getMethods();
                 for (Method method : methods) {
-                    // 初始化
+                    // 鍒濆鍖?
                     Operation apiOperation = AnnotationUtils.findAnnotation(method, Operation.class);
                     if (apiOperation != null && !removeMethods.contains(method.getName())) {
-                        // 权限说明
+                        // 鏉冮檺璇存槑
                         String desc = apiOperation.summary();
-                        // 权限代码
+                        // 鏉冮檺浠ｇ爜
                         String uri = getApiUri(clz, method);
                         apiDescMap.put(uri, desc);
                     }
@@ -75,11 +73,11 @@ public class ApiDataInit implements ApplicationContextAware {
         }
         String key = RedisConstants.API_KEY + ProjectEnum.NS_BBS.getCode();
         redisTemplate.opsForValue().set(key, apiDescMap);
-        log.info("【apiDescMap】 {}", apiDescMap);
+        log.info("銆恆piDescMap銆?{}", apiDescMap);
     }
 
     /**
-     * 构造请求类型和请求地址并返回
+     * 鏋勯€犺姹傜被鍨嬪拰璇锋眰鍦板潃骞惰繑鍥?
      *
      * @param clz
      * @param method
@@ -89,13 +87,13 @@ public class ApiDataInit implements ApplicationContextAware {
         String methodType = "";
         StringBuilder uri = new StringBuilder();
 
-        // Controller类有@RequestMapping的情况
+        // Controller绫绘湁@RequestMapping鐨勬儏鍐?
         RequestMapping reqMapping = AnnotationUtils.findAnnotation(clz, RequestMapping.class);
         if (reqMapping != null) {
             uri.append(formatUri(reqMapping.value()[0]));
         }
 
-        // 方法上有@RequestMapping的情况
+        // 鏂规硶涓婃湁@RequestMapping鐨勬儏鍐?
         GetMapping getMapping = AnnotationUtils.findAnnotation(method, GetMapping.class);
         if (getMapping != null) {
             methodType = RequestMethod.GET.name();
@@ -140,7 +138,7 @@ public class ApiDataInit implements ApplicationContextAware {
     }
 
     /**
-     * 构造uri
+     * 鏋勯€爑ri
      *
      * @param uri
      * @return

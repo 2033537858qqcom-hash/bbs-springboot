@@ -8,12 +8,10 @@ import com.liang.nansheng.common.auth.UserSsoDTO;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface ResourceNavigateService {
     /**
-     * 获取资源导航
+     * 鑾峰彇璧勬簮瀵艰埅
      *
      * @param resourceNavigateSearchDTO
      * @return
@@ -21,7 +19,7 @@ public interface ResourceNavigateService {
     PageInfo<ResourceNavigateDTO> getList(ResourceNavigateSearchDTO resourceNavigateSearchDTO);
 
     /**
-     * 新增资源导航
+     * 鏂板璧勬簮瀵艰埅
      *
      * @param resourceNavigateDTO
      * @param currentUser
@@ -30,7 +28,7 @@ public interface ResourceNavigateService {
     Boolean create(ResourceNavigateDTO resourceNavigateDTO, UserSsoDTO currentUser);
 
     /**
-     * 上传资源导航logo
+     * 涓婁紶璧勬簮瀵艰埅logo
      *
      * @param bytes
      * @param sourceFileName
@@ -39,7 +37,7 @@ public interface ResourceNavigateService {
     String uploadResourceNavigateLogo(byte[] bytes, String sourceFileName);
 
     /**
-     * 更新资源导航
+     * 鏇存柊璧勬簮瀵艰埅
      *
      * @param resourceNavigateDTO
      * @param currentUser
@@ -48,7 +46,7 @@ public interface ResourceNavigateService {
     Boolean update(ResourceNavigateDTO resourceNavigateDTO, UserSsoDTO currentUser);
 
     /**
-     * 删除资源导航
+     * 鍒犻櫎璧勬簮瀵艰埅
      *
      * @param id
      * @return
@@ -56,7 +54,7 @@ public interface ResourceNavigateService {
     Boolean delete(Integer id);
 
     /**
-     * 获取资源导航所有类别
+     * 鑾峰彇璧勬簮瀵艰埅鎵€鏈夌被鍒?
      *
      * @return
      */

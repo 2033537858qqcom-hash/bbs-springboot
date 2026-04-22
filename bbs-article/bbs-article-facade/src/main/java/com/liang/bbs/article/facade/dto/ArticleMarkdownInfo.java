@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 /**
- * @author maliangnansheng
- * @date 2022-05-16 20:54
  */
 @Data
 @Document("bbs_article_markdown_info")
@@ -17,27 +15,27 @@ public class ArticleMarkdownInfo {
     private String id;
 
     /**
-     * 文章id
+     * 鏂囩珷id
      */
     private Integer articleId;
 
     /**
-     * 文章内容markdown
+     * 鏂囩珷鍐呭markdown
      */
     private String articleMarkdown;
 
     /**
-     * 文章内容html
+     * 鏂囩珷鍐呭html
      */
     private String articleHtml;
 
     /**
-     * 用户id
+     * 鐢ㄦ埛id
      */
     private Long userId;
 
     /**
-     * 时间（创建/更新）
+     * 鏃堕棿锛堝垱寤?鏇存柊锛?
      */
     private LocalDateTime time;
 }

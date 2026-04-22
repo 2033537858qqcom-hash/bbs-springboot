@@ -8,42 +8,40 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 对应数据表为：fs_follow
+ * 瀵瑰簲鏁版嵁琛ㄤ负锛歠s_follow
  *
- * @author maliangnansheng
- * @date 2022/04/18 18:14
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FollowPo implements Serializable {
     /**
-     * 关注编号
+     * 鍏虫敞缂栧彿
      */
     private Integer id;
 
     /**
-     * 发起关注的人
+     * 鍙戣捣鍏虫敞鐨勪汉
      */
     private Long fromUser;
 
     /**
-     * 状态(0取消,1关注)
+     * 鐘舵€?0鍙栨秷,1鍏虫敞)
      */
     private Boolean state;
 
     /**
-     * 被关注的人
+     * 琚叧娉ㄧ殑浜?
      */
     private Long toUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

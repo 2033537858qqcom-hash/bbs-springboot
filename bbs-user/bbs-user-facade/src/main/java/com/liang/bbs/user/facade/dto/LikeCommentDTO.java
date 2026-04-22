@@ -6,38 +6,36 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class LikeCommentDTO implements Serializable {
     /**
-     * 评论点赞编号
+     * 璇勮鐐硅禐缂栧彿
      */
     private Integer id;
 
     /**
-     * 评论id
+     * 璇勮id
      */
     private Integer commentId;
 
     /**
-     * 状态(0取消,1点赞)
+     * 鐘舵€?0鍙栨秷,1鐐硅禐)
      */
     private Boolean state;
 
     /**
-     * 评论点赞用户id
+     * 璇勮鐐硅禐鐢ㄦ埛id
      */
     private Long likeUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

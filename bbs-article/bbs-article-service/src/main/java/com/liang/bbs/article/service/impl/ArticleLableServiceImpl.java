@@ -9,9 +9,8 @@ import com.liang.bbs.article.persistence.mapper.ArticleLabelPoMapper;
 import com.liang.bbs.article.service.mapstruct.ArticleLabelMS;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,11 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class ArticleLableServiceImpl implements ArticleLabelService {
     @Autowired
@@ -34,7 +30,7 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
     private ArticleLabelPoExMapper articleLabelPoExMapper;
 
     /**
-     * 新增文件标签关系信息
+     * 閺傛澘顤冮弬鍥︽閺嶅洨顒烽崗宕囬兇娣団剝浼?
      *
      * @param labelIds
      * @param articleId
@@ -59,7 +55,7 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
     }
 
     /**
-     * 更新文件标签关系信息
+     * 閺囧瓨鏌婇弬鍥︽閺嶅洨顒烽崗宕囬兇娣団剝浼?
      *
      * @param labelIds
      * @param articleId
@@ -68,11 +64,11 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
      */
     @Override
     public Boolean update(List<Integer> labelIds, Integer articleId, UserSsoDTO currentUser) {
-        // 根据文章id集合获取文章标签信息
+        // 閺嶈宓侀弬鍥╃彿id闂嗗棗鎮庨懢宄板絿閺傚洨鐝烽弽鍥╊劮娣団剝浼?
         List<ArticleLabelDTO> articleLabelDTOS = getByArticleIds(Collections.singletonList(articleId));
         List<Integer> labelIdsOld = articleLabelDTOS.stream().distinct().map(ArticleLabelDTO::getLabelId).collect(Collectors.toList());
 
-        // 需要新增的
+        // 闂団偓鐟曚焦鏌婃晶鐐垫畱
         List<Integer> labelIdsCreate = new ArrayList<>();
         labelIds.forEach(labelId -> {
             if (!labelIdsOld.contains(labelId)) {
@@ -81,7 +77,7 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
         });
         create(labelIdsCreate, articleId, currentUser);
 
-        // 需要删除的
+        // 闂団偓鐟曚礁鍨归梽銈囨畱
         labelIdsOld.forEach(labelId -> {
             if (!labelIds.contains(labelId)) {
                 ArticleLabelPoExample example = new ArticleLabelPoExample();
@@ -101,7 +97,7 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
     }
 
     /**
-     * 根据标签id获取文章标签信息
+     * 閺嶈宓侀弽鍥╊劮id閼惧嘲褰囬弬鍥╃彿閺嶅洨顒锋穱鈩冧紖
      *
      * @param labelIds
      * @return
@@ -116,7 +112,7 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
     }
 
     /**
-     * 根据文章id集合获取文章标签信息
+     * 閺嶈宓侀弬鍥╃彿id闂嗗棗鎮庨懢宄板絿閺傚洨鐝烽弽鍥╊劮娣団剝浼?
      *
      * @param articleIds
      * @return
@@ -131,7 +127,7 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
     }
 
     /**
-     * 获取标签使用数量
+     * 閼惧嘲褰囬弽鍥╊劮娴ｈ法鏁ら弫浼村櫤
      *
      * @param labelId
      * @return
@@ -142,3 +138,5 @@ public class ArticleLableServiceImpl implements ArticleLabelService {
     }
 
 }
+
+

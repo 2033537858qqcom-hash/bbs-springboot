@@ -5,33 +5,31 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 15:06
  */
 @Data
 public class LabelSearchDTO implements Serializable {
     /**
-     * 标签编号
+     * 鏍囩缂栧彿
      */
     private Integer id;
 
     /**
-     * 标签名字
+     * 鏍囩鍚嶅瓧
      */
     private String labelName;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 当前页
+     * 褰撳墠椤?
      */
     private Integer currentPage;
 
     /**
-     * 每页条数
+     * 姣忛〉鏉℃暟
      */
     private Integer pageSize;
 

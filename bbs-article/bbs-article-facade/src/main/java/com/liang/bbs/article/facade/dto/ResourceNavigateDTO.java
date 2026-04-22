@@ -6,63 +6,61 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class ResourceNavigateDTO implements Serializable {
     /**
-     * 资源导航编号
+     * 璧勬簮瀵艰埅缂栧彿
      */
     private Integer id;
 
     /**
-     * 资源名字
+     * 璧勬簮鍚嶅瓧
      */
     private String resourceName;
 
     /**
-     * logo(图片)
+     * logo(鍥剧墖)
      */
     private String logo;
 
     /**
-     * 类别
+     * 绫诲埆
      */
     private String category;
 
     /**
-     * 描述
+     * 鎻忚堪
      */
     private String desc;
 
     /**
-     * 链接
+     * 閾炬帴
      */
     private String link;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 创建用户id
+     * 鍒涘缓鐢ㄦ埛id
      */
     private Long createUser;
 
     /**
-     * 更新用户id
+     * 鏇存柊鐢ㄦ埛id
      */
     private Long updateUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

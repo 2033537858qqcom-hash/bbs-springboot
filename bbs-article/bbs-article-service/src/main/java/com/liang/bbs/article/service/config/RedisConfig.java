@@ -11,10 +11,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * 配置redis序列化 如果不配置，无法获取redis正常编码的值
+ * 閰嶇疆redis搴忓垪鍖?濡傛灉涓嶉厤缃紝鏃犳硶鑾峰彇redis姝ｅ父缂栫爜鐨勫€?
  *
- * @author maliangnansheng
- * @date 2021-05-10 21:16
  */
 @Configuration
 public class RedisConfig {

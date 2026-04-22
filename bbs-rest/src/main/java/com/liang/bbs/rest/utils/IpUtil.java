@@ -6,25 +6,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.StringTokenizer;
 
 /**
- * ip解析
+ * ip瑙ｆ瀽
  *
- * @author maliangnansheng
- * @date 2021-04-20 21:49
  */
 @Slf4j
 public class IpUtil {
 
     /**
-     * 获取访问者ip
+     * 鑾峰彇璁块棶鑰卛p
      *
      * @param request
      * @return
      */
     public static String getIP(HttpServletRequest request) {
         /**
-         * X-Forwarded-For:简称XFF头，它代表客户端，也就是HTTP的请求端真实的IP 只有在通过了HTTP 代理或者负载均衡服务器时才会添加该项
-         * 标准格式如下：X-Forwarded-For: client_ip, proxy1_ip, proxy2_ip
-         * 此头是可构造的，因此某些应用中应该对获取到的ip进行验证
+         * X-Forwarded-For:绠€绉癤FF澶达紝瀹冧唬琛ㄥ鎴风锛屼篃灏辨槸HTTP鐨勮姹傜鐪熷疄鐨処P 鍙湁鍦ㄩ€氳繃浜咹TTP 浠ｇ悊鎴栬€呰礋杞藉潎琛℃湇鍔″櫒鏃舵墠浼氭坊鍔犺椤?
+         * 鏍囧噯鏍煎紡濡備笅锛歑-Forwarded-For: client_ip, proxy1_ip, proxy2_ip
+         * 姝ゅご鏄彲鏋勯€犵殑锛屽洜姝ゆ煇浜涘簲鐢ㄤ腑搴旇瀵硅幏鍙栧埌鐨刬p杩涜楠岃瘉
          */
         String ip = request.getHeader("X-Real-IP");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -40,8 +38,8 @@ public class IpUtil {
             ip = request.getRemoteAddr();
         }
         /**
-         * 在多级代理网络中，直接用getHeader("x-forwarded-for")可能获取到的是unknown信息
-         * 此时需要获取代理代理服务器重新包装的HTTP头信息，
+         * 鍦ㄥ绾т唬鐞嗙綉缁滀腑锛岀洿鎺ョ敤getHeader("x-forwarded-for")鍙兘鑾峰彇鍒扮殑鏄痷nknown淇℃伅
+         * 姝ゆ椂闇€瑕佽幏鍙栦唬鐞嗕唬鐞嗘湇鍔″櫒閲嶆柊鍖呰鐨凥TTP澶翠俊鎭紝
          */
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
@@ -63,7 +61,7 @@ public class IpUtil {
     }
 
     /**
-     * 获取访问者操作系统
+     * 鑾峰彇璁块棶鑰呮搷浣滅郴缁?
      *
      * @param request
      * @return
@@ -73,10 +71,10 @@ public class IpUtil {
         log.info("User-Agent: {}", agent);
         StringTokenizer st = new StringTokenizer(agent, ";");
         st.nextToken();
-        // 得到访问者的操作系统名
+        // 寰楀埌璁块棶鑰呯殑鎿嶄綔绯荤粺鍚?
         String os = st.nextToken();
 
-        // 优化操作系统名 win
+        // 浼樺寲鎿嶄綔绯荤粺鍚?win
         boolean isWin2K = agent.contains("Windows NT 5.0") || agent.contains("Windows 2000");
         if (isWin2K) {
             os = "Windows 2000";
@@ -121,7 +119,7 @@ public class IpUtil {
             os = "Android 5.0";
         }
 
-        // 特殊处理U的情况
+        // 鐗规畩澶勭悊U鐨勬儏鍐?
         if ("U".equalsIgnoreCase(os.trim())) {
             os = st.nextToken();
         }

@@ -9,13 +9,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface LikeService {
 
     /**
-     * 获取所有点赞的通过审核的文章信息
+     * 鑾峰彇鎵€鏈夌偣璧炵殑閫氳繃瀹℃牳鐨勬枃绔犱俊鎭?
      *
      * @param startTime
      * @param endTime
@@ -24,7 +22,7 @@ public interface LikeService {
     List<LikeDTO> getPaasAll(LocalDateTime startTime, LocalDateTime endTime);
 
     /**
-     * 通过用户id获取点赞的文章信息
+     * 閫氳繃鐢ㄦ埛id鑾峰彇鐐硅禐鐨勬枃绔犱俊鎭?
      *
      * @param likeSearchDTO
      * @return
@@ -32,7 +30,7 @@ public interface LikeService {
     PageInfo<LikeDTO> getArticleByUserId(LikeSearchDTO likeSearchDTO);
 
     /**
-     * 通过文章id获取点赞的用户信息
+     * 閫氳繃鏂囩珷id鑾峰彇鐐硅禐鐨勭敤鎴蜂俊鎭?
      *
      * @param likeSearchDTO
      * @return
@@ -40,7 +38,7 @@ public interface LikeService {
     PageInfo<LikeDTO> getUserByArticleId(LikeSearchDTO likeSearchDTO);
 
     /**
-     * 通过id获取点赞信息
+     * 閫氳繃id鑾峰彇鐐硅禐淇℃伅
      *
      * @param id
      * @return
@@ -48,7 +46,7 @@ public interface LikeService {
     LikeDTO getById(Integer id);
 
     /**
-     * 通过文章id和用户id获取点赞信息
+     * 閫氳繃鏂囩珷id鍜岀敤鎴穒d鑾峰彇鐐硅禐淇℃伅
      *
      * @param articleId
      * @param userId
@@ -57,7 +55,7 @@ public interface LikeService {
     LikeDTO getByArticleIdUserId(Integer articleId, Long userId);
 
     /**
-     * 获取文章的点赞数量
+     * 鑾峰彇鏂囩珷鐨勭偣璧炴暟閲?
      *
      * @param articleIds
      * @return
@@ -65,7 +63,7 @@ public interface LikeService {
     Long getLikeCountArticle(List<Integer> articleIds);
 
     /**
-     * 是否点赞
+     * 鏄惁鐐硅禐
      *
      * @param articleId
      * @param userId
@@ -74,7 +72,7 @@ public interface LikeService {
     Boolean isLike(Integer articleId, Long userId);
 
     /**
-     * 更新点赞状态
+     * 鏇存柊鐐硅禐鐘舵€?
      *
      * @param articleId
      * @param currentUser
@@ -83,7 +81,7 @@ public interface LikeService {
     Boolean updateLikeState(Integer articleId, UserSsoDTO currentUser);
 
     /**
-     * 用户获取的点赞数量
+     * 鐢ㄦ埛鑾峰彇鐨勭偣璧炴暟閲?
      *
      * @param userId
      * @return
@@ -91,7 +89,7 @@ public interface LikeService {
     Long getUserLikeCount(Long userId);
 
     /**
-     * 用户获点赞的数量
+     * 鐢ㄦ埛鑾风偣璧炵殑鏁伴噺
      *
      * @param userId
      * @return

@@ -5,10 +5,8 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 公共配置
+ * 鍏叡閰嶇疆
  *
- * @author maliangnansheng
- * @date 2021-04-21 20:32
  */
 @ImportAutoConfiguration(value = {RestTemplateConfig.class})
 @Configuration

@@ -10,13 +10,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface FollowService {
 
     /**
-     * 获取所有的关注
+     * 鑾峰彇鎵€鏈夌殑鍏虫敞
      *
      * @param startTime
      * @param endTime
@@ -25,7 +23,7 @@ public interface FollowService {
     List<FollowDTO> getPaasAll(LocalDateTime startTime, LocalDateTime endTime);
 
     /**
-     * 获取关注的用户信息
+     * 鑾峰彇鍏虫敞鐨勭敤鎴蜂俊鎭?
      *
      * @param followSearchDTO
      * @param currentUser
@@ -34,7 +32,7 @@ public interface FollowService {
     PageInfo<FollowDTO> getFollowUsers(FollowSearchDTO followSearchDTO, UserSsoDTO currentUser);
 
     /**
-     * 通过id获取关注信息
+     * 閫氳繃id鑾峰彇鍏虫敞淇℃伅
      *
      * @param id
      * @return
@@ -42,17 +40,17 @@ public interface FollowService {
     FollowDTO getById(Integer id);
 
     /**
-     * 通过fromUser和toUser获取关注信息
+     * 閫氳繃fromUser鍜宼oUser鑾峰彇鍏虫敞淇℃伅
      *
      * @param fromUser
      * @param toUser
-     * @param isAll true:不区分关注与否，false:只查询关注了的
+     * @param isAll true:涓嶅尯鍒嗗叧娉ㄤ笌鍚︼紝false:鍙煡璇㈠叧娉ㄤ簡鐨?
      * @return
      */
     FollowDTO getByFromToUser(Long fromUser, Long toUser, Boolean isAll);
 
     /**
-     * 更新关注状态
+     * 鏇存柊鍏虫敞鐘舵€?
      *
      * @param fromUser
      * @param toUser
@@ -61,7 +59,7 @@ public interface FollowService {
     Boolean updateFollowState(Long fromUser, Long toUser);
 
     /**
-     * 获取关注/粉丝数量
+     * 鑾峰彇鍏虫敞/绮変笣鏁伴噺
      *
      * @param userId
      * @return

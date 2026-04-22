@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * @author maliangnansheng
- * @date 2022/5/24 10:57
  */
 @Component
 @Slf4j
@@ -36,13 +34,13 @@ public class UserLevelWorker {
         try {
             boolean b = lock.tryLock();
             if (b) {
-                // 更新所有用户的等级信息
+                // 鏇存柊鎵€鏈夌敤鎴风殑绛夌骇淇℃伅
                 userLevelService.updatePointsAll();
             }
         } catch (Exception e) {
             log.error("UserLevelWorker failed!", e);
         } finally {
-            // 由当前线程持有 and 锁住状态
+            // 鐢卞綋鍓嶇嚎绋嬫寔鏈?and 閿佷綇鐘舵€?
             if (lock.isHeldByCurrentThread() && lock.isLocked()) {
                 lock.unlock();
             }
@@ -50,7 +48,7 @@ public class UserLevelWorker {
     }
 
     /**
-     * 每1分钟执行
+     * 姣?鍒嗛挓鎵ц
      */
     @Async("asyncTaskExecutor")
     @Scheduled(cron = "0 * * * * ?")
@@ -64,13 +62,13 @@ public class UserLevelWorker {
         try {
             boolean b = lock.tryLock();
             if (b) {
-                // 同步所有用户的等级信息
+                // 鍚屾鎵€鏈夌敤鎴风殑绛夌骇淇℃伅
                 userLevelService.syncAll();
             }
         } catch (Exception e) {
             log.error("UserLevelWorker > executeNull failed!", e);
         } finally {
-            // 由当前线程持有 and 锁住状态
+            // 鐢卞綋鍓嶇嚎绋嬫寔鏈?and 閿佷綇鐘舵€?
             if (lock.isHeldByCurrentThread() && lock.isLocked()) {
                 lock.unlock();
             }

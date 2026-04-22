@@ -15,10 +15,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * spring用RestTemplate，代替之前的HttpClient
+ * spring鐢≧estTemplate锛屼唬鏇夸箣鍓嶇殑HttpClient
  *
- * @author maliangnansheng
- * @date 2021-04-21 20:32
  */
 @Configuration
 public class RestTemplateConfig {
@@ -50,8 +48,8 @@ public class RestTemplateConfig {
     @Bean
     public RequestConfig requestConfig() {
         return RequestConfig.custom()
-                .setResponseTimeout(Timeout.ofMilliseconds(10000)) // 设置响应超时时间
-                .setConnectionRequestTimeout(Timeout.ofMilliseconds(1000)) // 设置从连接池获取连接的超时时间
+                .setResponseTimeout(Timeout.ofMilliseconds(10000)) // 璁剧疆鍝嶅簲瓒呮椂鏃堕棿
+                .setConnectionRequestTimeout(Timeout.ofMilliseconds(1000)) // 璁剧疆浠庤繛鎺ユ睜鑾峰彇杩炴帴鐨勮秴鏃舵椂闂?
                 .build();
     }
 
@@ -59,11 +57,11 @@ public class RestTemplateConfig {
     public PoolingHttpClientConnectionManager poolingHttpClientConnectionManager() {
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         SocketConfig socketConfig = SocketConfig.custom()
-                .setSoTimeout(Timeout.ofMilliseconds(10000)) // 设置读取超时时间
+                .setSoTimeout(Timeout.ofMilliseconds(10000)) // 璁剧疆璇诲彇瓒呮椂鏃堕棿
                 .build();
         connectionManager.setDefaultSocketConfig(socketConfig);
-        connectionManager.setMaxTotal(200); // 设置最大连接数
-        connectionManager.setDefaultMaxPerRoute(200); // 设置每个路由的最大连接数
+        connectionManager.setMaxTotal(200); // 璁剧疆鏈€澶ц繛鎺ユ暟
+        connectionManager.setDefaultMaxPerRoute(200); // 璁剧疆姣忎釜璺敱鐨勬渶澶ц繛鎺ユ暟
         return connectionManager;
     }
 

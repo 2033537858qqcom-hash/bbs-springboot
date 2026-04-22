@@ -11,10 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 请求拦截器
+ * 璇锋眰鎷︽埅鍣?
  *
- * @author maliangnansheng
- * @date 2021-04-20 22:04
  */
 @Slf4j
 @Component
@@ -31,7 +29,7 @@ public class RequestMonitor implements HandlerInterceptor {
             log.info("class:" + ((HandlerMethod) handler).getBean().getClass().getName());
             log.info("method:" + ((HandlerMethod) handler).getMethod().getName());
         } catch (Exception e) {
-            log.warn("耗时监控定位失败:{}", e.getMessage());
+            log.warn("鑰楁椂鐩戞帶瀹氫綅澶辫触:{}", e.getMessage());
         }
         request.setAttribute("startTime", System.currentTimeMillis());
         return true;
@@ -41,7 +39,7 @@ public class RequestMonitor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         if (monitorStatus) {
             Long start = (Long) request.getAttribute("startTime");
-            log.info("耗时:" + (System.currentTimeMillis() - start));
+            log.info("鑰楁椂:" + (System.currentTimeMillis() - start));
         }
     }
 }

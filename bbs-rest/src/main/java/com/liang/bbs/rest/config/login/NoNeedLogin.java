@@ -6,10 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 无需登录
+ * 鏃犻渶鐧诲綍
  *
- * @author maliangnansheng
- * @date 2022/5/11 15:20
  */
 @Target(value = {ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

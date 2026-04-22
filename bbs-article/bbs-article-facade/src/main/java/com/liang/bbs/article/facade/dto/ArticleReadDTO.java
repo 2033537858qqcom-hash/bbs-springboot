@@ -5,19 +5,17 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class ArticleReadDTO implements Serializable {
 
     /**
-     * 用户id
+     * 鐢ㄦ埛id
      */
     private Long userId;
 
     /**
-     * 文章阅读量
+     * 鏂囩珷闃呰閲?
      */
     private Long articleReadCount;
 

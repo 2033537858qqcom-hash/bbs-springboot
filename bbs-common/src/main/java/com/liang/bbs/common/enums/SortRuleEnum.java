@@ -3,19 +3,17 @@ package com.liang.bbs.common.enums;
 import lombok.Getter;
 
 /**
- * @author maliangnansheng
- * @date 2022/6/13 18:04
  */
 @Getter
 public enum SortRuleEnum {
     /**
-     * 最热
+     * 鏈€鐑?
      */
-    hottest("最热"),
-    newest("最新");
+    hottest("鏈€鐑?),
+    newest("鏈€鏂?);
 
     /**
-     * 说明
+     * 璇存槑
      */
     private String desc;
 

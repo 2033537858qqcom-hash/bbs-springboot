@@ -8,57 +8,55 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 对应数据表为：fs_comment
+ * 瀵瑰簲鏁版嵁琛ㄤ负锛歠s_comment
  *
- * @author maliangnansheng
- * @date 2022/05/01 11:57
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentPo implements Serializable {
     /**
-     * 评论编号
+     * 璇勮缂栧彿
      */
     private Integer id;
 
     /**
-     * 父评论id
+     * 鐖惰瘎璁篿d
      */
     private Integer preId;
 
     /**
-     * 评论内容
+     * 璇勮鍐呭
      */
     private String content;
 
     /**
-     * 被评论帖子id
+     * 琚瘎璁哄笘瀛恑d
      */
     private Integer articleId;
 
     /**
-     * 状态(0禁用,1启用)
+     * 鐘舵€?0绂佺敤,1鍚敤)
      */
     private Boolean state;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 评论用户id
+     * 璇勮鐢ㄦ埛id
      */
     private Long commentUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

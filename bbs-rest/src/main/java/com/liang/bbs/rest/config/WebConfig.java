@@ -9,15 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 /**
- * 配置类
+ * 閰嶇疆绫?
  *
- * @author maliangnansheng
- * @date 2021-04-20 21:49
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     /**
-     * 不需要登录的接口
+     * 涓嶉渶瑕佺櫥褰曠殑鎺ュ彛
      */
     private static final String[] NOT_LOGIN_URLS = {
             "/swagger-resources/**",
@@ -51,32 +49,32 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 监控请求耗时等信息拦截器
+        // 鐩戞帶璇锋眰鑰楁椂绛変俊鎭嫤鎴櫒
         registry.addInterceptor(requestMonitor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(NOT_LOGIN_URLS);
 
-        // 用户有效性验证拦截器
+        // 鐢ㄦ埛鏈夋晥鎬ч獙璇佹嫤鎴櫒
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(NOT_LOGIN_URLS);
 
-        // 后端路径级别的访问权限控制
+        // 鍚庣璺緞绾у埆鐨勮闂潈闄愭帶鍒?
         registry.addInterceptor(urlAccessCheckInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(NOT_LOGIN_URLS);
 
-        // 用户头像拦截器
+        // 鐢ㄦ埛澶村儚鎷︽埅鍣?
         registry.addInterceptor(userPictureInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(NOT_LOGIN_URLS);
 
-        // 访问记录拦截器
+        // 璁块棶璁板綍鎷︽埅鍣?
         registry.addInterceptor(visitInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(NOT_LOGIN_URLS);
 
-        // 消息通知拦截器
+        // 娑堟伅閫氱煡鎷︽埅鍣?
         registry.addInterceptor(notifyInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(NOT_LOGIN_URLS);
@@ -85,9 +83,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // doc.html文件，都会去后面配置的路径下查找资源
+        // doc.html鏂囦欢锛岄兘浼氬幓鍚庨潰閰嶇疆鐨勮矾寰勪笅鏌ユ壘璧勬簮
         registry.addResourceHandler("doc.html")
-                // 要开放的资源
+                // 瑕佸紑鏀剧殑璧勬簮
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");

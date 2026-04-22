@@ -5,29 +5,27 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 15:06
  */
 @Data
 public class LikeSearchDTO implements Serializable {
 
     /**
-     * 文章id
+     * 鏂囩珷id
      */
     private Integer articleId;
 
     /**
-     * 点赞用户id
+     * 鐐硅禐鐢ㄦ埛id
      */
     private Long likeUser;
 
     /**
-     * 当前页
+     * 褰撳墠椤?
      */
     private Integer currentPage;
 
     /**
-     * 每页条数
+     * 姣忛〉鏉℃暟
      */
     private Integer pageSize;
 

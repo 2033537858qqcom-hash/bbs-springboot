@@ -5,24 +5,22 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class ArticleCheckCountDTO implements Serializable {
 
     /**
-     * 启用文章数量
+     * 鍚敤鏂囩珷鏁伴噺
      */
     private Long enableCount;
 
     /**
-     * 禁用文章数量
+     * 绂佺敤鏂囩珷鏁伴噺
      */
     private Long disabledCount;
 
     /**
-     * 待审核文章数量
+     * 寰呭鏍告枃绔犳暟閲?
      */
     private Long pendingReviewCount;
 

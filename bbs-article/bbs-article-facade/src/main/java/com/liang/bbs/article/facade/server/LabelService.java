@@ -8,12 +8,10 @@ import com.liang.nansheng.common.auth.UserSsoDTO;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface LabelService {
     /**
-     * 获取标签
+     * 鑾峰彇鏍囩
      *
      * @param labelSearchDTO
      * @return
@@ -21,7 +19,7 @@ public interface LabelService {
     PageInfo<LabelDTO> getList(LabelSearchDTO labelSearchDTO);
 
     /**
-     * 通过标签id集合获取标签信息
+     * 閫氳繃鏍囩id闆嗗悎鑾峰彇鏍囩淇℃伅
      *
      * @param ids
      * @return
@@ -29,7 +27,7 @@ public interface LabelService {
     List<LabelDTO> getByIds(List<Integer> ids);
 
     /**
-     * 新增标签
+     * 鏂板鏍囩
      *
      * @param labelDTO
      * @param currentUser
@@ -38,7 +36,7 @@ public interface LabelService {
     Boolean create(LabelDTO labelDTO, UserSsoDTO currentUser);
 
     /**
-     * 上传标签logo
+     * 涓婁紶鏍囩logo
      *
      * @param bytes
      * @param sourceFileName
@@ -47,7 +45,7 @@ public interface LabelService {
     String uploadLabelLogo(byte[] bytes, String sourceFileName);
 
     /**
-     * 更新标签
+     * 鏇存柊鏍囩
      *
      * @param labelDTO
      * @param currentUser
@@ -56,7 +54,7 @@ public interface LabelService {
     Boolean update(LabelDTO labelDTO, UserSsoDTO currentUser);
 
     /**
-     * 删除标签
+     * 鍒犻櫎鏍囩
      *
      * @param id
      * @return

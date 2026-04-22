@@ -4,8 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liang.bbs.article.facade.dto.ArticleDTO;
 import com.liang.bbs.article.facade.dto.CommentDTO;
-import com.liang.bbs.article.facade.server.ArticleService;
-import com.liang.bbs.article.facade.server.CommentService;
+import com.liang.bbs.article.facade.dto.InternalArticleIdsRequest;
+import com.liang.bbs.article.facade.dto.InternalTimeRangeRequest;
 import com.liang.bbs.common.enums.DynamicTypeEnum;
 import com.liang.bbs.user.facade.dto.DynamicDTO;
 import com.liang.bbs.user.facade.dto.FollowDTO;
@@ -18,17 +18,19 @@ import com.liang.bbs.user.facade.server.LikeService;
 import com.liang.bbs.user.persistence.entity.DynamicPo;
 import com.liang.bbs.user.persistence.entity.DynamicPoExample;
 import com.liang.bbs.user.persistence.mapper.DynamicPoMapper;
+import com.liang.bbs.user.service.client.ArticleArticleClient;
+import com.liang.bbs.user.service.client.ArticleCommentClient;
+import com.liang.bbs.user.service.client.UserServiceClient;
 import com.liang.bbs.user.service.mapstruct.DynamicMS;
 import com.liang.manage.auth.facade.dto.user.UserDTO;
-import com.liang.manage.auth.facade.server.UserService;
 import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.utils.CommonUtils;
 import com.liang.nansheng.common.web.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,24 +40,21 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:36
  */
 @Slf4j
-@Component
 @Service
 public class DynamicServiceImpl implements DynamicService {
     @Autowired
     private DynamicPoMapper dynamicPoMapper;
 
-    @DubboReference
-    private ArticleService articleService;
+    @Autowired
+    private ArticleArticleClient articleArticleClient;
 
-    @DubboReference
-    private CommentService commentService;
+    @Autowired
+    private ArticleCommentClient articleCommentClient;
 
-    @DubboReference
-    private UserService userService;
+    @Autowired
+    private UserServiceClient userService;
 
     @Autowired
     private LikeService likeService;
@@ -67,7 +66,7 @@ public class DynamicServiceImpl implements DynamicService {
     private FollowService followService;
 
     /**
-     * 获取用户的动态信息
+     * 閼惧嘲褰囬悽銊﹀煕閻ㄥ嫬濮╅幀浣蜂繆閹?
      *
      * @param userId
      * @param currentPage
@@ -88,18 +87,22 @@ public class DynamicServiceImpl implements DynamicService {
                 UserDTO userDTO = userService.getById(dynamicDTO.getUserId());
                 dynamicDTO.setUserName(userDTO.getName());
                 dynamicDTO.setPicture(userDTO.getPicture());
-                // 文章相关
+                // 閺傚洨鐝烽惄绋垮彠
                 if (DynamicTypeEnum.writeArticle.name().equals(dynamicDTO.getType()) ||
                         DynamicTypeEnum.likeArticle.name().equals(dynamicDTO.getType()) ||
                         DynamicTypeEnum.commentArticle.name().equals(dynamicDTO.getType())) {
-                    List<ArticleDTO> articleDTOS = articleService.getByIds(Collections.singletonList(Integer.parseInt(dynamicDTO.getObjectId())), null, null);
+                    InternalArticleIdsRequest request = new InternalArticleIdsRequest();
+                    request.setIds(Collections.singletonList(Integer.parseInt(dynamicDTO.getObjectId())));
+                    List<ArticleDTO> articleDTOS = articleArticleClient.getByIds(request);
                     dynamicDTO.setTitle(articleDTOS.get(0).getTitle());
                 }
-                // 评论相关
+                // 鐠囧嫯顔戦惄绋垮彠
                 if (DynamicTypeEnum.likeComment.name().equals(dynamicDTO.getType()) ||
                         DynamicTypeEnum.commentReply.name().equals(dynamicDTO.getType())) {
-                    List<ArticleDTO> articleDTOS = articleService.getByIds(Collections.singletonList(Integer.parseInt(dynamicDTO.getObjectId())), null, null);
-                    dynamicDTO.setTitle(articleDTOS.get(0).getTitle() + " > " + CommonUtils.html2Text(commentService.getById(dynamicDTO.getCommentId()).getContent()));
+                    InternalArticleIdsRequest request = new InternalArticleIdsRequest();
+                    request.setIds(Collections.singletonList(Integer.parseInt(dynamicDTO.getObjectId())));
+                    List<ArticleDTO> articleDTOS = articleArticleClient.getByIds(request);
+                    dynamicDTO.setTitle(articleDTOS.get(0).getTitle() + " > " + CommonUtils.html2Text(articleCommentClient.getById(dynamicDTO.getCommentId()).getContent()));
                 }
                 if (DynamicTypeEnum.followUser.name().equals(dynamicDTO.getType())) {
                     UserDTO userDTO1 = userService.getById(Long.parseLong(dynamicDTO.getObjectId()));
@@ -112,7 +115,7 @@ public class DynamicServiceImpl implements DynamicService {
     }
 
     /**
-     * 创建用户动态信息
+     * 閸掓稑缂撻悽銊﹀煕閸斻劍鈧椒淇婇幁?
      *
      * @param dynamicDTO
      * @return
@@ -120,7 +123,7 @@ public class DynamicServiceImpl implements DynamicService {
     @Override
     public Boolean create(DynamicDTO dynamicDTO) {
         if (dynamicPoMapper.insertSelective(DynamicMS.INSTANCE.toPo(dynamicDTO)) <= 0) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "添加用户动态失败");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "新增动态失败");
         }
 
         return true;
@@ -142,7 +145,7 @@ public class DynamicServiceImpl implements DynamicService {
     }
 
     /**
-     * 删除用户动态信息
+     * 閸掔娀娅庨悽銊﹀煕閸斻劍鈧椒淇婇幁?
      *
      * @param startTime
      * @param endTime
@@ -159,7 +162,7 @@ public class DynamicServiceImpl implements DynamicService {
     }
 
     /**
-     * 更新所有用户的动态信息
+     * 閺囧瓨鏌婇幍鈧張澶屾暏閹撮娈戦崝銊︹偓浣蜂繆閹?
      *
      * @return
      */
@@ -170,8 +173,11 @@ public class DynamicServiceImpl implements DynamicService {
         LocalDateTime startTime = CommonUtils.getYesterdayStartTime();
         LocalDateTime endTime = CommonUtils.getCurrentEndTime();
         List<DynamicDTO> dynamicDTOS = new ArrayList<>();
-        // 写文章
-        List<ArticleDTO> articleDTOS = articleService.getPassAll(startTime, endTime);
+        // 閸愭瑦鏋冪粩?
+        InternalTimeRangeRequest timeRangeRequest = new InternalTimeRangeRequest();
+        timeRangeRequest.setStartTime(startTime);
+        timeRangeRequest.setEndTime(endTime);
+        List<ArticleDTO> articleDTOS = articleArticleClient.getPassAll(timeRangeRequest);
         if (CollectionUtils.isNotEmpty(articleDTOS)) {
             articleDTOS.forEach(articleDTO -> {
                 DynamicDTO dynamicDTO = new DynamicDTO();
@@ -184,7 +190,7 @@ public class DynamicServiceImpl implements DynamicService {
             });
         }
 
-        // 点赞文章
+        // 閻愮绂愰弬鍥╃彿
         List<LikeDTO> likeDTOS = likeService.getPaasAll(startTime, endTime);
         if (CollectionUtils.isNotEmpty(likeDTOS)) {
             likeDTOS.forEach(likeDTO -> {
@@ -198,14 +204,14 @@ public class DynamicServiceImpl implements DynamicService {
             });
         }
 
-        // 点赞评论
+        // 閻愮绂愮拠鍕啈
         List<LikeCommentDTO> likeCommentDTOS = likeCommentService.getPaasAll(startTime, endTime);
         if (CollectionUtils.isNotEmpty(likeCommentDTOS)) {
             likeCommentDTOS.forEach(likeCommentDTO -> {
                 DynamicDTO dynamicDTO = new DynamicDTO();
                 dynamicDTO.setType(DynamicTypeEnum.likeComment.name());
                 dynamicDTO.setUserId(likeCommentDTO.getLikeUser());
-                dynamicDTO.setObjectId(String.valueOf(commentService.getArticleIdByCommentId(likeCommentDTO.getCommentId())));
+                dynamicDTO.setObjectId(String.valueOf(articleCommentClient.getArticleIdByCommentId(likeCommentDTO.getCommentId())));
                 dynamicDTO.setCommentId(likeCommentDTO.getCommentId());
                 dynamicDTO.setCreateTime(likeCommentDTO.getCreateTime());
                 dynamicDTO.setUpdateTime(dynamicDTO.getCreateTime());
@@ -213,8 +219,8 @@ public class DynamicServiceImpl implements DynamicService {
             });
         }
 
-        // 评论文章
-        List<CommentDTO> commentDTOS = commentService.getAllArticleComment(startTime, endTime);
+        // 鐠囧嫯顔戦弬鍥╃彿
+        List<CommentDTO> commentDTOS = articleCommentClient.getAllArticleComment(timeRangeRequest);
         if (CollectionUtils.isNotEmpty(commentDTOS)) {
             commentDTOS.forEach(commentDTO -> {
                 DynamicDTO dynamicDTO = new DynamicDTO();
@@ -228,8 +234,8 @@ public class DynamicServiceImpl implements DynamicService {
             });
         }
 
-        // 评论回复
-        List<CommentDTO> allCommentReply = commentService.getAllCommentReply(startTime, endTime);
+        // 鐠囧嫯顔戦崶鐐差槻
+        List<CommentDTO> allCommentReply = articleCommentClient.getAllCommentReply(timeRangeRequest);
         if (CollectionUtils.isNotEmpty(allCommentReply)) {
             allCommentReply.forEach(commentDTO -> {
                 DynamicDTO dynamicDTO = new DynamicDTO();
@@ -243,7 +249,7 @@ public class DynamicServiceImpl implements DynamicService {
             });
         }
 
-        // 关注
+        // 閸忚櫕鏁?
         List<FollowDTO> followDTOS = followService.getPaasAll(startTime, endTime);
         if (CollectionUtils.isNotEmpty(followDTOS)) {
             followDTOS.forEach(followDTO -> {
@@ -267,3 +273,5 @@ public class DynamicServiceImpl implements DynamicService {
         }
     }
 }
+
+

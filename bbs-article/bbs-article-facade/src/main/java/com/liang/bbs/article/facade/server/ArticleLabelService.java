@@ -6,12 +6,10 @@ import com.liang.nansheng.common.auth.UserSsoDTO;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:33
  */
 public interface ArticleLabelService {
     /**
-     * 新增文件标签关系信息
+     * 鏂板鏂囦欢鏍囩鍏崇郴淇℃伅
      *
      * @param labelIds
      * @param articleId
@@ -21,7 +19,7 @@ public interface ArticleLabelService {
     Boolean create(List<Integer> labelIds, Integer articleId, UserSsoDTO currentUser);
 
     /**
-     * 更新文件标签关系信息
+     * 鏇存柊鏂囦欢鏍囩鍏崇郴淇℃伅
      *
      * @param labelIds
      * @param articleId
@@ -31,7 +29,7 @@ public interface ArticleLabelService {
     Boolean update(List<Integer> labelIds, Integer articleId, UserSsoDTO currentUser);
 
     /**
-     * 根据标签id集合获取文章标签信息
+     * 鏍规嵁鏍囩id闆嗗悎鑾峰彇鏂囩珷鏍囩淇℃伅
      *
      * @param labelIds
      * @return
@@ -39,7 +37,7 @@ public interface ArticleLabelService {
     List<ArticleLabelDTO> getByLabelIds(List<Integer> labelIds);
 
     /**
-     * 根据文章id集合获取文章标签信息
+     * 鏍规嵁鏂囩珷id闆嗗悎鑾峰彇鏂囩珷鏍囩淇℃伅
      *
      * @param articleIds
      * @return
@@ -47,7 +45,7 @@ public interface ArticleLabelService {
     List<ArticleLabelDTO> getByArticleIds(List<Integer> articleIds);
 
     /**
-     * 获取标签使用数量
+     * 鑾峰彇鏍囩浣跨敤鏁伴噺
      *
      * @param labelId
      * @return

@@ -10,15 +10,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 用于树转集合，集合转树场景
+ * 鐢ㄤ簬鏍戣浆闆嗗悎锛岄泦鍚堣浆鏍戝満鏅?
  *
- * @author maliangnansheng
- * @date 2022-05-22 12:34
  */
 @Slf4j
 public class CommentTreeUtils {
     /**
-     * 集合转树
+     * 闆嗗悎杞爲
      *
      * @param commentDTOS
      * @return
@@ -28,19 +26,19 @@ public class CommentTreeUtils {
         List<CommentDTO> root = new ArrayList<>();
         for (CommentDTO dto : commentDTOS) {
             Integer preId = dto.getPreId();
-            // 是根评论
+            // 鏄牴璇勮
             if (preId == 0) {
-                // 设置评论深度
+                // 璁剧疆璇勮娣卞害
                 dto.setDepth(0);
                 root.add(dto);
             } else {
                 CommentDTO parent = commentDTOMap.get(preId);
-                // 跳过子级无父级的评论
+                // 璺宠繃瀛愮骇鏃犵埗绾х殑璇勮
                 if (parent == null) {
                     continue;
                 }
                 List<CommentDTO> children = CollectionUtils.isEmpty(parent.getChild()) ? new ArrayList<>() : parent.getChild();
-                // 设置评论深度
+                // 璁剧疆璇勮娣卞害
                 dto.setDepth(parent.getDepth() + 1);
                 children.add(dto);
                 parent.setChild(children);

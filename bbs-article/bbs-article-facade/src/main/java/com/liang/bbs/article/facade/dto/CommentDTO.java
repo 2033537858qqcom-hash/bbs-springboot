@@ -7,88 +7,86 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author maliangnansheng
- * @date 2022/4/6 14:30
  */
 @Data
 public class CommentDTO implements Serializable {
     /**
-     * 评论编号
+     * 璇勮缂栧彿
      */
     private Integer id;
 
     /**
-     * 父评论id
+     * 鐖惰瘎璁篿d
      */
     private Integer preId;
 
     /**
-     * 评论内容
+     * 璇勮鍐呭
      */
     private String content;
 
     /**
-     * 被评论帖子id
+     * 琚瘎璁哄笘瀛恑d
      */
     private Integer articleId;
 
     /**
-     * 状态(0禁用,1启用)
+     * 鐘舵€?0绂佺敤,1鍚敤)
      */
     private Boolean state;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 评论用户id
+     * 璇勮鐢ㄦ埛id
      */
     private Long commentUser;
 
     /**
-     * 评论用户名称
+     * 璇勮鐢ㄦ埛鍚嶇О
      */
     private String commentUserName;
 
     /**
-     * 用户头像
+     * 鐢ㄦ埛澶村儚
      */
     private String picture;
 
     /**
-     * 等级（Lv6）
+     * 绛夌骇锛圠v6锛?
      */
     private String level;
 
     /**
-     * 是否点赞
+     * 鏄惁鐐硅禐
      */
     private Boolean isLike;
 
     /**
-     * 点赞数量
+     * 鐐硅禐鏁伴噺
      */
     private Long likeCount;
 
     /**
-     * 回复数量
+     * 鍥炲鏁伴噺
      */
     private Integer repliesCount;
 
     /**
-     * 评论深度
+     * 璇勮娣卞害
      */
     private Integer depth;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 

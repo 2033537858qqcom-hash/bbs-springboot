@@ -8,67 +8,65 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 对应数据表为：fs_slideshow
+ * 瀵瑰簲鏁版嵁琛ㄤ负锛歠s_slideshow
  * 
- * @author maliangnansheng
- * @date 2023/02/01 15:32
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SlideshowPo implements Serializable {
     /**
-     * 轮播图编号
+     * 杞挱鍥剧紪鍙?
      */
     private Integer id;
 
     /**
-     * 名称
+     * 鍚嶇О
      */
     private String name;
 
     /**
-     * 轮播图
+     * 杞挱鍥?
      */
     private String image;
 
     /**
-     * 跳转地址
+     * 璺宠浆鍦板潃
      */
     private String jumpAddress;
 
     /**
-     * 描述
+     * 鎻忚堪
      */
     private String desc;
 
     /**
-     * 状态(0禁用,1启用)
+     * 鐘舵€?0绂佺敤,1鍚敤)
      */
     private Boolean state;
 
     /**
-     * 逻辑删除(0正常,1删除)
+     * 閫昏緫鍒犻櫎(0姝ｅ父,1鍒犻櫎)
      */
     private Boolean isDeleted;
 
     /**
-     * 创建用户id
+     * 鍒涘缓鐢ㄦ埛id
      */
     private Long createUser;
 
     /**
-     * 更新用户id
+     * 鏇存柊鐢ㄦ埛id
      */
     private Long updateUser;
 
     /**
-     * 创建时间
+     * 鍒涘缓鏃堕棿
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 鏇存柊鏃堕棿
      */
     private LocalDateTime updateTime;
 
