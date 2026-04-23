@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         contextId = "articleFileServiceClient",
-        name = "${local.services.manage-auth.name:ns-manage-auth}",
+        url = "${local.services.manage-auth.url}",  // 本地认证服务直连
         path = "/file"
 )
 public interface FileServiceClient {

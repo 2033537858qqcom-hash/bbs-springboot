@@ -3,17 +3,18 @@ package com.liang.bbs.common.enums;
 import lombok.Getter;
 
 /**
+ * 排序规则枚举
  */
 @Getter
 public enum SortRuleEnum {
     /**
-     * 鏈€鐑?
+     * 最热
      */
-    hottest("鏈€鐑?),
-    newest("鏈€鏂?);
+    hottest("最热"),
+    newest("最新");
 
     /**
-     * 璇存槑
+     * 说明
      */
     private String desc;
 

@@ -81,7 +81,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 HttpRequestUtils.redirect(request, response, redirect);
             } catch (Exception e) {
                 log.warn("manage-auth unavailable, cannot build login redirect for referer={}", referer, e);
-                response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "本地认证服务未启动: ns-manage-auth");
+                response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "本地认证服务未启动 (端口 7014)");
             }
             return false;
         }

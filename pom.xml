@@ -19,6 +19,7 @@
         <module>bbs-common</module>
         <module>bbs-user</module>
         <module>bbs-article</module>
+        <module>bbs-local-auth</module>
     </modules>
 
     <!-- 统一版本管理 -->

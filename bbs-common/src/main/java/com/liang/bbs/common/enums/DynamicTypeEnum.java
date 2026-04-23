@@ -3,21 +3,22 @@ package com.liang.bbs.common.enums;
 import lombok.Getter;
 
 /**
+ * 动态类型枚举
  */
 @Getter
 public enum DynamicTypeEnum {
     /**
-     * 鍐欐枃绔?
+     * 写文章
      */
-    writeArticle("鍐欐枃绔?),
-    likeArticle("鐐硅禐鏂囩珷"),
-    likeComment("鐐硅禐璇勮"),
-    commentArticle("璇勮鏂囩珷"),
-    commentReply("璇勮鍥炲"),
-    followUser("鍏虫敞鐢ㄦ埛");
+    writeArticle("写文章"),
+    likeArticle("点赞文章"),
+    likeComment("点赞评论"),
+    commentArticle("评论文章"),
+    commentReply("评论回复"),
+    followUser("关注用户");
 
     /**
-     * 璇存槑
+     * 说明
      */
     private String desc;
 

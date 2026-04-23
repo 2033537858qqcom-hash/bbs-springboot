@@ -22,6 +22,7 @@
     <module>bbs-common</module>
     <module>bbs-user</module>
     <module>bbs-article</module>
+    <module>bbs-local-auth</module>
   </modules>
   <properties>
     <google-guava.version>27.1-jre</google-guava.version>

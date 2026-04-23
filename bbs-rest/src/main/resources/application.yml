@@ -1,5 +1,5 @@
 server:
-  port: 7010
+  port: 7012
   servlet:
     context-path: /api
 
@@ -10,6 +10,9 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  main:
+    # 允许类之间的循环引用（springboot2.6版本默认不支持循环依赖了）
+    allow-circular-references: true
   servlet:
     multipart:
       max-file-size: 100MB

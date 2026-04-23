@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         contextId = "restUserServiceClient",
-        name = "${local.services.manage-auth.name:ns-manage-auth}",
-        path = "/user"
+        name = "${local.services.manage-auth.name:ns-manage-auth}"
 )
 public interface UserServiceClient {
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 @FeignClient(
         contextId = "restNotifyServiceClient",
-        name = "${local.services.manage-auth.name:ns-manage-auth}",
+        url = "${local.services.manage-auth.url}",  // 本地认证服务直连
         path = "/notify"
 )
 public interface NotifyServiceClient {

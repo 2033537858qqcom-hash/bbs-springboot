@@ -9,7 +9,7 @@ public enum ArticleStateEnum {
     /**
      * 寰呭鏍?
      */
-    pendingReview(-1, "寰呭鏍?),
+    pendingReview(-1, "待审核"),
     disabled(0, "绂佺敤"),
     enable(1, "鍚敤");
 

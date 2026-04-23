@@ -9,8 +9,7 @@ import java.util.List;
 
 @FeignClient(
         contextId = "articleUserServiceClient",
-        name = "${local.services.manage-auth.name:ns-manage-auth}",
-        path = "/user"
+        name = "${local.services.manage-auth.name:ns-manage-auth}"
 )
 public interface UserServiceClient {
 

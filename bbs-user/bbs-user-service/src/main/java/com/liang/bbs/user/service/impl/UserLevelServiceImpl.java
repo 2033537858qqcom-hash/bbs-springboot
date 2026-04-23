@@ -22,6 +22,7 @@ import com.liang.manage.auth.facade.dto.user.UserListDTO;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import com.liang.nansheng.common.enums.ResponseCode;
 import com.liang.nansheng.common.web.exception.BusinessException;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,8 +264,14 @@ public class UserLevelServiceImpl implements UserLevelService {
     private List<Long> loadAllUserIds() {
         try {
             return userService.getAllList().stream().map(UserListDTO::getId).collect(Collectors.toList());
+        } catch (FeignException.ServiceUnavailable e) {
+            log.debug("本地认证服务未启动或不可用,跳过加载用户ID列表");
+            return Collections.emptyList();
+        } catch (FeignException.NotFound e) {
+            log.warn("接口路径错误,请检查 UserServiceClient 的 path 配置是否正确");
+            return Collections.emptyList();
         } catch (Exception e) {
-            log.warn("manage-auth unavailable, skip loading user ids", e);
+            log.warn("加载用户ID列表失败", e);
             return Collections.emptyList();
         }
     }
@@ -275,8 +282,11 @@ public class UserLevelServiceImpl implements UserLevelService {
         }
         try {
             return userService.getByIds(userIds);
+        } catch (FeignException.ServiceUnavailable e) {
+            log.debug("本地认证服务未启动或不可用,跳过加载用户详情. userCount={}", userIds.size());
+            return Collections.emptyList();
         } catch (Exception e) {
-            log.warn("manage-auth unavailable, skip loading user details. userCount={}", userIds.size(), e);
+            log.warn("加载用户详情失败. userCount={}", userIds.size(), e);
             return Collections.emptyList();
         }
     }

@@ -16,10 +16,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/open_bbs?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # mysql用户名（需要改成你自己的）
+    # mysql用户名(需要改成你自己的)
     username: root
-    # mysql密码（需要改成你自己的）
-    password: ""
+    # mysql密码(需要改成你自己的)
+    password: 123456
     # 下面为连接池的补充设置，应用到上面所有数据源中
     druid:
       # 初始化大小

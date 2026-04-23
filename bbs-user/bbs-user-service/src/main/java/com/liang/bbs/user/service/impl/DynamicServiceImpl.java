@@ -177,7 +177,13 @@ public class DynamicServiceImpl implements DynamicService {
         InternalTimeRangeRequest timeRangeRequest = new InternalTimeRangeRequest();
         timeRangeRequest.setStartTime(startTime);
         timeRangeRequest.setEndTime(endTime);
-        List<ArticleDTO> articleDTOS = articleArticleClient.getPassAll(timeRangeRequest);
+        List<ArticleDTO> articleDTOS;
+        try {
+            articleDTOS = articleArticleClient.getPassAll(timeRangeRequest);
+        } catch (Exception e) {
+            log.debug("获取已审核文章失败: {}", e.getMessage());
+            articleDTOS = Collections.emptyList();
+        }
         if (CollectionUtils.isNotEmpty(articleDTOS)) {
             articleDTOS.forEach(articleDTO -> {
                 DynamicDTO dynamicDTO = new DynamicDTO();
