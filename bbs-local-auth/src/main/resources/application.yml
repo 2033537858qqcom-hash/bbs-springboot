@@ -1,0 +1,60 @@
+server:
+  port: 7014
+
+spring:
+  application:
+    name: ns-manage-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  main:
+    allow-circular-references: true
+  
+  # MySQL 数据库配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/local_auth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  
+  # Redis 配置
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
+      database: 0
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+# MyBatis 配置
+mybatis:
+  type-aliases-package: com.liang.local.auth.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  type-handlers-package: com.liang.local.auth.typehandler
+
+# JWT配置
+jwt:
+  secret: bbs-local-auth-secret-key-2024
+  expiration: 86400000  # 24小时（毫秒）
+
+# 日志配置
+logging:
+  level:
+    com.liang.local.auth: INFO
+    com.liang.local.auth.mapper: DEBUG
