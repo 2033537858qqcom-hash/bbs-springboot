@@ -1,34 +1,29 @@
-2026-04-23 17:34:35.548 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback12.LogbackNacosLoggingAdapterBuilder
-2026-04-23 17:34:35.553 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
-2026-04-23 17:34:35.554 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
-2026-04-23 17:34:35.564 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
-2026-04-23 17:34:35.708 INFO com.liang.bbs.rest.RestApplication [main] -Starting RestApplication using Java 21.0.6 with PID 35288 (D:\L-work\bbs\bbs-springboot\bbs-rest\target\classes started by cbr in D:\L-work\bbs\bbs-springboot)
-2026-04-23 17:34:35.709 INFO com.liang.bbs.rest.RestApplication [main] -No active profile set, falling back to 1 default profile: "default"
-2026-04-23 17:34:36.720 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
-2026-04-23 17:34:36.724 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
-2026-04-23 17:34:36.768 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 33 ms. Found 0 MongoDB repository interfaces.
-2026-04-23 17:34:36.802 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
-2026-04-23 17:34:36.804 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2026-04-23 17:34:36.828 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
-2026-04-23 17:34:37.191 INFO o.springframework.cloud.context.scope.GenericScope [main] -BeanFactory id=f0cdc738-7762-3588-a051-217bf9bfbc97
-2026-04-23 17:34:37.457 INFO o.s.boot.web.embedded.tomcat.TomcatWebServer [main] -Tomcat initialized with port 7012 (http)
-2026-04-23 17:34:37.472 INFO org.apache.coyote.http11.Http11NioProtocol [main] -Initializing ProtocolHandler ["http-nio-7012"]
-2026-04-23 17:34:37.474 INFO org.apache.catalina.core.StandardService [main] -Starting service [Tomcat]
-2026-04-23 17:34:37.475 INFO org.apache.catalina.core.StandardEngine [main] -Starting Servlet engine: [Apache Tomcat/10.1.52]
-2026-04-23 17:34:37.571 INFO o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] [main] -Initializing Spring embedded WebApplicationContext
-2026-04-23 17:34:37.571 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] -Root WebApplicationContext: initialization completed in 1807 ms
-2026-04-23 17:34:37.897 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-article' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:34:37.950 WARN o.s.cloud.openfeign.support.SpringMvcContract [main] -[OpenFeign Warning] Feign method 'public abstract com.liang.bbs.article.facade.dto.ArticleCheckCountDTO com.liang.bbs.rest.client.ArticleArticleClient.getArticleCheckCount(java.lang.String)' is declared as GET with parameters, but none of the parameters are annotated (e.g. @RequestParam, @RequestHeader, @PathVariable, etc). This may result in fallback to POST at runtime. Consider explicitly annotating parameters.
-2026-04-23 17:34:37.992 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-article' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:34:38.016 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-user' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:34:38.044 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-article' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:34:38.050 WARN o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [main] -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
-2026-04-23 17:34:38.051 INFO org.apache.catalina.core.StandardService [main] -Stopping service [Tomcat]
-2026-04-23 17:34:38.063 INFO o.s.b.a.logging.ConditionEvaluationReportLogger [main] -
+2026-04-24 00:08:31.012 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback12.LogbackNacosLoggingAdapterBuilder
+2026-04-24 00:08:31.024 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
+2026-04-24 00:08:31.026 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
+2026-04-24 00:08:31.048 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
+2026-04-24 00:08:31.334 INFO com.liang.bbs.rest.RestApplication [main] -Starting RestApplication using Java 17.0.16 with PID 17432 (D:\毕业设计\bbs-rest\target\classes started by lijiahao in D:\毕业设计)
+2026-04-24 00:08:31.335 INFO com.liang.bbs.rest.RestApplication [main] -No active profile set, falling back to 1 default profile: "default"
+2026-04-24 00:08:32.985 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-24 00:08:32.987 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2026-04-24 00:08:33.015 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 20 ms. Found 0 MongoDB repository interfaces.
+2026-04-24 00:08:33.032 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-24 00:08:33.034 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-04-24 00:08:33.056 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2026-04-24 00:08:33.374 INFO o.springframework.cloud.context.scope.GenericScope [main] -BeanFactory id=314b87d8-efe6-3ae7-9894-9ba2337b0eb9
+2026-04-24 00:08:33.743 INFO o.s.boot.web.embedded.tomcat.TomcatWebServer [main] -Tomcat initialized with port 7012 (http)
+2026-04-24 00:08:33.759 INFO org.apache.coyote.http11.Http11NioProtocol [main] -Initializing ProtocolHandler ["http-nio-7012"]
+2026-04-24 00:08:33.761 INFO org.apache.catalina.core.StandardService [main] -Starting service [Tomcat]
+2026-04-24 00:08:33.762 INFO org.apache.catalina.core.StandardEngine [main] -Starting Servlet engine: [Apache Tomcat/10.1.52]
+2026-04-24 00:08:33.867 INFO o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] [main] -Initializing Spring embedded WebApplicationContext
+2026-04-24 00:08:33.869 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] -Root WebApplicationContext: initialization completed in 2431 ms
+2026-04-24 00:08:34.495 WARN o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [main] -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
+2026-04-24 00:08:34.497 INFO org.apache.catalina.core.StandardService [main] -Stopping service [Tomcat]
+2026-04-24 00:08:34.513 INFO o.s.b.a.logging.ConditionEvaluationReportLogger [main] -
 
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2026-04-23 17:34:38.084 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
-org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+2026-04-24 00:08:34.539 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
 	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
@@ -52,7 +47,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
 	at com.liang.bbs.rest.RestApplication.main(RestApplication.java:14)
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
@@ -71,39 +66,34 @@ Caused by: java.lang.IllegalArgumentException: Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	... 32 common frames omitted
-2026-04-23 17:34:38.090 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Start destroying ThreadPool
-2026-04-23 17:34:38.091 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Destruction of the end
-2026-04-23 17:38:08.001 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback12.LogbackNacosLoggingAdapterBuilder
-2026-04-23 17:38:08.005 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
-2026-04-23 17:38:08.005 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
-2026-04-23 17:38:08.014 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
-2026-04-23 17:38:08.149 INFO com.liang.bbs.rest.RestApplication [main] -Starting RestApplication using Java 21.0.6 with PID 20552 (D:\L-work\bbs\bbs-springboot\bbs-rest\target\classes started by cbr in D:\L-work\bbs\bbs-springboot)
-2026-04-23 17:38:08.150 INFO com.liang.bbs.rest.RestApplication [main] -No active profile set, falling back to 1 default profile: "default"
-2026-04-23 17:38:09.252 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
-2026-04-23 17:38:09.254 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
-2026-04-23 17:38:09.284 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 22 ms. Found 0 MongoDB repository interfaces.
-2026-04-23 17:38:09.300 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
-2026-04-23 17:38:09.302 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2026-04-23 17:38:09.316 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
-2026-04-23 17:38:09.611 INFO o.springframework.cloud.context.scope.GenericScope [main] -BeanFactory id=f0cdc738-7762-3588-a051-217bf9bfbc97
-2026-04-23 17:38:10.048 INFO o.s.boot.web.embedded.tomcat.TomcatWebServer [main] -Tomcat initialized with port 7012 (http)
-2026-04-23 17:38:10.069 INFO org.apache.coyote.http11.Http11NioProtocol [main] -Initializing ProtocolHandler ["http-nio-7012"]
-2026-04-23 17:38:10.072 INFO org.apache.catalina.core.StandardService [main] -Starting service [Tomcat]
-2026-04-23 17:38:10.072 INFO org.apache.catalina.core.StandardEngine [main] -Starting Servlet engine: [Apache Tomcat/10.1.52]
-2026-04-23 17:38:10.192 INFO o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] [main] -Initializing Spring embedded WebApplicationContext
-2026-04-23 17:38:10.192 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] -Root WebApplicationContext: initialization completed in 1980 ms
-2026-04-23 17:38:10.535 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-article' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:38:10.587 WARN o.s.cloud.openfeign.support.SpringMvcContract [main] -[OpenFeign Warning] Feign method 'public abstract com.liang.bbs.article.facade.dto.ArticleCheckCountDTO com.liang.bbs.rest.client.ArticleArticleClient.getArticleCheckCount(java.lang.String)' is declared as GET with parameters, but none of the parameters are annotated (e.g. @RequestParam, @RequestHeader, @PathVariable, etc). This may result in fallback to POST at runtime. Consider explicitly annotating parameters.
-2026-04-23 17:38:10.620 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-article' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:38:10.648 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-user' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:38:10.687 INFO o.s.cloud.openfeign.FeignClientFactoryBean [main] -For 'ns-bbs-article' URL not provided. Will try picking an instance via load-balancing.
-2026-04-23 17:38:10.696 WARN o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [main] -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
-2026-04-23 17:38:10.698 INFO org.apache.catalina.core.StandardService [main] -Stopping service [Tomcat]
-2026-04-23 17:38:10.711 INFO o.s.b.a.logging.ConditionEvaluationReportLogger [main] -
+2026-04-24 00:08:34.544 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Start destroying ThreadPool
+2026-04-24 00:08:34.545 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Destruction of the end
+2026-04-24 00:08:44.416 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback12.LogbackNacosLoggingAdapterBuilder
+2026-04-24 00:08:44.420 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
+2026-04-24 00:08:44.421 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
+2026-04-24 00:08:44.434 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
+2026-04-24 00:08:44.640 INFO com.liang.bbs.rest.RestApplication [main] -Starting RestApplication using Java 17.0.16 with PID 38932 (D:\毕业设计\bbs-rest\target\classes started by lijiahao in D:\毕业设计)
+2026-04-24 00:08:44.642 INFO com.liang.bbs.rest.RestApplication [main] -No active profile set, falling back to 1 default profile: "default"
+2026-04-24 00:08:46.146 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-24 00:08:46.150 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2026-04-24 00:08:46.184 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 23 ms. Found 0 MongoDB repository interfaces.
+2026-04-24 00:08:46.204 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-24 00:08:46.206 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-04-24 00:08:46.224 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2026-04-24 00:08:46.531 INFO o.springframework.cloud.context.scope.GenericScope [main] -BeanFactory id=314b87d8-efe6-3ae7-9894-9ba2337b0eb9
+2026-04-24 00:08:46.905 INFO o.s.boot.web.embedded.tomcat.TomcatWebServer [main] -Tomcat initialized with port 7012 (http)
+2026-04-24 00:08:46.923 INFO org.apache.coyote.http11.Http11NioProtocol [main] -Initializing ProtocolHandler ["http-nio-7012"]
+2026-04-24 00:08:46.925 INFO org.apache.catalina.core.StandardService [main] -Starting service [Tomcat]
+2026-04-24 00:08:46.925 INFO org.apache.catalina.core.StandardEngine [main] -Starting Servlet engine: [Apache Tomcat/10.1.52]
+2026-04-24 00:08:47.030 INFO o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] [main] -Initializing Spring embedded WebApplicationContext
+2026-04-24 00:08:47.030 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] -Root WebApplicationContext: initialization completed in 2293 ms
+2026-04-24 00:08:47.649 WARN o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [main] -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
+2026-04-24 00:08:47.653 INFO org.apache.catalina.core.StandardService [main] -Stopping service [Tomcat]
+2026-04-24 00:08:47.672 INFO o.s.b.a.logging.ConditionEvaluationReportLogger [main] -
 
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2026-04-23 17:38:10.737 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
-org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+2026-04-24 00:08:47.701 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
 	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
@@ -127,7 +117,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
 	at com.liang.bbs.rest.RestApplication.main(RestApplication.java:14)
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
@@ -146,37 +136,50 @@ Caused by: java.lang.IllegalArgumentException: Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	... 32 common frames omitted
-2026-04-23 17:38:10.744 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Start destroying ThreadPool
-2026-04-23 17:54:04.950 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback12.LogbackNacosLoggingAdapterBuilder
-2026-04-23 17:54:04.953 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
-2026-04-23 17:54:04.955 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
-2026-04-23 17:54:04.963 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
-2026-04-23 17:54:05.107 INFO com.liang.bbs.rest.RestApplication [main] -Starting RestApplication using Java 21.0.6 with PID 19428 (D:\L-work\bbs\bbs-springboot\bbs-rest\target\classes started by cbr in D:\L-work\bbs\bbs-springboot)
-2026-04-23 17:54:05.108 INFO com.liang.bbs.rest.RestApplication [main] -No active profile set, falling back to 1 default profile: "default"
-2026-04-23 17:54:05.765 WARN o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [main] -Exception encountered during context initialization - cancelling refresh attempt: java.lang.IllegalArgumentException: http://${local.services.manage-auth.url} is malformed
-2026-04-23 17:54:05.771 INFO o.s.b.a.logging.ConditionEvaluationReportLogger [main] -
+2026-04-24 00:08:47.707 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Start destroying ThreadPool
+2026-04-24 00:08:47.708 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Destruction of the end
+2026-04-24 00:10:16.496 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback12.LogbackNacosLoggingAdapterBuilder
+2026-04-24 00:10:16.502 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
+2026-04-24 00:10:16.503 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
+2026-04-24 00:10:16.540 INFO com.alibaba.nacos.client.logging.NacosLogging [main] -Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
+2026-04-24 00:10:16.808 INFO com.liang.bbs.rest.RestApplication [main] -Starting RestApplication using Java 17.0.16 with PID 39536 (D:\毕业设计\bbs-rest\target\classes started by lijiahao in D:\毕业设计)
+2026-04-24 00:10:16.812 INFO com.liang.bbs.rest.RestApplication [main] -No active profile set, falling back to 1 default profile: "default"
+2026-04-24 00:10:18.596 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-24 00:10:18.598 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2026-04-24 00:10:18.626 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 16 ms. Found 0 MongoDB repository interfaces.
+2026-04-24 00:10:18.638 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Multiple Spring Data modules found, entering strict repository configuration mode
+2026-04-24 00:10:18.640 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-04-24 00:10:18.653 INFO o.s.d.r.config.RepositoryConfigurationDelegate [main] -Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2026-04-24 00:10:18.935 INFO o.springframework.cloud.context.scope.GenericScope [main] -BeanFactory id=314b87d8-efe6-3ae7-9894-9ba2337b0eb9
+2026-04-24 00:10:19.425 INFO o.s.boot.web.embedded.tomcat.TomcatWebServer [main] -Tomcat initialized with port 7012 (http)
+2026-04-24 00:10:19.455 INFO org.apache.coyote.http11.Http11NioProtocol [main] -Initializing ProtocolHandler ["http-nio-7012"]
+2026-04-24 00:10:19.456 INFO org.apache.catalina.core.StandardService [main] -Starting service [Tomcat]
+2026-04-24 00:10:19.458 INFO org.apache.catalina.core.StandardEngine [main] -Starting Servlet engine: [Apache Tomcat/10.1.52]
+2026-04-24 00:10:19.581 INFO o.a.c.c.ContainerBase.[Tomcat].[localhost].[/api] [main] -Initializing Spring embedded WebApplicationContext
+2026-04-24 00:10:19.582 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] -Root WebApplicationContext: initialization completed in 2693 ms
+2026-04-24 00:10:20.191 WARN o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [main] -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
+2026-04-24 00:10:20.195 INFO org.apache.catalina.core.StandardService [main] -Stopping service [Tomcat]
+2026-04-24 00:10:20.211 INFO o.s.b.a.logging.ConditionEvaluationReportLogger [main] -
 
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2026-04-23 17:54:05.791 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
-java.lang.IllegalArgumentException: http://${local.services.manage-auth.url} is malformed
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.getUrl(FeignClientsRegistrar.java:127)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.getUrl(FeignClientsRegistrar.java:370)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.eagerlyRegisterFeignClientBeanDefinition(FeignClientsRegistrar.java:226)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.registerFeignClient(FeignClientsRegistrar.java:215)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.registerFeignClients(FeignClientsRegistrar.java:204)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.registerBeanDefinitions(FeignClientsRegistrar.java:154)
-	at org.springframework.context.annotation.ImportBeanDefinitionRegistrar.registerBeanDefinitions(ImportBeanDefinitionRegistrar.java:86)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.lambda$loadBeanDefinitionsFromRegistrars$1(ConfigurationClassBeanDefinitionReader.java:409)
-	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:986)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsFromRegistrars(ConfigurationClassBeanDefinitionReader.java:408)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:148)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:120)
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:430)
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290)
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349)
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118)
-	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:792)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610)
+2026-04-24 00:10:20.235 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1459)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:606)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:991)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628)
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
 	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
 	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
@@ -184,13 +187,24 @@ java.lang.IllegalArgumentException: http://${local.services.manage-auth.url} is 
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
 	at com.liang.bbs.rest.RestApplication.main(RestApplication.java:14)
-Caused by: java.net.URISyntaxException: Illegal character in authority at index 8: http://${local.services.manage-auth.url}
-	at java.base/java.net.URI$Parser.fail(URI.java:2995)
-	at java.base/java.net.URI$Parser.parseAuthority(URI.java:3344)
-	at java.base/java.net.URI$Parser.parseHierarchical(URI.java:3240)
-	at java.base/java.net.URI$Parser.parse(URI.java:3196)
-	at java.base/java.net.URI.<init>(URI.java:645)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.getUrl(FeignClientsRegistrar.java:124)
-	... 24 common frames omitted
-2026-04-23 17:54:05.793 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Start destroying ThreadPool
-2026-04-23 17:54:05.793 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Destruction of the end
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1770)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 22 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Name must be set
+	at org.springframework.util.Assert.hasText(Assert.java:253)
+	at org.springframework.cloud.openfeign.FeignClientFactoryBean.afterPropertiesSet(FeignClientFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 32 common frames omitted
+2026-04-24 00:10:20.243 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Start destroying ThreadPool
+2026-04-24 00:10:20.244 WARN c.alibaba.nacos.common.executor.ThreadPoolManager [Thread-6] -[ThreadPoolManager] Destruction of the end

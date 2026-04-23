@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/local_auth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 5
@@ -58,3 +58,7 @@ logging:
   level:
     com.liang.local.auth: INFO
     com.liang.local.auth.mapper: DEBUG
+
+local:
+  auth:
+    login-url: http://localhost:8082/login

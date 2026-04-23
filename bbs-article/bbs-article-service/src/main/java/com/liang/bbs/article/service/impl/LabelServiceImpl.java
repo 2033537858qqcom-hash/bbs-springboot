@@ -107,6 +107,7 @@ public class LabelServiceImpl implements LabelService {
         return true;
     }
 
+
     /**
      * 娑撳﹣绱堕弽鍥╊劮logo
      *

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         contextId = "userFollowClient",
-        name = "${local.services.bbs-user.name:ns-bbs-user}"
+        name = "${local.services.bbs-user.name:ns-bbs-user}", url = "${local.services.bbs-user.url}"
 ,
         path = "/internal/user/follow"
 )
@@ -28,3 +28,4 @@ public interface UserFollowClient {
     @GetMapping("/count/{userId}")
     FollowCountDTO getFollowCount(@PathVariable("userId") Long userId);
 }
+

@@ -13,8 +13,8 @@ import java.util.List;
 
 @FeignClient(
         contextId = "articleUserLikeClient",
-        name = "${local.services.bbs-user.name:ns-bbs-user}"
-,
+        name = "${local.services.bbs-user.name:ns-bbs-user}",
+        url = "${local.services.bbs-user.url}",
         path = "/internal/user/like"
 )
 public interface UserLikeClient {
@@ -28,3 +28,4 @@ public interface UserLikeClient {
     @GetMapping("/is-like/{articleId}/{userId}")
     Boolean isLike(@PathVariable("articleId") Integer articleId, @PathVariable("userId") Long userId);
 }
+

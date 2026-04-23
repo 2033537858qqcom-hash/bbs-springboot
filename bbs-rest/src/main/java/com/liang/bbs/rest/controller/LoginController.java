@@ -21,6 +21,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
@@ -40,18 +41,18 @@ public class LoginController {
     @Autowired
     private UserLevelClient userLevelClient;
 
-    @Value("${cookie.domain}")
+    @Value("${cookie.domain:}")
     private String domain;
 
     @NoNeedLogin
     @PostMapping("register")
-    @Operation(summary = "閻劍鍩涘▔銊ュ斀")
+    @Operation(summary = "用户注册")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<UserTokenDTO> register(@RequestBody UserDTO userDTO, HttpServletResponse response) {
         UserTokenDTO userTokenDTO = userService.register(userDTO);
-        // 婢х偛濮瀋ookie
+        // 写入cookie
         addCookie(userTokenDTO.getToken(), response);
-        // 閸掓稑缂撻悽銊﹀煕缁涘楠囨穱鈩冧紖
+        // 初始化用户积分数据
         InternalUserLevelCreateRequest request = new InternalUserLevelCreateRequest();
         request.setUserId(userTokenDTO.getUserId());
         userLevelClient.create(request);
@@ -60,69 +61,73 @@ public class LoginController {
 
     @NoNeedLogin
     @PostMapping("login")
-    @Operation(summary = "閻劍鍩涢惂璇茬秿")
+    @Operation(summary = "用户登录")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<UserTokenDTO> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response) {
         UserTokenDTO userTokenDTO = userService.login(userLoginDTO);
-        // 婢х偛濮瀋ookie
+        // 写入cookie
         addCookie(userTokenDTO.getToken(), response);
         return ResponseResult.success(userTokenDTO);
     }
 
     @NoNeedLogin
     @GetMapping("logout")
-    @Operation(summary = "閻劍鍩涢惂璇插毉")
+    @Operation(summary = "用户登出")
     @ApiVersion(group = ApiVersionConstant.V_300)
     public ResponseResult<Boolean> logout(HttpServletRequest request, HttpServletResponse response) {
         try {
-            // 閼惧嘲褰嘽ookie娑擃厾娈戞穱鈩冧紖
+            // 获取cookie中的token
             Cookie ssoAccount = HttpRequestUtils.findCookie(request, AuthSystemConstants.NS_ACCOUNT_SSO_COOKIE);
             if (ssoAccount != null) {
                 userService.logout(ssoAccount.getValue());
             }
-            // 閸掔娀娅巆ookie
+            // 清除cookie
             clearCookie(response);
         } catch (Exception e) {
-            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "闁偓閸戣櫣娅ヨぐ鏇炪亼鐠?");
+            throw BusinessException.build(ResponseCode.OPERATE_FAIL, "登出失败");
         }
 
         return ResponseResult.success(true);
     }
 
     /**
-     * 婢х偛濮瀋ookie
+     * 写入cookie
      *
      * @param token
      * @param response
      */
     private void addCookie(String token, HttpServletResponse response) {
-        // 鐠佸墽鐤咰ookie, 娑撴艾濮熼弬鐟板讲閼奉亣顢戠拋鍓х枂Cookie閻ㄥ埖ame閸?
-        ResponseCookie cookie = ResponseCookie.from(AuthSystemConstants.NS_ACCOUNT_SSO_COOKIE, token)
+        // 创建Cookie, 设置名称和对应的值
+        ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie.from(AuthSystemConstants.NS_ACCOUNT_SSO_COOKIE, token)
                 .maxAge(TimeoutConstants.NS_SSO_TIMEOUT)
-                .domain(domain)
                 .path("/")
-                .httpOnly(true)
+                .httpOnly(true);
 //                .secure(true)
-//                .sameSite("None")
-                .build();
+//                .sameSite("None");
+        if (StringUtils.isNotBlank(domain)) {
+            cookieBuilder.domain(domain);
+        }
+        ResponseCookie cookie = cookieBuilder.build();
         response.addHeader("Set-Cookie", cookie.toString());
     }
 
     /**
-     * 閸掔娀娅巆ookie
+     * 清除cookie
      *
      * @param response
      */
     private void clearCookie(HttpServletResponse response) {
-        // 鐠佸墽鐤咰ookie, 娑撴艾濮熼弬鐟板讲閼奉亣顢戠拋鍓х枂Cookie閻ㄥ埖ame閸?
-        ResponseCookie cookie = ResponseCookie.from(AuthSystemConstants.NS_ACCOUNT_SSO_COOKIE, "")
+        // 创建Cookie, 设置名称和对应的值
+        ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie.from(AuthSystemConstants.NS_ACCOUNT_SSO_COOKIE, "")
                 .maxAge(0)
-                .domain(domain)
                 .path("/")
-                .httpOnly(true)
+                .httpOnly(true);
 //                .secure(true)
-//                .sameSite("None")
-                .build();
+//                .sameSite("None");
+        if (StringUtils.isNotBlank(domain)) {
+            cookieBuilder.domain(domain);
+        }
+        ResponseCookie cookie = cookieBuilder.build();
         response.addHeader("Set-Cookie", cookie.toString());
     }
 

@@ -29,6 +29,11 @@ public class UrlAccessCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 放行 OPTIONS 请求
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         UserSsoDTO currentUser = UserContextUtils.currentUser();
         if (currentUser != null) {
             String uri = request.getRequestURI();

@@ -1,0 +1,16 @@
+server:
+  port: 7014
+
+spring:
+  application:
+    name: ns-manage-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+local:
+  manage-auth:
+    default-password: nacos
+    token-expire-minutes: 43200
+    base-url: http://127.0.0.1:7014

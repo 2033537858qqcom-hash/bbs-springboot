@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @FeignClient(
         contextId = "articleArticleClient",
-        name = "${local.services.bbs-article.name:ns-bbs-article}"
+        name = "${local.services.bbs-article.name:ns-bbs-article}", url = "${local.services.bbs-article.url}"
 ,
         path = "/internal/article/article"
 )
@@ -73,5 +74,6 @@ public interface ArticleArticleClient {
     Long getUserArticleCount(@PathVariable("createUser") Long createUser, @PathVariable("articleState") String articleState);
 
     @GetMapping("/article-check-count")
-    ArticleCheckCountDTO getArticleCheckCount(String title);
+    ArticleCheckCountDTO getArticleCheckCount(@RequestParam("title") String title);
 }
+

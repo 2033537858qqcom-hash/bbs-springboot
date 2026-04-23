@@ -9,10 +9,13 @@ import java.util.List;
 
 @FeignClient(
         contextId = "articleUserServiceClient",
-        name = "${local.services.manage-auth.name:ns-manage-auth}"
+        name = "${local.services.manage-auth.name:ns-manage-auth}",
+        url = "${local.services.manage-auth.url}",
+        path = "/user"
 )
 public interface UserServiceClient {
 
     @GetMapping("/by-ids")
     List<UserDTO> getByIds(@RequestParam("userIds") List<Long> userIds);
 }
+

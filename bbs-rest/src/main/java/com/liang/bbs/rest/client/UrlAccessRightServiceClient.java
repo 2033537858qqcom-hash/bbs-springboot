@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         contextId = "restUrlAccessRightServiceClient",
-        url = "${local.services.manage-auth.url}",  // 本地认证服务直连
+        name = "${local.services.manage-auth.name:ns-manage-auth}",
+        url = "${local.services.manage-auth.url}",  // 鏈湴璁よ瘉鏈嶅姟鐩磋繛
         path = "/url-access-right"
 )
 public interface UrlAccessRightServiceClient {
@@ -18,3 +19,4 @@ public interface UrlAccessRightServiceClient {
                            @RequestParam("uri") String uri,
                            @RequestParam("attribute") String attribute);
 }
+

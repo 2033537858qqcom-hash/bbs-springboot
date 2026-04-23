@@ -35,6 +35,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 放行 OPTIONS 请求 (CORS 预检)
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         UserSsoDTO currentUser = null;
         // 閼惧嘲褰嘽ookie娑擃厾娈戞穱鈩冧紖
         Cookie ssoAccount = HttpRequestUtils.findCookie(request, AuthSystemConstants.NS_ACCOUNT_SSO_COOKIE);
@@ -55,6 +60,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             // 閺傝纭舵稉濠勬畱濞夈劏袙
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             NoNeedLogin methodAnnotation = handlerMethod.getMethodAnnotation(NoNeedLogin.class);
+            log.info("LoginInterceptor check: URI={}, Method={}, NoNeedLogin={}", 
+                request.getRequestURI(), handlerMethod.getMethod().getName(), methodAnnotation != null);
             if (Objects.nonNull(methodAnnotation)) {
                 return true;
             }
@@ -63,6 +70,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             if (Objects.nonNull(AnnotationUtils.findAnnotation(clazz, NoNeedLogin.class))) {
                 return true;
             }
+        } else {
+            log.info("LoginInterceptor: handler is not HandlerMethod: URI={}, handlerClass={}", 
+                request.getRequestURI(), handler.getClass().getName());
         }
 
         // 閼惧嘲褰囬悽銊﹀煕娣団剝浼呮径杈Е閿涘矁鐑︽潪顒傛瑜版洟銆夐棃?
@@ -77,7 +87,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
             try {
                 String redirect = userService.innerLoginUrl(referer);
-                log.info("閻ц缍嶇捄瀹犳祮[{}]", redirect);
+                log.info("未登录拦截，重定向至:[{}]", redirect);
                 HttpRequestUtils.redirect(request, response, redirect);
             } catch (Exception e) {
                 log.warn("manage-auth unavailable, cannot build login redirect for referer={}", referer, e);

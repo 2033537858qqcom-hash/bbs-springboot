@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         contextId = "restVisitServiceClient",
-        url = "${local.services.manage-auth.url}",  // 本地认证服务直连
+        name = "${local.services.manage-auth.name:ns-manage-auth}",
+        url = "${local.services.manage-auth.url}",  // 鏈湴璁よ瘉鏈嶅姟鐩磋繛
         path = "/visit"
 )
 public interface VisitServiceClient {
@@ -19,3 +20,4 @@ public interface VisitServiceClient {
     @GetMapping("/total")
     Long getTotal();
 }
+

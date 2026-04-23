@@ -12,8 +12,8 @@ import java.util.List;
 
 @FeignClient(
         contextId = "userArticleCommentClient",
-        name = "${local.services.bbs-article.name:ns-bbs-article}"
-,
+        name = "${local.services.bbs-article.name:ns-bbs-article}",
+        url = "${local.services.bbs-article.url}",
         path = "/internal/article/comment"
 )
 public interface ArticleCommentClient {
@@ -30,3 +30,4 @@ public interface ArticleCommentClient {
     @GetMapping("/by-id/{commentId}")
     CommentDTO getById(@PathVariable("commentId") Integer commentId);
 }
+

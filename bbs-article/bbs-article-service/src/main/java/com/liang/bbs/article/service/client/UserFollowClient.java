@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
         contextId = "articleUserFollowClient",
-        name = "${local.services.bbs-user.name:ns-bbs-user}"
-,
+        name = "${local.services.bbs-user.name:ns-bbs-user}",
+        url = "${local.services.bbs-user.url}",
         path = "/internal/user/follow"
 )
 public interface UserFollowClient {
@@ -18,3 +18,4 @@ public interface UserFollowClient {
                               @PathVariable("toUser") Long toUser,
                               @PathVariable("isAll") Boolean isAll);
 }
+

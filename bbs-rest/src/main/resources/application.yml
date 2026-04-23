@@ -38,10 +38,13 @@ local:
   services:
     manage-auth:
       name: ns-manage-auth
+      url: http://127.0.0.1:7014
     bbs-article:
       name: ns-bbs-article
+      url: http://127.0.0.1:7011
     bbs-user:
       name: ns-bbs-user
+      url: http://127.0.0.1:7013
 
 # 自定义
 interceptor:
@@ -51,7 +54,8 @@ interceptor:
 
 cookie:
   # cookie写在对应的域名下
-  domain: localhost.com
+  # 本地开发建议留空，使用 host-only cookie，避免 localhost/127.0.0.1 域不一致导致丢失登录态
+  domain:
 
 # swagger打开
 swagger:

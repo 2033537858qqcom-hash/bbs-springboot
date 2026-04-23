@@ -88,6 +88,7 @@ public class ResourceNavigateServiceImpl implements ResourceNavigateService {
         return true;
     }
 
+
     /**
      * 娑撳﹣绱剁挧鍕爱鐎佃壈鍩卨ogo
      *

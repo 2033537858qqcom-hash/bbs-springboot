@@ -4,6 +4,8 @@
 
 项目已在本地/Docker 中部署的中间件：
 
+> 建议：浏览器访问前后端时统一使用 `localhost`，避免和 `127.0.0.1` 混用导致 Cookie 登录态异常。
+
 | 中间件 | 地址 | 端口 | 说明 |
 |--------|------|------|------|
 | MySQL | 127.0.0.1 | 3306 | 数据库 open_bbs |
@@ -147,6 +149,7 @@ java -jar bbs-rest/target/bbs-rest.jar
 - **bbs-rest**: http://localhost:7012/api/doc.html
 - **bbs-article**: http://localhost:7011/doc.html
 - **bbs-user**: http://localhost:7013/doc.html
+- **前端**: http://localhost:8082
 
 ### 3. 测试接口
 

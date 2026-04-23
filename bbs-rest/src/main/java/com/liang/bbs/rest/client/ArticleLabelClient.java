@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         contextId = "articleLabelClient",
-        name = "${local.services.bbs-article.name:ns-bbs-article}"
+        name = "${local.services.bbs-article.name:ns-bbs-article}", url = "${local.services.bbs-article.url}"
 ,
         path = "/internal/article/label"
 )
@@ -33,3 +33,4 @@ public interface ArticleLabelClient {
     @PostMapping("/delete/{id}")
     Boolean delete(@PathVariable("id") Integer id);
 }
+

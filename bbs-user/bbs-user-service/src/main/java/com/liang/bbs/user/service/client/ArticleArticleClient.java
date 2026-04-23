@@ -15,8 +15,8 @@ import java.util.List;
 
 @FeignClient(
         contextId = "userArticleArticleClient",
-        name = "${local.services.bbs-article.name:ns-bbs-article}"
-,
+        name = "${local.services.bbs-article.name:ns-bbs-article}",
+        url = "${local.services.bbs-article.url}",
         path = "/internal/article/article"
 )
 public interface ArticleArticleClient {
@@ -36,3 +36,4 @@ public interface ArticleArticleClient {
     @GetMapping("/by-user-id/{userId}")
     List<ArticleDTO> getByUserId(@PathVariable("userId") Long userId);
 }
+

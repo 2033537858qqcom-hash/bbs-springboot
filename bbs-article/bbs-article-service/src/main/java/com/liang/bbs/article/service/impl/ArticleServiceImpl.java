@@ -315,6 +315,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Boolean create(ArticleDTO articleDTO, List<Integer> labelIds, UserSsoDTO currentUser) {
+        log.info("Article create called");
         if (StringUtils.isBlank(articleDTO.getTitle()) || StringUtils.isBlank(articleDTO.getHtml())) {
             throw BusinessException.build(ResponseCode.NOT_EXISTS, "标题或内容不能为空");
         }
@@ -393,13 +394,11 @@ public class ArticleServiceImpl implements ArticleService {
             // 閺傚洣娆㈡稉濠佺炊閿涘牊瀵滃В鏂剧伐閸樺缂夐敍?
             String picture = fileService.fileScaleUpload(bytes, sourceFileName, ImageTypeEnum.articleTitleMap.name());
             articleDTO.setTitleMap(picture);
-            create(articleDTO, labelIds, currentUser);
+            return create(articleDTO, labelIds, currentUser);
         } catch (Exception e) {
             log.error("上传文章标题图失败", e);
             throw BusinessException.build(ResponseCode.OPERATE_FAIL, "上传文章标题图失败");
         }
-
-        return null;
     }
 
     /**
@@ -417,13 +416,11 @@ public class ArticleServiceImpl implements ArticleService {
             // 閺傚洣娆㈡稉濠佺炊閿涘牊瀵滃В鏂剧伐閸樺缂夐敍?
             String picture = fileService.fileScaleUpload(bytes, sourceFileName, ImageTypeEnum.articleTitleMap.name());
             articleDTO.setTitleMap(picture);
-            update(articleDTO, labelIds, currentUser);
+            return update(articleDTO, labelIds, currentUser);
         } catch (Exception e) {
             log.error("上传文章标题图失败", e);
             throw BusinessException.build(ResponseCode.OPERATE_FAIL, "上传文章标题图失败");
         }
-
-        return null;
     }
 
     /**

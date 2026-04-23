@@ -19,7 +19,7 @@ spring:
     # mysql用户名(需要改成你自己的)
     username: root
     # mysql密码(需要改成你自己的)
-    password: 123456
+    password: 1234
     # 下面为连接池的补充设置，应用到上面所有数据源中
     druid:
       # 初始化大小
@@ -71,8 +71,10 @@ local:
   services:
     manage-auth:
       name: ns-manage-auth
+      url: http://127.0.0.1:7014
     bbs-article:
       name: ns-bbs-article
+      url: http://127.0.0.1:7011
 
 mybatis:
   mapper-locations: classpath*:mybatis/mappers/*.xml

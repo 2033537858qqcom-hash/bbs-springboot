@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         contextId = "userLikeClient",
-        name = "${local.services.bbs-user.name:ns-bbs-user}"
+        name = "${local.services.bbs-user.name:ns-bbs-user}", url = "${local.services.bbs-user.url}"
 ,
         path = "/internal/user/like"
 )
@@ -21,3 +21,4 @@ public interface UserLikeClient {
     @GetMapping("/user-the-like-count/{userId}")
     Long getUserTheLikeCount(@PathVariable("userId") Long userId);
 }
+

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         contextId = "restUserServiceClient",
-        name = "${local.services.manage-auth.name:ns-manage-auth}"
+        name = "${local.services.manage-auth.name:ns-manage-auth}",
+        url = "${local.services.manage-auth.url}",
+        path = "/user"
 )
 public interface UserServiceClient {
 
@@ -99,3 +101,4 @@ public interface UserServiceClient {
     @GetMapping("/logout")
     void logout(@RequestParam("token") String token);
 }
+

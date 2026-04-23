@@ -4,12 +4,12 @@
 
 ### 前置条件
 
-确保以下中间件已在本地或 Docker 中运行：
+确保以下中间件已在本地或 Docker 中运行（建议统一使用 `localhost` 访问前端和 API）：
 
-- ✅ Nacos (127.0.0.1:8848)
-- ✅ MySQL (127.0.0.1:3306)
-- ✅ Redis (127.0.0.1:6379)
-- ✅ MongoDB (127.0.0.1:27017)
+- ✅ Nacos (localhost:8848)
+- ✅ MySQL (localhost:3306)
+- ✅ Redis (localhost:6379)
+- ✅ MongoDB (localhost:27017)
 
 ### 一键启动
 
@@ -47,6 +47,7 @@ stop-all-services.bat
 - **bbs-rest API 文档**: http://localhost:7012/api/doc.html
 - **bbs-article API 文档**: http://localhost:7011/doc.html
 - **bbs-user API 文档**: http://localhost:7013/doc.html
+- **前端开发地址**: http://localhost:8082
 
 ## ⚙️ 配置说明
 

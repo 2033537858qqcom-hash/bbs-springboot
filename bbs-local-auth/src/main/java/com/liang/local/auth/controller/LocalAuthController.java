@@ -5,11 +5,14 @@ import com.liang.local.auth.service.UserService;
 import com.liang.local.auth.service.impl.UserServiceImpl;
 import com.liang.manage.auth.facade.dto.user.UserDTO;
 import com.liang.manage.auth.facade.dto.user.UserListDTO;
+import com.liang.manage.auth.facade.dto.user.UserLoginDTO;
+import com.liang.manage.auth.facade.dto.user.UserTokenDTO;
 import com.liang.nansheng.common.auth.UserSsoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -30,6 +33,9 @@ public class LocalAuthController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
+    @Value("${local.auth.login-url:http://127.0.0.1:8082/login}")
+    private String loginUrl;
+
     /**
      * 根据ID列表批量获取用户信息
      */
@@ -49,6 +55,9 @@ public class LocalAuthController {
     public List<UserListDTO> getAllList() {
         log.info("获取所有用户列表");
         List<User> users = userService.getAllList();
+        if (users == null) {
+            return Collections.emptyList();
+        }
         return users.stream()
                 .map(this::convertToUserListDTO)
                 .collect(Collectors.toList());
@@ -60,7 +69,7 @@ public class LocalAuthController {
     @GetMapping("/inner-login-url")
     public String innerLoginUrl(@RequestParam("referer") String referer) {
         log.info("innerLoginUrl called with referer: {}", referer);
-        return "http://localhost:8080/login?redirect=" + referer;
+        return loginUrl + "?redirect=" + referer;
     }
 
     /**
@@ -149,6 +158,14 @@ public class LocalAuthController {
     @GetMapping("/email")
     public Boolean existsByEmail(@RequestParam("email") String email) {
         return userService.existsByEmail(email);
+    }
+
+    /**
+     * 检查用户名是否有效（不存在即为有效）
+     */
+    @GetMapping("/is-valid-user")
+    public Boolean isValidUser(@RequestParam("username") String username) {
+        return !userService.existsByUsername(username);
     }
 
     /**

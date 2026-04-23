@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
         contextId = "articleUserLikeCommentClient",
-        name = "${local.services.bbs-user.name:ns-bbs-user}"
-,
+        name = "${local.services.bbs-user.name:ns-bbs-user}",
+        url = "${local.services.bbs-user.url}",
         path = "/internal/user/like-comment"
 )
 public interface UserLikeCommentClient {
@@ -18,3 +18,4 @@ public interface UserLikeCommentClient {
     @GetMapping("/is-like/{commentId}/{userId}")
     Boolean isLike(@PathVariable("commentId") Integer commentId, @PathVariable("userId") Long userId);
 }
+

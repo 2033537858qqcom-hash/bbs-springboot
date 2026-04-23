@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(
         contextId = "articleVisitServiceClient",
-        url = "${local.services.manage-auth.url}",  // 本地认证服务直连
+        name = "${local.services.manage-auth.name:ns-manage-auth}",
+        url = "${local.services.manage-auth.url}",
         path = "/visit"
 )
 public interface VisitServiceClient {
@@ -13,3 +14,4 @@ public interface VisitServiceClient {
     @GetMapping("/total")
     Long getTotal();
 }
+

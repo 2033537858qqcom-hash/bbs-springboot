@@ -1,5 +1,5 @@
-2026-04-23 17:34:38.084 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
-org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+2026-04-24 00:08:34.539 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
 	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
@@ -23,7 +23,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
 	at com.liang.bbs.rest.RestApplication.main(RestApplication.java:14)
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
@@ -42,8 +42,8 @@ Caused by: java.lang.IllegalArgumentException: Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	... 32 common frames omitted
-2026-04-23 17:38:10.737 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
-org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+2026-04-24 00:08:47.701 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
 	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
@@ -67,7 +67,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
 	at com.liang.bbs.rest.RestApplication.main(RestApplication.java:14)
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.UserServiceClient': Name must be set
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
@@ -86,26 +86,24 @@ Caused by: java.lang.IllegalArgumentException: Name must be set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
 	... 32 common frames omitted
-2026-04-23 17:54:05.791 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
-java.lang.IllegalArgumentException: http://${local.services.manage-auth.url} is malformed
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.getUrl(FeignClientsRegistrar.java:127)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.getUrl(FeignClientsRegistrar.java:370)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.eagerlyRegisterFeignClientBeanDefinition(FeignClientsRegistrar.java:226)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.registerFeignClient(FeignClientsRegistrar.java:215)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.registerFeignClients(FeignClientsRegistrar.java:204)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.registerBeanDefinitions(FeignClientsRegistrar.java:154)
-	at org.springframework.context.annotation.ImportBeanDefinitionRegistrar.registerBeanDefinitions(ImportBeanDefinitionRegistrar.java:86)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.lambda$loadBeanDefinitionsFromRegistrars$1(ConfigurationClassBeanDefinitionReader.java:409)
-	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:986)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsFromRegistrars(ConfigurationClassBeanDefinitionReader.java:408)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:148)
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:120)
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:430)
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290)
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349)
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118)
-	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:792)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610)
+2026-04-24 00:10:20.235 ERROR org.springframework.boot.SpringApplication [main] -Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notifyController': Unsatisfied dependency expressed through field 'notifyService': Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:146)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1459)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:606)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:991)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628)
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
 	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
 	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
@@ -113,11 +111,22 @@ java.lang.IllegalArgumentException: http://${local.services.manage-auth.url} is 
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
 	at com.liang.bbs.rest.RestApplication.main(RestApplication.java:14)
-Caused by: java.net.URISyntaxException: Illegal character in authority at index 8: http://${local.services.manage-auth.url}
-	at java.base/java.net.URI$Parser.fail(URI.java:2995)
-	at java.base/java.net.URI$Parser.parseAuthority(URI.java:3344)
-	at java.base/java.net.URI$Parser.parseHierarchical(URI.java:3240)
-	at java.base/java.net.URI$Parser.parse(URI.java:3196)
-	at java.base/java.net.URI.<init>(URI.java:645)
-	at org.springframework.cloud.openfeign.FeignClientsRegistrar.getUrl(FeignClientsRegistrar.java:124)
-	... 24 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.liang.bbs.rest.client.NotifyServiceClient': Name must be set
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1770)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 22 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Name must be set
+	at org.springframework.util.Assert.hasText(Assert.java:253)
+	at org.springframework.cloud.openfeign.FeignClientFactoryBean.afterPropertiesSet(FeignClientFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 32 common frames omitted

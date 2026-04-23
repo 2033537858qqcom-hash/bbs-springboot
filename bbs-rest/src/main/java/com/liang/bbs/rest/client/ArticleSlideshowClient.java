@@ -8,7 +8,7 @@ import java.util.List;
 
 @FeignClient(
         contextId = "articleSlideshowClient",
-        name = "${local.services.bbs-article.name:ns-bbs-article}"
+        name = "${local.services.bbs-article.name:ns-bbs-article}", url = "${local.services.bbs-article.url}"
 ,
         path = "/internal/article/slideshow"
 )
@@ -17,3 +17,4 @@ public interface ArticleSlideshowClient {
     @GetMapping("/list")
     List<SlideshowDTO> getList();
 }
+

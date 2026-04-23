@@ -11,9 +11,9 @@ import java.util.List;
 
 @FeignClient(
         contextId = "articleUserLevelClient",
-        name = "${local.services.bbs-user.name:ns-bbs-user}"
-,
-        path = "/internal/user/user-level"
+        name = "${local.services.bbs-user.name:ns-bbs-user}",
+        url = "${local.services.bbs-user.url}",
+        path = "/internal/user/level"
 )
 public interface UserLevelClient {
 
@@ -23,3 +23,4 @@ public interface UserLevelClient {
     @PostMapping("/by-user-ids")
     List<UserLevelDTO> getByUserIds(@RequestBody List<Long> userIds);
 }
+

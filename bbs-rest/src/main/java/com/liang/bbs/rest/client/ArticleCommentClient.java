@@ -13,7 +13,7 @@ import java.util.List;
 
 @FeignClient(
         contextId = "articleCommentClient",
-        name = "${local.services.bbs-article.name:ns-bbs-article}"
+        name = "${local.services.bbs-article.name:ns-bbs-article}", url = "${local.services.bbs-article.url}"
 ,
         path = "/internal/article/comment"
 )
@@ -31,3 +31,4 @@ public interface ArticleCommentClient {
     @PostMapping("/delete/{commentId}")
     Boolean delete(@PathVariable("commentId") Integer commentId);
 }
+

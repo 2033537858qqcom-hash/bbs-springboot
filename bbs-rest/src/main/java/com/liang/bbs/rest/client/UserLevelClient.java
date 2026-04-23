@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         contextId = "restUserLevelClient",
-        name = "${local.services.bbs-user.name:ns-bbs-user}"
+        name = "${local.services.bbs-user.name:ns-bbs-user}", url = "${local.services.bbs-user.url}"
 ,
         path = "/internal/user/user-level"
 )
@@ -26,3 +26,4 @@ public interface UserLevelClient {
     @PostMapping("/user-info")
     UserForumDTO getUserInfo(@RequestBody InternalUserLevelUserInfoRequest request);
 }
+

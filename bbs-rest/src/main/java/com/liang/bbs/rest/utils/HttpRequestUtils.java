@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 /**
- * HttpServletRequest鐩稿叧鐨勫伐鍏风被
+ * HttpServletRequest相关的工具类
  *
  */
 @Slf4j
@@ -27,16 +27,16 @@ public class HttpRequestUtils {
     }
 
     /**
-     * 鑾峰彇cookie涓殑淇℃伅
+     * 获取cookie中的信息
      *
      * @param request
      * @param cookieName
      * @return
      */
     public static Cookie findCookie(HttpServletRequest request, String cookieName) {
-        // 鎵€鏈夌殑 cookie
+        // 所有的 cookie
         Cookie[] cookies = request.getCookies();
-        // 閬嶅巻鎵€鏈夌殑 Cookie 瀵绘壘 鐢ㄦ埛甯愬彿淇℃伅涓庣櫥褰曟鏁颁俊鎭?
+        // 遍历所有的 Cookie 寻找 用户帐号信息与登录次数信息
         for (int i = 0; cookies != null && i < cookies.length; i++) {
             Cookie cookie = cookies[i];
             if (cookieName.equals(cookie.getName())) {
@@ -47,7 +47,7 @@ public class HttpRequestUtils {
     }
 
     /**
-     * 閲嶅畾鍚?
+     * 重定向
      *
      * @param request
      * @param response
@@ -65,7 +65,7 @@ public class HttpRequestUtils {
             JSONObject target = new JSONObject();
             target.put("target", location);
             o.put("data", target);
-            o.put("desc", "璇峰厛鐧诲綍!");
+            o.put("desc", "请先登录!");
             writer.print(o);
             writer.flush();
         } else {
